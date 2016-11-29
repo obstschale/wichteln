@@ -18,3 +18,9 @@
 const Route = use('Route')
 
 Route.on('/').render('welcome')
+
+Route.group('v1', () => {
+
+  Route.resource('/wichtelgroup', 'WichtelGroupController')
+
+}).prefix('/api/v1')
