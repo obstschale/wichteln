@@ -14,8 +14,7 @@ class MembersTableSchema extends Schema {
         .inTable('groups');
       table.string('name')
       table.string('email')
-      table.boolean('is_oberwichtel')
-      table.string('wunschzettel', 1000)
+      table.string('wishlist', 1000)
       table.timestamps()
     })
   }
