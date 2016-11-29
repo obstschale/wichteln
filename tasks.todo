@@ -1,0 +1,31 @@
+WaaS:
+  Flow:
+    ☐ create new wichtel group (wg)
+    ☐ get ID + token
+    ☐ add new members
+    ☐ double-opt in from wichtel
+    ☐ start wichtel
+    ☐ shuffel wichtel and send message to users
+    ☐ delete group after XX days
+
+  Migrations:
+    ✔ wichtel group @done (16-11-29 16:04)
+      - name
+      - token
+      - wichtel date
+    ✔ members (belong to wg) @done (16-11-29 16:04)
+      - name
+      - email
+      - is_oberwichtel
+      - wunschzettel
+
+  Endpoints:
+    - GET /wichtel/group/:id      Show data for wg :id (auth)
+    - POST /wichtel/group         Create new Wichtel Group
+    - PUT /wichtel/group/:id      Update wg :id (auth)
+    - DELETE /wichtel/group/:id   Delete wg :id (auth)
+    - PUT /wichtel/member/:id     Update memember :id wunschzettel (auth)
+
+  Notes:
+    - Using JWT. When updating Wunschzettel, add wichtel group to JWT to know if user is allowed to update this wunschzettel for this member of this wg.
+12
