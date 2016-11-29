@@ -1,8 +1,8 @@
 'use strict'
 
+const Mail = use('Mail')
 const Group = use('App/Model/Group')
 const Member = use('App/Model/Member')
-
 
 class WichtelMemberController {
 
@@ -47,6 +47,12 @@ class WichtelMemberController {
     member.wishlist = data.wishlist
 
     yield group.members().save(member)
+
+    yield Mail.send('emails.welcome', {name: member.name}, (message) => {
+      message.to(member.email, member.name)
+      message.from('awesome@adonisjs.com')
+      message.subject('Welcome to the Kitten\'s World')
+    })
 
     response.created({
       'status': 201,
