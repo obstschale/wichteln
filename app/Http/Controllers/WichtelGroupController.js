@@ -30,7 +30,11 @@ class WichtelGroupController {
 
     // TODO: Validation
 
-    const group = yield Group.create(data);
+    const group = new Group();
+    group.name = data.name
+    group.wichtel_date = data.wichtel_date
+
+    yield group.save()
 
     response.created({
       'status': 201,
@@ -70,9 +74,10 @@ class WichtelGroupController {
       })
     }
 
-    yield group.delete();
+    // Cascade Delete over members
+    yield group.delete()
 
-    response.noContent();
+    response.noContent()
   }
 }
 
