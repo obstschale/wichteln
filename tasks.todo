@@ -1,4 +1,8 @@
 WaaS:
+  Prerequisite:
+    - no registration needed
+    - data destroyed after XX days - totally anonym
+
   Flow:
     ☐ create new wichtel group (wg)
     ☐ get ID + token
@@ -6,6 +10,7 @@ WaaS:
     ☐ double-opt in from wichtel
     ☐ start wichtel
     ☐ shuffel wichtel and send message to users
+    ☐ freeze wichtel group
     ☐ delete group after XX days
 
   Migrations:
@@ -16,8 +21,8 @@ WaaS:
     ✔ members (belong to wg) @done (16-11-29 16:04)
       - name
       - email
-      - is_oberwichtel
       - wunschzettel
+      - wichtel group id
 
   Endpoints:
     ✔ GET /wichtelgroup/:id      Show data for wg :id (auth) @done (16-11-29 16:47)
