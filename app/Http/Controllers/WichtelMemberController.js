@@ -45,10 +45,11 @@ class WichtelMemberController {
     member.name = data.name
     member.email = data.email
     member.wishlist = data.wishlist
+    member.status = 'invited'
 
     yield group.members().save(member)
 
-    yield Mail.send('emails.welcome', {name: member.name}, (message) => {
+    yield Mail.send('emails.invite', {name: member.name}, (message) => {
       message.to(member.email, member.name)
       message.from('awesome@adonisjs.com')
       message.subject('Welcome to the Kitten\'s World')
