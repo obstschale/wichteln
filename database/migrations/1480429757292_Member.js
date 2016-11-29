@@ -11,10 +11,11 @@ class MembersTableSchema extends Schema {
         .integer('group_id')
         .unsigned()
         .references('id')
-        .inTable('groups');
+        .inTable('groups')
       table.string('name')
       table.string('email')
       table.string('wishlist', 1000)
+      table.string('status')
       table.timestamps()
     })
   }
