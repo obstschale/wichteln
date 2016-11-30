@@ -13,11 +13,17 @@ class ApproveController {
       .with('member')
       .first()
 
+    if (token === null) {
+      return response.noContent()
+    }
+
     const member = yield token.member().fetch()
 
     member.status = 'approved'
 
     yield member.save()
+
+    yield token.delete()
 
     response.ok({
       'status': 200,
