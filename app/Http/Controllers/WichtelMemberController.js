@@ -75,10 +75,16 @@ class WichtelMemberController {
 
     yield group.members().save(member)
 
-    yield Mail.send('emails.invite', {name: member.name}, (message) => {
+    const mailData = {
+      name: member.name,
+      group: group.name,
+      link: yield member.getVerifyLink()
+    }
+
+    yield Mail.send('emails.invite', mailData, (message) => {
       message.to(member.email, member.name)
       message.from('awesome@adonisjs.com')
-      message.subject('Welcome to the Kitten\'s World')
+      message.subject('Your are invited to wichtel')
     })
 
     response.created({
