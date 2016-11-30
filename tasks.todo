@@ -5,10 +5,10 @@ WaaS:
 
   Flow:
     ✔ create new wichtel group (wg) @done (16-11-30 18:35)
-    ☐ get ID + token
-    ☐ add new members
+    ✔ get ID + token @done (16-11-30 19:42)
+    ✔ add new members @done (16-11-30 19:42)
     ☐ double-opt in from wichtel
-    ☐ start wichtel
+    ✔ start wichtel @done (16-11-30 19:42)
     ☐ shuffel wichtel and send message to users
     ☐ freeze wichtel group
     ☐ delete group after XX days
@@ -29,11 +29,12 @@ WaaS:
     ✔ POST /wichtelgroup         Create new Wichtel Group @done (16-11-29 16:47)
     ✔ PUT /wichtelgroup/:id      Update wg :id (auth) @done (16-11-29 16:47)
     ✔ DELETE /wichtelgroup/:id   Delete wg :id (auth) @done (16-11-29 16:53)
-    ☐ GET /wichtelgroup/:id/wichtelmember/:id     Get Wichtelmember of group (auth)
+    ✔ GET /wichtelgroup/:id/wichtelmember/:id     Get Wichtelmember of group (auth) @done (16-11-30 19:43)
     ✔ POST /wichtelgroup/:id/wichtelmember        Add new member to wichtelgroup @done (16-11-30 18:35)
     ✔ PUT /wichtelgroup/:id/wichtelmember/:id     Update memember :id wunschzettel (auth) @done (16-11-30 18:35)
     ✔ DELETE /wichtelgroup/:id/wichtelmember/:id  Delete member from group @done (16-11-30 18:35)
 
   Notes:
     - Using JWT. When updating Wunschzettel, add wichtel group to JWT to know if user is allowed to update this wunschzettel for this member of this wg.
+    -> I use now API tokens. Is easier
 12
