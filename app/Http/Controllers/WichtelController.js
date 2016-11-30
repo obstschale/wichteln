@@ -1,22 +1,24 @@
 'use strict'
 
+const Mail = use('Mail')
+const _ = require('lodash')
 const Group = use('App/Model/Group')
 const Member = use('App/Model/Member')
-const _ = require('lodash')
 
 class WichtelController {
 
   * start (request, response) {
     const isLoggedIn = yield request.auth.check()
 
-    if (!isLoggedIn || request.auth.user.id !== Number(request.param('id'))) {
+    const data = request.only('group')
+
+    if (!isLoggedIn || request.auth.user.id !== Number(data.group)) {
       return response.unauthorized({
         'status': 401,
         'message': 'Wrong token.',
       })
     }
 
-    const data = request.only('group')
 
     const members = yield Member
       .query()
@@ -38,6 +40,16 @@ class WichtelController {
 
     for (const member of assigned) {
       yield member.save()
+      const buddy = yield Member.find(member.wichtel_id)
+      const mailData = {
+        name: member.name,
+        buddy: buddy.name
+      }
+      yield Mail.send('emails.buddy', mailData, (message) => {
+        message.to(member.email, member.name)
+        message.from('awesome@adonisjs.com')
+        message.subject('Your Wichtel-Buddy is ...')
+      })
     }
 
     response.ok({
