@@ -8,6 +8,10 @@ class Group extends Lucid {
     return this.hasMany('App/Model/Member')
   }
 
+  apiTokens () {
+    return this.hasMany('App/Model/Token')
+  }
+
 }
 
 module.exports = Group

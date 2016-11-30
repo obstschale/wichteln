@@ -8,7 +8,7 @@ class GroupsTableSchema extends Schema {
     this.create('groups', (table) => {
       table.increments()
       table.string('name')
-      table.date('wichtel_date')
+      table.date('wichtel_date').notNullable()
       table.timestamps()
     })
   }
