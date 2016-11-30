@@ -24,6 +24,9 @@ WaaS:
       - wunschzettel
       - wichtel group id
 
+  Tasks:
+    ☐ Change From E-Mail Address
+
   Endpoints:
     ✔ GET /wichtelgroup/:id      Show data for wg :id (auth) @done (16-11-29 16:47)
     ✔ POST /wichtelgroup         Create new Wichtel Group @done (16-11-29 16:47)
