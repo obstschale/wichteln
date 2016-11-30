@@ -20,7 +20,7 @@ class Member extends Lucid {
 
     const approveToken = yield this.approveToken().create(data)
 
-    return Env.get('APP_URL') + `/approve?${approveToken.token}`
+    return Env.get('APP_URL') + `/approve?token=${approveToken.token}`
   }
 }
 

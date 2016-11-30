@@ -14,6 +14,7 @@
 const Route = use('Route')
 
 Route.on('/').render('welcome')
+Route.get('/approve', 'ApproveController.index')
 
 Route.group('v1', () => {
 
