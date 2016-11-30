@@ -12,6 +12,7 @@ class MembersTableSchema extends Schema {
         .unsigned()
         .references('id')
         .inTable('groups')
+      table.integer('wichtel_id')
       table.string('name')
       table.string('email')
       table.string('wishlist', 1000)

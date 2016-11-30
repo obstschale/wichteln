@@ -20,4 +20,6 @@ Route.group('v1', () => {
   Route.resource('/wichtelgroup', 'WichtelGroupController')
   Route.resource('/wichtelgroup/:group/wichtelmember', 'WichtelMemberController')
 
+  Route.post('/wichtel', 'WichtelController.start')
+
 }).prefix('/api/v1')
