@@ -7,7 +7,15 @@ const _ = require('lodash')
 class WichtelController {
 
   * start (request, response) {
-    // TODO: Fetch token and validate
+    const isLoggedIn = yield request.auth.check()
+
+    if (!isLoggedIn || request.auth.user.id !== Number(request.param('id'))) {
+      return response.unauthorized({
+        'status': 401,
+        'message': 'Wrong token.',
+      })
+    }
+
     const data = request.only('group')
 
     const members = yield Member

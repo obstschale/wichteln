@@ -12,6 +12,7 @@ class WichtelGroupController {
     if (!isLoggedIn || request.auth.user.id !== Number(request.param('id'))) {
       return response.unauthorized({
         'status': 401,
+        'message': 'Wrong token.',
       })
     }
 
@@ -65,6 +66,7 @@ class WichtelGroupController {
     if (group === null) {
       return response.notFound({
         'status': 404,
+        'message': 'Wrong token.',
       })
     }
 
@@ -88,6 +90,7 @@ class WichtelGroupController {
     if (!isLoggedIn || request.auth.user.id !== Number(request.param('id'))) {
       return response.unauthorized({
         'status': 401,
+        'message': 'Wrong token.',
       })
     }
 
@@ -98,7 +101,7 @@ class WichtelGroupController {
       .first()
 
     if (group === null) {
-      response.notFound({
+      return response.notFound({
         'status': 404,
       })
     }

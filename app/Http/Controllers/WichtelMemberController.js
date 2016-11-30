@@ -7,6 +7,15 @@ const Member = use('App/Model/Member')
 class WichtelMemberController {
 
   * index (request, response) {
+    const isLoggedIn = yield request.auth.check()
+
+    if (!isLoggedIn || request.auth.user.id !== Number(request.param('group'))) {
+      return response.unauthorized({
+        'status': 401,
+        'message': 'Wrong token.',
+      })
+    }
+
     const group = yield Group
       .query()
       .where('id', request.param('group'))
@@ -20,13 +29,21 @@ class WichtelMemberController {
   }
 
   * show (request, response) {
+    const isLoggedIn = yield request.auth.check()
+
+    if (!isLoggedIn || request.auth.user.id !== Number(request.param('group'))) {
+      return response.unauthorized({
+        'status': 401,
+        'message': 'Wrong token.',
+      })
+    }
+
     const group = yield Group.findOrFail(request.param('group'))
+
     const member = yield group
       .members()
       .where('id', request.param('id'))
       .fetch()
-
-    // TODO: Add 404 if member is not found
 
     response.ok({
       'status': 200,
@@ -35,6 +52,15 @@ class WichtelMemberController {
   }
 
   * store (request, response) {
+    const isLoggedIn = yield request.auth.check()
+
+    if (!isLoggedIn || request.auth.user.id !== Number(request.param('group'))) {
+      return response.unauthorized({
+        'status': 401,
+        'message': 'Wrong token.',
+      })
+    }
+
     const group = yield Group.findOrFail(request.param('group'))
 
     const data = request.only('name', 'email', 'wishlist')
@@ -62,6 +88,15 @@ class WichtelMemberController {
   }
 
   * update (request, response) {
+    const isLoggedIn = yield request.auth.check()
+
+    if (!isLoggedIn || request.auth.user.id !== Number(request.param('group'))) {
+      return response.unauthorized({
+        'status': 401,
+        'message': 'Wrong token.',
+      })
+    }
+
     const member = yield Member.findOrFail(request.param('id'))
 
     if (member.group_id !== Number(request.param('group'))) {
@@ -87,11 +122,21 @@ class WichtelMemberController {
   }
 
   * destroy (request, response) {
+    const isLoggedIn = yield request.auth.check()
+
+    if (!isLoggedIn || request.auth.user.id !== Number(request.param('group'))) {
+      return response.unauthorized({
+        'status': 401,
+        'message': 'Wrong token.',
+      })
+    }
+
     const member = yield Member.findOrFail(request.param('id'))
 
     if (member.group_id !== Number(request.param('group'))) {
-      return response.unauthorized({
+      return response.forbidden({
         'status': 403,
+        'message': 'Deleting a member, which is not in your group is not nice.'
       })
     }
 
