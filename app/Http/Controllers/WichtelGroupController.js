@@ -1,16 +1,20 @@
 'use strict'
 
 const Group = use('App/Model/Group')
+const Token = use('App/Model/Token')
+const Member = use('App/Model/Member')
 
 class WichtelGroupController {
 
-  * index (request, response) {
-    response.forbidden({
-      'status': 403,
-    })
-  }
-
   * show (request, response) {
+    const isLoggedIn = yield request.auth.check()
+
+    if (!isLoggedIn || request.auth.user.id !== Number(request.param('id'))) {
+      return response.unauthorized({
+        'status': 401,
+      })
+    }
+
     const group = yield Group.find(request.param('id'))
 
     if (group === null) {
@@ -36,13 +40,26 @@ class WichtelGroupController {
 
     yield group.save()
 
+    const token = yield request.auth.generate(group)
+
     response.created({
       'status': 201,
-      'data': group,
+      'data': {
+        group,
+        'token': token.token,
+      }
     })
   }
 
   * update (request, response) {
+    const isLoggedIn = yield request.auth.check()
+
+    if (!isLoggedIn || request.auth.user.id !== Number(request.param('id'))) {
+      return response.unauthorized({
+        'status': 401,
+      })
+    }
+
     const group = yield Group.find(request.param('id'))
 
     if (group === null) {
@@ -66,15 +83,35 @@ class WichtelGroupController {
   }
 
   * destroy (request, response) {
-    const group = yield Group.find(request.param('id'));
+    const isLoggedIn = yield request.auth.check()
+
+    if (!isLoggedIn || request.auth.user.id !== Number(request.param('id'))) {
+      return response.unauthorized({
+        'status': 401,
+      })
+    }
+
+    const group = yield Group
+      .query()
+      .where('id', request.param('id'))
+      .with('members')
+      .first()
 
     if (group === null) {
-      return response.notFound({
+      response.notFound({
         'status': 404,
       })
     }
 
-    // Cascade Delete over members
+    const members = yield group.members().fetch()
+    for (const m in members.value()) {
+      console.log(members.value()[m])
+      yield members.value()[m].delete()
+    }
+
+    const token = yield Token.findBy('group_id', group.id)
+    yield token.delete()
+
     yield group.delete()
 
     response.noContent()
