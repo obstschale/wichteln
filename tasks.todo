@@ -4,7 +4,7 @@ WaaS:
     - data destroyed after XX days - totally anonym
 
   Flow:
-    ☐ create new wichtel group (wg)
+    ✔ create new wichtel group (wg) @done (16-11-30 18:35)
     ☐ get ID + token
     ☐ add new members
     ☐ double-opt in from wichtel
@@ -30,9 +30,9 @@ WaaS:
     ✔ PUT /wichtelgroup/:id      Update wg :id (auth) @done (16-11-29 16:47)
     ✔ DELETE /wichtelgroup/:id   Delete wg :id (auth) @done (16-11-29 16:53)
     ☐ GET /wichtelgroup/:id/wichtelmember/:id     Get Wichtelmember of group (auth)
-    ☐ POST /wichtelgroup/:id/wichtelmember        Add new member to wichtelgroup
-    ☐ PUT /wichtelgroup/:id/wichtelmember/:id     Update memember :id wunschzettel (auth)
-    ☐ DELETE /wichtelgroup/:id/wichtelmember/:id  Delete member from group
+    ✔ POST /wichtelgroup/:id/wichtelmember        Add new member to wichtelgroup @done (16-11-30 18:35)
+    ✔ PUT /wichtelgroup/:id/wichtelmember/:id     Update memember :id wunschzettel (auth) @done (16-11-30 18:35)
+    ✔ DELETE /wichtelgroup/:id/wichtelmember/:id  Delete member from group @done (16-11-30 18:35)
 
   Notes:
     - Using JWT. When updating Wunschzettel, add wichtel group to JWT to know if user is allowed to update this wunschzettel for this member of this wg.
