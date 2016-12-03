@@ -89,7 +89,7 @@ class WichtelMemberController {
 
     yield Mail.send('emails.invite', mailData, (message) => {
       message.to(member.email, member.name)
-      message.from('awesome@adonisjs.com')
+      message.from('no-reply@wichtel.me')
       message.subject('Your are invited to wichtel')
     })
 

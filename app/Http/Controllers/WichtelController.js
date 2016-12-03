@@ -52,7 +52,7 @@ class WichtelController {
       }
       yield Mail.send('emails.buddy', mailData, (message) => {
         message.to(member.email, member.name)
-        message.from('awesome@adonisjs.com')
+        message.from('no-reply@wichtel.me')
         message.subject('Your Wichtel-Buddy is ...')
       })
     }

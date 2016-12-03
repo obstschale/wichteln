@@ -25,7 +25,7 @@ WaaS:
       - wichtel group id
 
   Tasks:
-    ☐ Change From E-Mail Address
+    ✔ Change From E-Mail Address @done (16-12-03 20:09)
 
   Endpoints:
     ✔ GET /wichtelgroup/:id      Show data for wg :id (auth) @done (16-11-29 16:47)
