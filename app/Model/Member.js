@@ -5,6 +5,14 @@ const Lucid = use('Lucid')
 
 class Member extends Lucid {
 
+  static get rules () {
+    return {
+      name: 'required|string',
+      email: 'required|email',
+      wishlist: 'string',
+    }
+  }
+
   group () {
     return this.belongsTo('App/Model/Group')
   }

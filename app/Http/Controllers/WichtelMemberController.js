@@ -1,6 +1,7 @@
 'use strict'
 
 const Mail = use('Mail')
+const Validator = use('Validator')
 const Group = use('App/Model/Group')
 const Member = use('App/Model/Member')
 
@@ -65,7 +66,12 @@ class WichtelMemberController {
 
     const data = request.only('name', 'email', 'wishlist')
 
-    // TODO: Validation
+    const validation = yield Validator.validate(data, Member.rules)
+
+    if (validation.fails()) {
+      response.json(validation.messages())
+      return
+    }
 
     const member = new Member()
     member.name = data.name
@@ -113,7 +119,12 @@ class WichtelMemberController {
 
     const data = request.only('name', 'email', 'whishlist')
 
-    // TODO: Validation
+    const validation = yield Validator.validate(data, Member.rules)
+
+    if (validation.fails()) {
+      response.json(validation.messages())
+      return
+    }
 
     member.name = data.name
     member.email = data.email

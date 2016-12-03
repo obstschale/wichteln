@@ -1,5 +1,6 @@
 'use strict'
 
+const Validator = use('Validator')
 const Group = use('App/Model/Group')
 const Token = use('App/Model/Token')
 const Member = use('App/Model/Member')
@@ -33,7 +34,12 @@ class WichtelGroupController {
   * store (request, response) {
     const data = request.only('name', 'wichtel_date')
 
-    // TODO: Validation
+    const validation = yield Validator.validate(data, Group.rules)
+
+    if (validation.fails()) {
+      response.json(validation.messages())
+      return
+    }
 
     const group = new Group();
     group.name = data.name
@@ -72,7 +78,12 @@ class WichtelGroupController {
 
     const data = request.only('name', 'wichtel_date')
 
-    // TODO: Validation
+    const validation = yield Validator.validate(data, Group.rules)
+
+    if (validation.fails()) {
+      response.json(validation.messages())
+      return
+    }
 
     group.name = data.name
     group.wichtel_date = data.wichtel_date
