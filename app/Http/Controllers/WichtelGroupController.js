@@ -44,6 +44,7 @@ class WichtelGroupController {
     const group = new Group();
     group.name = data.name
     group.wichtel_date = data.wichtel_date
+    group.status = 'created'
 
     yield group.save()
 
