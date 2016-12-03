@@ -17,6 +17,7 @@ class MembersTableSchema extends Schema {
       table.string('email')
       table.string('wishlist', 1000)
       table.string('status')
+      table.string('token', 40)
       table.timestamps()
     })
   }
