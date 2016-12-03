@@ -20,6 +20,8 @@
     "adonis-lucid": "^3.0.10",
     "adonis-mail-provider": "^2.0.2",
     "adonis-middleware": "^1.0.8",
+    "adonis-validation-provider": "^3.0.4",
+    "mysql": "^2.12.0",
     "standard": "^8.4.0",
     "youch": "^1.0.1"
   },
