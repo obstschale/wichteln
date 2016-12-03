@@ -35,6 +35,8 @@
   "devDependencies": {
     "nodemon": "^1.11.0",
     "shipit-cli": "^2.0.0",
+    "shipit-deploy": "^2.4.0",
+    "shipit-shared": "^4.4.2",
     "sqlite3": "^3.1.8",
     "standard": "^8.5.0"
   }
