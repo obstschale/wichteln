@@ -14,14 +14,20 @@ body {
   margin: 0;
 }
 
+code {
+  font-family: "Source Code Pro","Lucida Console","Liberation Mono","DejaVu Sans Mono","Bitstream Vera Sans Mono",Consolas,Menlo,Monaco,monospace;
+    font-size: 14px;
+    color: white;
+}
+
 .__banner {
-  background: #744d82;
-  background: -moz-radial-gradient(top, ellipse cover, #744d82 11%, #503d67 99%, #503d67 100%);
-  background: -webkit-gradient(radial, top center, 0, center center, 100%, color-stop(11%, #744d82), color-stop(99%, #503d67), color-stop(100%, #503d67));
-  background: -webkit-radial-gradient(top, ellipse cover, #744d82 11%, #503d67 99%, #503d67 100%);
-  background: -o-radial-gradient(top, ellipse cover, #744d82 11%, #503d67 99%, #503d67 100%);
-  background: -ms-radial-gradient(top, ellipse cover, #744d82 11%, #503d67 99%, #503d67 100%);
-  background: radial-gradient(ellipse at top, #744d82 11%, #503d67 99%, #503d67 100%);
+  background: #bf0303;
+  background: -moz-radial-gradient(top, ellipse cover, #bf0303 11%, #840202 99%, #840202 100%);
+  background: -webkit-gradient(radial, top center, 0, center center, 100%, color-stop(11%, #bf0303), color-stop(99%, #840202), color-stop(100%, #840202));
+  background: -webkit-radial-gradient(ellipse at top, #bf0303 11%, #840202 99%, #840202 100%);
+  background: -o-radial-gradient(ellipse at top, #bf0303 11%, #840202 99%, #840202 100%);
+  background: -ms-radial-gradient(ellipse at top, #bf0303 11%, #840202 99%, #840202 100%);
+  background: radial-gradient(ellipse at top, #bf0303 11%, #840202 99%, #840202 100%);
 }
 
 .__banner {
