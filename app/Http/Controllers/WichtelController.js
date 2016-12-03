@@ -19,6 +19,11 @@ class WichtelController {
       })
     }
 
+    const group = yield Group
+      .query()
+      .where('id', data.group)
+      .with('members')
+      .first()
 
     const members = yield Member
       .query()
@@ -51,6 +56,9 @@ class WichtelController {
         message.subject('Your Wichtel-Buddy is ...')
       })
     }
+
+    group.status = 'started'
+    yield group.save()
 
     response.ok({
       'status': 200,

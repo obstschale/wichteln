@@ -9,6 +9,7 @@ class GroupsTableSchema extends Schema {
       table.increments()
       table.string('name')
       table.date('wichtel_date').notNullable()
+      table.string('status')
       table.timestamps()
     })
   }
