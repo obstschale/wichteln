@@ -14,6 +14,7 @@
 const Route = use('Route')
 
 Route.on('/').render('welcome')
+Route.on('/docs').render('docs')
 Route.get('/approve', 'ApproveController.index')
 
 Route.group('v1', () => {
@@ -36,6 +37,6 @@ Route.group('v1', () => {
     .resource('/wichtelgroup/:group/wichtelmember', 'WichtelMemberController')
     .except('create', 'edit')
 
-  Route.post('/wichtel', 'WichtelController.start')
+  Route.post('/wichteln', 'WichtelController.start')
 
 }).prefix('/api/v1')

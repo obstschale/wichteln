@@ -1,0 +1,150 @@
+{% extends 'master' %}
+
+
+{% block content %}
+<div class="__header">
+  <h1>Wichteln-as-a-Service - Documentation</h1>
+</div>
+
+<div class="__documentation">
+
+  <div id='intro'>
+    <em>Wichteln-as-a-Service</em> is a developer-focused <a href="https://en.wikipedia.org/wiki/Secret_Santa">Secret Santa</a> implementation. The term "wichteln" is the german verb for the game known as Secret Santa in english-speaking countries.
+  </div>
+
+  <hr>
+
+  <div id='toc'>
+    <h2>Table of Contents</h2>
+    <ul>
+      <li><a href="#workflow">Workflow</a></li>
+      <li><a href="#authentication">Authentication</a></li>
+      <li><a href="#groups">Groups Endpoint</a></li>
+      <li><a href="#members">Members Endpoint</a></li>
+      <li><a href="#wichteln">Wichteln Endpoint</a></li>
+    </ul>
+  </div>
+
+  <hr>
+
+  <div id='workflow'>
+    <h2>Workflow</h2>
+    <div>
+      The workflow is pretty easy:
+
+      <ol>
+        <li>Create a group</li>
+        <li>Add members to the group (members will receive an email)</li>
+        <li>Wait until members approved their participation</li>
+        <li>Start the wichtel-action (members will receive an email with a name of one other member from the group)</li>
+      </ol>
+    </div>
+  </div>
+
+  <hr>
+
+  <div id='authentication'>
+    <h2>Authentication</h2>
+    <div>Wichteln-as-a-Service uses an API approach. When you create a new group you will receive a token for this group. This token is like a password and only those who have access to this token can change or access data for this group.</div>
+
+    <div>Use this token in all your following requests to authenticate yourself. Without this token you cannot do anything. This token works only with your group. So don't worry, nobody but you can access the data you entered.</div>
+
+    <h3>Usage</h3>
+    <div>Provide this token via the <code>Authentication</code> Header.</div>
+
+    <pre>Authentication: Bearer ad293hgkda724</pre>
+  </div>
+
+  <hr>
+
+  <div id='groups'>
+    <h2>Groups</h2>
+    <div>Intro</div>
+    <div>
+      <div>
+        <pre>GET|HEAD /wichtelgroup</pre>
+      </div>
+
+      <div>
+        <pre>POST /wichtelgroup</pre>
+      </div>
+
+      <div>
+        <pre>PUT|PATCH /wichtelgroup</pre>
+      </div>
+
+      <div>
+        <pre>DELETE< /wichtelgroup</pre>
+      </div>
+    </div>
+  </div>
+
+  <hr>
+
+  <div id='members'>
+    <h2>Members</h2>
+    <div>Intro</div>
+    <div>
+      <div>
+        <pre>GET|HEAD /wichtelgroup/:group_id/wichtelmember</pre>
+      </div>
+
+      <div>
+        <pre>POST /wichtelgroup/:group_id/wichtelmember</pre>
+      </div>
+
+      <div>
+        <pre>PUT|PATCH /wichtelgroup/:group_id/wichtelmember</pre>
+      </div>
+
+      <div>
+        <pre>DELETE< /wichtelgroup/:group_id/wichtelmember</pre>
+      </div>
+
+    </div>
+  </div>
+
+  <hr>
+
+  <div id='wichteln'>
+    <h2>Wichteln</h2>
+    <div>This last endpoint is for starting the secret santa game for a group.</div>
+
+    <pre>POST /wichteln</pre>
+
+    <h3>Attributes</h3>
+
+    <table>
+      <tr>
+        <td><code>group</code></td>
+        <td>id of group you want to start</td>
+      </tr>
+    </table>
+
+    <h4>Request</h4>
+
+    <pre class="header">Content-Type: application/json</pre>
+    <pre class="body">
+{
+  "group": 3
+}
+    </pre>
+
+    <h4>Response</h4>
+
+    <pre class="header">Status: 200</pre>
+    <pre class="body">
+{
+  "status": 200,
+  "message": "Woho, our imps are on their way delivering the messages."
+}
+    </pre>
+
+    </div>
+  </div>
+</div>
+{% endblock %}
+
+{% block footer %}
+{% endblock %}
+

@@ -20,6 +20,26 @@ code {
     color: white;
 }
 
+.__header {
+  height: 8vh;
+  padding: 1em 1em 0 1em;
+  justify-content: center;
+  align-items: center;
+  display: flex;
+  text-align: center;
+}
+
+.__header h1 {
+  margin-bottom: 25px;
+  text-align: center;
+  letter-spacing: 3px;
+  font-weight: 400;
+  text-transform: uppercase;
+  font-size: 26px;
+  color: #ffffff;
+}
+
+.__header,
 .__banner {
   background: #bf0303;
   background: -moz-radial-gradient(top, ellipse cover, #bf0303 11%, #840202 99%, #840202 100%);
@@ -105,4 +125,56 @@ code {
 
 .__footer li a:hover {
   opacity: 1;
+}
+
+/* Documentation */
+.__documentation {
+  padding: 3em;
+}
+
+.__documentation div {
+  margin-bottom: 1em;
+}
+
+.__documentation code {
+  color: black;
+}
+
+.__documentation pre {
+    margin: 0 0 1em;
+    padding: 1em;
+    overflow: auto;
+    line-height: 130%;
+    border-radius: 1em;
+    background: #eee;
+}
+
+.__documentation pre.header {
+  background: #dadada;
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
+  margin-bottom: 0;
+}
+
+.__documentation pre.body {
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
+}
+
+.__documentation table {
+  border-collapse: collapse;
+  border: 1px solid black;
+  overflow: auto;
+  margin: 1em 0;
+}
+
+.__documentation table td {
+  padding: 1.1em;
+  border: 1px solid #eee;
+  font-size: 95%;
+}
+
+.__documentation table td code {
+  color: #2592e1;
+  font-weight: bold;
 }
