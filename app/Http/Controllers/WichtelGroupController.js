@@ -7,6 +7,13 @@ const Member = use('App/Model/Member')
 
 class WichtelGroupController {
 
+  * index (request, response) {
+    response.methodNotAllowed({
+      status: 405,
+      error: "Methode Not Allowed",
+    })
+  }
+
   * show (request, response) {
     const isLoggedIn = yield request.auth.check()
 

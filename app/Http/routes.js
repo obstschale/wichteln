@@ -31,7 +31,7 @@ Route.group('v1', () => {
 
   Route
     .resource('/wichtelgroup', 'WichtelGroupController')
-    .except('index', 'create', 'edit')
+    .except('create', 'edit')
 
   Route
     .resource('/wichtelgroup/:group/wichtelmember', 'WichtelMemberController')
