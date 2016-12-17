@@ -228,7 +228,7 @@
       </div>
 
       <div>
-        <pre>DELETE< /wichtelgroup/:group_id/wichtelmember</pre>
+        <pre>DELETE /wichtelgroup/:group_id/wichtelmember</pre>
       </div>
 
     </div>
@@ -238,7 +238,8 @@
 
   <div id='wichteln'>
     <h2>Wichteln</h2>
-    <div>This last endpoint is for starting the secret santa game for a group.</div>
+
+    <p>This endpoint is for starting the secret santa for a group.</p>
 
     <pre>POST /wichteln</pre>
 
@@ -251,24 +252,22 @@
       </tr>
     </table>
 
-    <h4>Request</h4>
+    <h3>Request</h3>
 
     <pre class="header">Content-Type: application/json</pre>
     <pre class="body">
 {
   "group": 3
-}
-    </pre>
+}</pre>
 
-    <h4>Response</h4>
+    <h3>Response</h3>
 
-    <pre class="header">Status: 200</pre>
+    <pre class="header">Status: 200 (Ok)</pre>
     <pre class="body">
 {
   "status": 200,
   "message": "Woho, our imps are on their way delivering the messages."
-}
-    </pre>
+}</pre>
 
     </div>
   </div>
