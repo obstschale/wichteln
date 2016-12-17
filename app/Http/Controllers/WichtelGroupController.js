@@ -72,6 +72,7 @@ class WichtelGroupController {
     if (!isLoggedIn || request.auth.user.id !== Number(request.param('id'))) {
       return response.unauthorized({
         'status': 401,
+        'message': 'Wrong token.',
       })
     }
 
