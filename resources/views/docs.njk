@@ -46,6 +46,8 @@
     </div>
   </div>
 
+  <hr>
+
   <div id='workflow'>
     <h2>Workflow</h2>
     <div>
@@ -81,11 +83,11 @@
     <div>Intro</div>
     <div>
       <div>
-        <p>Get information about a wichtelgroup.</p>
+        <h3>Get information about a wichtelgroup.</h3>
 
         <pre>GET|HEAD /wichtelgroup/:id</pre>
 
-        <h3>Response</h3>
+        <h4>Response</h4>
 
         <pre class="header">Status: 200 (Ok)</pre>
         <pre class="body">
@@ -103,11 +105,11 @@
       </div>
 
       <div>
-        <p>Create a new group</p>
+        <h3>Create a new group</h3>
 
         <pre>POST /wichtelgroup</pre>
 
-        <h3>Attributes</h3>
+        <h4>Attributes</h4>
 
         <table>
           <tr>
@@ -120,7 +122,7 @@
           </tr>
         </table>
 
-        <h3>Request</h3>
+        <h4>Request</h4>
 
         <pre class="header">Content-Type: application/json</pre>
         <pre class="body">
@@ -131,7 +133,7 @@
 
         <p>The response will show you your new group's data. <strong>Please note the token at the end. Don't lose it!</strong> This token is your API token and is needed for all following requests. If you lose this token you have to start all over again.</p>
 
-        <h3>Response</h3>
+        <h4>Response</h4>
 
         <pre class="header">Status: 201 (Created)</pre>
         <pre class="body">
@@ -153,10 +155,11 @@
       </div>
 
       <div>
-        <p>Update information of wichtelgroup</p>
+        <h3>Update information of wichtelgroup</h3>
+
         <pre>PUT|PATCH /wichtelgroup/:id</pre>
 
-        <h3>Attributes</h3>
+        <h4>Attributes</h4>
 
         <table>
           <tr>
@@ -169,7 +172,7 @@
           </tr>
         </table>
 
-        <h3>Request</h3>
+        <h4>Request</h4>
 
         <pre class="header">Content-Type: application/json</pre>
         <pre class="body">
@@ -178,7 +181,7 @@
   "wichtel_date": "2017-01-31"
 }</pre>
 
-        <h3>Response</h3>
+        <h4>Response</h4>
 
         <pre class="header">Status: 200 (Ok)</pre>
         <pre class="body">
@@ -197,11 +200,11 @@
       </div>
 
       <div>
-        <p>Delete a wichtelgroup</p>
+        <h3>Delete a wichtelgroup</h3>
 
         <pre>DELETE /wichtelgroup/:id</pre>
 
-        <h3>Response</h3>
+        <h4>Response</h4>
 
         <pre class="header">Status: 204 (No Content)</pre>
         <pre class="body"></pre>
@@ -216,19 +219,177 @@
     <div>Intro</div>
     <div>
       <div>
+        <h3>Get Wichtelmember</h3>
+
         <pre>GET|HEAD /wichtelgroup/:group_id/wichtelmember</pre>
+
+        <h4>Response</h4>
+
+        <pre class="header">Status: 200</pre>
+        <pre class="body">
+{
+  "status": 200,
+  "data": [
+    {
+      "id": 4,
+      "name": "WICHTELN",
+      "wichtel_date": "2016-12-31",
+      "status": "created",
+      "created_at": "2016-12-03 20:07:56",
+      "updated_at": "2016-12-03 20:07:56",
+      "members": [
+        {
+          "id": 4,
+          "group_id": 4,
+          "wichtel_id": null,
+          "name": "Max",
+          "email": "max@example.com",
+          "wishlist": null,
+          "status": "invited",
+          "created_at": "2016-12-15 20:07:56",
+          "updated_at": "2016-12-15 20:07:56"
+        },
+        {
+          "id": 5,
+          "group_id": 4,
+          "wichtel_id": null,
+          "name": "Hans",
+          "email": "hans@example.com",
+          "wishlist": "Towel for my hitchhikers-tour",
+          "status": "invited",
+          "created_at": "2016-12-15 20:07:56",
+          "updated_at": "2016-12-15 20:07:56"
+        },
+        {
+          "id": 6,
+          "group_id": 4,
+          "wichtel_id": null,
+          "name": "Peter",
+          "email": "Peter@example.com",
+          "wishlist": "Pink fluffy Unicorns",
+          "status": "invited",
+          "created_at": "2016-12-17 09:04:52",
+          "updated_at": "2016-12-17 09:04:52"
+        }
+      ]
+    }
+  ]
+}
+        </pre>
       </div>
 
       <div>
+        <h3>Add new member to group</h3>
+
         <pre>POST /wichtelgroup/:group_id/wichtelmember</pre>
+
+        <h4>Attributes</h4>
+
+        <table>
+          <tr>
+            <td><code>name</code></td>
+            <td><code>(string)</code> Name of member</td>
+          </tr>
+          <tr>
+            <td><code>email</code></td>
+            <td><code>(email)</code> valid email address of member</td>
+          </tr>
+          <tr>
+            <td><code>[wishlist]</code></td>
+            <td><code>(string)</code> whishlist of member</td>
+          </tr>
+        </table>
+
+        <h4>Request</h4>
+
+        <pre class="header">Content-Type: application/json</pre>
+        <pre class="body">
+{
+  "name": "Doc",
+  "email": "doc@example.com",
+  "wishlist": "Flux Capacitor"
+}</pre>
+
+        <h4>Response</h4>
+
+        <pre class="header">Status: 201 (Created)</pre>
+        <pre class="body">
+{
+  "status": 201,
+  "data": {
+    "name": "Doc",
+    "email": "doc@example.com",
+    "wishlist": "Flux Capacitor",
+    "status": "invited",
+    "group_id": 4,
+    "created_at": "2016-12-17 10:33:34",
+    "updated_at": "2016-12-17 10:33:34",
+    "id": 10
+  }
+}
+        </pre>
       </div>
 
       <div>
-        <pre>PUT|PATCH /wichtelgroup/:group_id/wichtelmember</pre>
+        <h3>Update member</h3>
+
+        <pre>PUT|PATCH /wichtelgroup/:group_id/wichtelmember/:member_id</pre>
+
+        <h4>Attributes</h4>
+
+        <table>
+          <tr>
+            <td><code>name</code></td>
+            <td><code>(string)</code> Name of member</td>
+          </tr>
+          <tr>
+            <td><code>email</code></td>
+            <td><code>(email)</code> valid email address of member</td>
+          </tr>
+          <tr>
+            <td><code>[wishlist]</code></td>
+            <td><code>(string)</code> whishlist of member</td>
+          </tr>
+        </table>
+
+        <h4>Request</h4>
+
+        <pre class="header">Content-Type: application/json</pre>
+        <pre class="body">
+{
+  "name": "Doc",
+  "email": "doc_time_travler@example.com",
+  "wishlist": "DeLorean"
+}</pre>
+
+        <h4>Response</h4>
+
+        <pre class="header">Status: 200 (Ok)</pre>
+        <pre class="body">
+{
+  "status": 200,
+  "data": {
+    "name": "Doc",
+    "email": "doc_time_travler@example.com",
+    "wishlist": "DeLorean",
+    "status": "invited",
+    "group_id": 4,
+    "created_at": "2016-12-17 10:33:34",
+    "updated_at": "2016-12-17 10:33:34",
+    "id": 10
+  }
+}</pre>
       </div>
 
       <div>
+        <h3>Delete member</h3>
+
         <pre>DELETE /wichtelgroup/:group_id/wichtelmember</pre>
+
+        <h4>Response</h4>
+
+        <pre class="header">Status: 204 (No Contend)</pre>
+        <pre class="body"></pre>
       </div>
 
     </div>
