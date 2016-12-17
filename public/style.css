@@ -178,3 +178,11 @@ code {
   color: #2592e1;
   font-weight: bold;
 }
+
+.__documentation #beta {
+  border: 3px solid red;
+  padding: 1em;
+  color: red;
+  font-weight: bold;
+  text-align: center;
+}
