@@ -81,19 +81,130 @@
     <div>Intro</div>
     <div>
       <div>
-        <pre>GET|HEAD /wichtelgroup</pre>
+        <p>Get information about a wichtelgroup.</p>
+
+        <pre>GET|HEAD /wichtelgroup/:id</pre>
+
+        <h3>Response</h3>
+
+        <pre class="header">Status: 200 (Ok)</pre>
+        <pre class="body">
+{
+  "status": 200,
+  "data": {
+    "id": 4,
+    "name": "Secret Santa at Work",
+    "wichtel_date": "2016-12-24",
+    "status": "created",
+    "created_at": "2016-12-03 20:07:56",
+    "updated_at": "2016-12-03 20:07:56"
+  }
+}</pre>
       </div>
 
       <div>
+        <p>Create a new group</p>
+
         <pre>POST /wichtelgroup</pre>
+
+        <h3>Attributes</h3>
+
+        <table>
+          <tr>
+            <td><code>name</code></td>
+            <td><code>(string)</code> Name of your new wichtelgroup</td>
+          </tr>
+          <tr>
+            <td><code>wichtel_date</code></td>
+            <td><code>(date [yyyy-mm-dd])</code> date when you will wichtel</td>
+          </tr>
+        </table>
+
+        <h3>Request</h3>
+
+        <pre class="header">Content-Type: application/json</pre>
+        <pre class="body">
+{
+  "name": "WICHTELN",
+  "wichtel_date": "2016-12-24"
+}</pre>
+
+        <p>The response will show you your new group's data. <strong>Please note the token at the end. Don't lose it!</strong> This token is your API token and is needed for all following requests. If you lose this token you have to start all over again.</p>
+
+        <h3>Response</h3>
+
+        <pre class="header">Status: 201 (Created)</pre>
+        <pre class="body">
+{
+  "status": 201,
+  "data": {
+    "group": {
+      "name": "WICHTELN",
+      "wichtel_date": "2016-12-24",
+      "status": "created",
+      "created_at": "2016-12-17 09:40:52",
+      "updated_at": "2016-12-17 09:40:52",
+      "id": 5
+    },
+    "token": "84ec9720c43411e6b57ab374fcb69bf9"
+  }
+}
+        </pre>
       </div>
 
       <div>
-        <pre>PUT|PATCH /wichtelgroup</pre>
+        <p>Update information of wichtelgroup</p>
+        <pre>PUT|PATCH /wichtelgroup/:id</pre>
+
+        <h3>Attributes</h3>
+
+        <table>
+          <tr>
+            <td><code>name</code></td>
+            <td><code>(string)</code> Name of your new wichtelgroup</td>
+          </tr>
+          <tr>
+            <td><code>wichtel_date</code></td>
+            <td><code>(date [yyyy-mm-dd])</code> date when you will wichtel</td>
+          </tr>
+        </table>
+
+        <h3>Request</h3>
+
+        <pre class="header">Content-Type: application/json</pre>
+        <pre class="body">
+{
+  "name": "New WICHTEL Group",
+  "wichtel_date": "2017-01-31"
+}</pre>
+
+        <h3>Response</h3>
+
+        <pre class="header">Status: 200 (Ok)</pre>
+        <pre class="body">
+{
+  "status": 200,
+  "data": {
+    "id": 5,
+    "name": "NEW WICHTEL",
+    "wichtel_date": "2017-01-31",
+    "status": "created",
+    "created_at": "2016-12-17 09:40:52",
+    "updated_at": "2016-12-17 09:47:32"
+  }
+}
+        </pre>
       </div>
 
       <div>
-        <pre>DELETE< /wichtelgroup</pre>
+        <p>Delete a wichtelgroup</p>
+
+        <pre>DELETE /wichtelgroup/:id</pre>
+
+        <h3>Response</h3>
+
+        <pre class="header">Status: 204 (No Content)</pre>
+        <pre class="body"></pre>
       </div>
     </div>
   </div>

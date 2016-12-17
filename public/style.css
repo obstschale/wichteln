@@ -136,6 +136,11 @@ code {
   margin-bottom: 1em;
 }
 
+.__documentation ol,
+.__documentation ul {
+  margin-top: 1em;
+}
+
 .__documentation code {
   color: black;
 }
