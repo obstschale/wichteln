@@ -9,12 +9,34 @@
 | all major HTTP conventions to keep your routes file descriptive and
 | clean.
 |
-| @example
-| Route.get('/user', 'UserController.index')
-| Route.post('/user', 'UserController.store')
-| Route.resource('user', 'UserController')
 */
 
 const Route = use('Route')
 
 Route.on('/').render('welcome')
+Route.on('/docs').render('docs')
+Route.get('/approve', 'ApproveController.index')
+
+Route.group('v1', () => {
+
+  Route.get('/', function * (request, response) {
+    response.ok({
+      'status': 200,
+      'api': {
+        'version': 1.0,
+        'framework': 'AdonisJS',
+      }
+    })
+  })
+
+  Route
+    .resource('/wichtelgroup', 'WichtelGroupController')
+    .except('create', 'edit')
+
+  Route
+    .resource('/wichtelgroup/:group/wichtelmember', 'WichtelMemberController')
+    .except('create', 'edit')
+
+  Route.post('/wichteln', 'WichtelController.start')
+
+}).prefix('/api/v1')

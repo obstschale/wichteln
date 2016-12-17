@@ -1,0 +1,43 @@
+WaaS:
+  Prerequisite:
+    - no registration needed
+    - data destroyed after XX days - totally anonym
+
+  Flow:
+    ✔ create new wichtel group (wg) @done (16-11-30 18:35)
+    ✔ get ID + token @done (16-11-30 19:42)
+    ✔ add new members @done (16-11-30 19:42)
+    ✔ double-opt in from wichtel @done (16-11-30 20:22)
+    ✔ start wichtel @done (16-11-30 19:42)
+    ✔ shuffel wichtel and send message to users @done (16-11-30 20:33)
+    ☐ freeze wichtel group
+    ☐ delete group after XX days
+
+  Migrations:
+    ✔ wichtel group @done (16-11-29 16:04)
+      - name
+      - token
+      - wichtel date
+    ✔ members (belong to wg) @done (16-11-29 16:04)
+      - name
+      - email
+      - wunschzettel
+      - wichtel group id
+
+  Tasks:
+    ✔ Change From E-Mail Address @done (16-12-03 20:09)
+
+  Endpoints:
+    ✔ GET /wichtelgroup/:id      Show data for wg :id (auth) @done (16-11-29 16:47)
+    ✔ POST /wichtelgroup         Create new Wichtel Group @done (16-11-29 16:47)
+    ✔ PUT /wichtelgroup/:id      Update wg :id (auth) @done (16-11-29 16:47)
+    ✔ DELETE /wichtelgroup/:id   Delete wg :id (auth) @done (16-11-29 16:53)
+    ✔ GET /wichtelgroup/:id/wichtelmember/:id     Get Wichtelmember of group (auth) @done (16-11-30 19:43)
+    ✔ POST /wichtelgroup/:id/wichtelmember        Add new member to wichtelgroup @done (16-11-30 18:35)
+    ✔ PUT /wichtelgroup/:id/wichtelmember/:id     Update memember :id wunschzettel (auth) @done (16-11-30 18:35)
+    ✔ DELETE /wichtelgroup/:id/wichtelmember/:id  Delete member from group @done (16-11-30 18:35)
+
+  Notes:
+    - Using JWT. When updating Wunschzettel, add wichtel group to JWT to know if user is allowed to update this wunschzettel for this member of this wg.
+    -> I use now API tokens. Is easier
+12

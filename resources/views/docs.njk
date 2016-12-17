@@ -1,0 +1,440 @@
+{% extends 'master' %}
+
+
+{% block content %}
+<div class="__header">
+  <h1>Wichteln-as-a-Service - Documentation</h1>
+</div>
+
+<div class="__documentation">
+
+  <div id='beta'>
+    The Service is in an early beta phase. So endpoints may change and datalos may happen!
+  </div>
+
+  <div id='intro'>
+    <em>Wichteln-as-a-Service</em> is a developer-focused <a href="https://en.wikipedia.org/wiki/Secret_Santa">Secret Santa</a> implementation. The term "wichteln" is the german verb for the game known as Secret Santa in english-speaking countries.
+  </div>
+
+  <hr>
+
+  <div id='toc'>
+    <h2>Table of Contents</h2>
+    <ul>
+      <li><a href="#terminology">Terminology</a></li>
+      <li><a href="#workflow">Workflow</a></li>
+      <li><a href="#authentication">Authentication</a></li>
+      <li><a href="#groups">Groups Endpoint</a></li>
+      <li><a href="#members">Members Endpoint</a></li>
+      <li><a href="#wichteln">Wichteln Endpoint</a></li>
+    </ul>
+  </div>
+
+  <hr>
+
+  <div id="terminology">
+    <h2>Terminology</h2>
+    <div>
+      <p>Before we start let's define some terms, which might confuse you if you don't speak German.</p>
+      <p>As stated above the term <em>wichteln</em> is the german verb for <em>Secret Santa</em>. Other words of this API are based on this term.</p>
+
+      <ol>
+        <li><strong>Wichteln</strong>: German word for Secret Santa. Could be translated as: to play secret santa</li>
+        <li><strong>Wichtelgroup</strong>: A group (entity) with name and date you can use to start a secret santa game.</li>
+        <li><strong>Wichtelmember</strong>: A person (entity), who is part of one (and only one) Group.</li>
+        </ol>
+    </div>
+  </div>
+
+  <hr>
+
+  <div id='workflow'>
+    <h2>Workflow</h2>
+    <div>
+      The workflow is pretty easy:
+
+      <ol>
+        <li>Create a group</li>
+        <li>Add members to the group (members will receive an email)</li>
+        <li>Wait until members approved their participation</li>
+        <li>Start the wichtel-action (members will receive an email with a name of one other member from the group)</li>
+      </ol>
+    </div>
+  </div>
+
+  <hr>
+
+  <div id='authentication'>
+    <h2>Authentication</h2>
+    <div>Wichteln-as-a-Service uses an API approach. When you create a new group you will receive a token for this group. This token is like a password and only those who have access to this token can change or access data for this group.</div>
+
+    <div>Use this token in all your following requests to authenticate yourself. Without this token you cannot do anything. This token works only with your group. So don't worry, nobody but you can access the data you entered.</div>
+
+    <h3>Usage</h3>
+    <div>Provide this token via the <code>Authentication</code> Header.</div>
+
+    <pre>Authentication: Bearer ad293hgkda724</pre>
+  </div>
+
+  <hr>
+
+  <div id='groups'>
+    <h2>Groups</h2>
+    <div>Intro</div>
+    <div>
+      <div>
+        <h3>Get information about a wichtelgroup.</h3>
+
+        <pre>GET|HEAD /wichtelgroup/:id</pre>
+
+        <h4>Response</h4>
+
+        <pre class="header">Status: 200 (Ok)</pre>
+        <pre class="body">
+{
+  "status": 200,
+  "data": {
+    "id": 4,
+    "name": "Secret Santa at Work",
+    "wichtel_date": "2016-12-24",
+    "status": "created",
+    "created_at": "2016-12-03 20:07:56",
+    "updated_at": "2016-12-03 20:07:56"
+  }
+}</pre>
+      </div>
+
+      <div>
+        <h3>Create a new group</h3>
+
+        <pre>POST /wichtelgroup</pre>
+
+        <h4>Attributes</h4>
+
+        <table>
+          <tr>
+            <td><code>name</code></td>
+            <td><code>(string)</code> Name of your new wichtelgroup</td>
+          </tr>
+          <tr>
+            <td><code>wichtel_date</code></td>
+            <td><code>(date [yyyy-mm-dd])</code> date when you will wichtel</td>
+          </tr>
+        </table>
+
+        <h4>Request</h4>
+
+        <pre class="header">Content-Type: application/json</pre>
+        <pre class="body">
+{
+  "name": "WICHTELN",
+  "wichtel_date": "2016-12-24"
+}</pre>
+
+        <p>The response will show you your new group's data. <strong>Please note the token at the end. Don't lose it!</strong> This token is your API token and is needed for all following requests. If you lose this token you have to start all over again.</p>
+
+        <h4>Response</h4>
+
+        <pre class="header">Status: 201 (Created)</pre>
+        <pre class="body">
+{
+  "status": 201,
+  "data": {
+    "group": {
+      "name": "WICHTELN",
+      "wichtel_date": "2016-12-24",
+      "status": "created",
+      "created_at": "2016-12-17 09:40:52",
+      "updated_at": "2016-12-17 09:40:52",
+      "id": 5
+    },
+    "token": "84ec9720c43411e6b57ab374fcb69bf9"
+  }
+}
+        </pre>
+      </div>
+
+      <div>
+        <h3>Update information of wichtelgroup</h3>
+
+        <pre>PUT|PATCH /wichtelgroup/:id</pre>
+
+        <h4>Attributes</h4>
+
+        <table>
+          <tr>
+            <td><code>name</code></td>
+            <td><code>(string)</code> Name of your new wichtelgroup</td>
+          </tr>
+          <tr>
+            <td><code>wichtel_date</code></td>
+            <td><code>(date [yyyy-mm-dd])</code> date when you will wichtel</td>
+          </tr>
+        </table>
+
+        <h4>Request</h4>
+
+        <pre class="header">Content-Type: application/json</pre>
+        <pre class="body">
+{
+  "name": "New WICHTEL Group",
+  "wichtel_date": "2017-01-31"
+}</pre>
+
+        <h4>Response</h4>
+
+        <pre class="header">Status: 200 (Ok)</pre>
+        <pre class="body">
+{
+  "status": 200,
+  "data": {
+    "id": 5,
+    "name": "NEW WICHTEL",
+    "wichtel_date": "2017-01-31",
+    "status": "created",
+    "created_at": "2016-12-17 09:40:52",
+    "updated_at": "2016-12-17 09:47:32"
+  }
+}
+        </pre>
+      </div>
+
+      <div>
+        <h3>Delete a wichtelgroup</h3>
+
+        <pre>DELETE /wichtelgroup/:id</pre>
+
+        <h4>Response</h4>
+
+        <pre class="header">Status: 204 (No Content)</pre>
+        <pre class="body"></pre>
+      </div>
+    </div>
+  </div>
+
+  <hr>
+
+  <div id='members'>
+    <h2>Members</h2>
+    <div>Intro</div>
+    <div>
+      <div>
+        <h3>Get Wichtelmember</h3>
+
+        <pre>GET|HEAD /wichtelgroup/:group_id/wichtelmember</pre>
+
+        <h4>Response</h4>
+
+        <pre class="header">Status: 200</pre>
+        <pre class="body">
+{
+  "status": 200,
+  "data": [
+    {
+      "id": 4,
+      "name": "WICHTELN",
+      "wichtel_date": "2016-12-31",
+      "status": "created",
+      "created_at": "2016-12-03 20:07:56",
+      "updated_at": "2016-12-03 20:07:56",
+      "members": [
+        {
+          "id": 4,
+          "group_id": 4,
+          "wichtel_id": null,
+          "name": "Max",
+          "email": "max@example.com",
+          "wishlist": null,
+          "status": "invited",
+          "created_at": "2016-12-15 20:07:56",
+          "updated_at": "2016-12-15 20:07:56"
+        },
+        {
+          "id": 5,
+          "group_id": 4,
+          "wichtel_id": null,
+          "name": "Hans",
+          "email": "hans@example.com",
+          "wishlist": "Towel for my hitchhikers-tour",
+          "status": "invited",
+          "created_at": "2016-12-15 20:07:56",
+          "updated_at": "2016-12-15 20:07:56"
+        },
+        {
+          "id": 6,
+          "group_id": 4,
+          "wichtel_id": null,
+          "name": "Peter",
+          "email": "Peter@example.com",
+          "wishlist": "Pink fluffy Unicorns",
+          "status": "invited",
+          "created_at": "2016-12-17 09:04:52",
+          "updated_at": "2016-12-17 09:04:52"
+        }
+      ]
+    }
+  ]
+}
+        </pre>
+      </div>
+
+      <div>
+        <h3>Add new member to group</h3>
+
+        <pre>POST /wichtelgroup/:group_id/wichtelmember</pre>
+
+        <h4>Attributes</h4>
+
+        <table>
+          <tr>
+            <td><code>name</code></td>
+            <td><code>(string)</code> Name of member</td>
+          </tr>
+          <tr>
+            <td><code>email</code></td>
+            <td><code>(email)</code> valid email address of member</td>
+          </tr>
+          <tr>
+            <td><code>[wishlist]</code></td>
+            <td><code>(string)</code> whishlist of member</td>
+          </tr>
+        </table>
+
+        <h4>Request</h4>
+
+        <pre class="header">Content-Type: application/json</pre>
+        <pre class="body">
+{
+  "name": "Doc",
+  "email": "doc@example.com",
+  "wishlist": "Flux Capacitor"
+}</pre>
+
+        <h4>Response</h4>
+
+        <pre class="header">Status: 201 (Created)</pre>
+        <pre class="body">
+{
+  "status": 201,
+  "data": {
+    "name": "Doc",
+    "email": "doc@example.com",
+    "wishlist": "Flux Capacitor",
+    "status": "invited",
+    "group_id": 4,
+    "created_at": "2016-12-17 10:33:34",
+    "updated_at": "2016-12-17 10:33:34",
+    "id": 10
+  }
+}
+        </pre>
+      </div>
+
+      <div>
+        <h3>Update member</h3>
+
+        <pre>PUT|PATCH /wichtelgroup/:group_id/wichtelmember/:member_id</pre>
+
+        <h4>Attributes</h4>
+
+        <table>
+          <tr>
+            <td><code>name</code></td>
+            <td><code>(string)</code> Name of member</td>
+          </tr>
+          <tr>
+            <td><code>email</code></td>
+            <td><code>(email)</code> valid email address of member</td>
+          </tr>
+          <tr>
+            <td><code>[wishlist]</code></td>
+            <td><code>(string)</code> whishlist of member</td>
+          </tr>
+        </table>
+
+        <h4>Request</h4>
+
+        <pre class="header">Content-Type: application/json</pre>
+        <pre class="body">
+{
+  "name": "Doc",
+  "email": "doc_time_travler@example.com",
+  "wishlist": "DeLorean"
+}</pre>
+
+        <h4>Response</h4>
+
+        <pre class="header">Status: 200 (Ok)</pre>
+        <pre class="body">
+{
+  "status": 200,
+  "data": {
+    "name": "Doc",
+    "email": "doc_time_travler@example.com",
+    "wishlist": "DeLorean",
+    "status": "invited",
+    "group_id": 4,
+    "created_at": "2016-12-17 10:33:34",
+    "updated_at": "2016-12-17 10:33:34",
+    "id": 10
+  }
+}</pre>
+      </div>
+
+      <div>
+        <h3>Delete member</h3>
+
+        <pre>DELETE /wichtelgroup/:group_id/wichtelmember</pre>
+
+        <h4>Response</h4>
+
+        <pre class="header">Status: 204 (No Contend)</pre>
+        <pre class="body"></pre>
+      </div>
+
+    </div>
+  </div>
+
+  <hr>
+
+  <div id='wichteln'>
+    <h2>Wichteln</h2>
+
+    <p>This endpoint is for starting the secret santa for a group.</p>
+
+    <pre>POST /wichteln</pre>
+
+    <h3>Attributes</h3>
+
+    <table>
+      <tr>
+        <td><code>group</code></td>
+        <td>id of group you want to start</td>
+      </tr>
+    </table>
+
+    <h3>Request</h3>
+
+    <pre class="header">Content-Type: application/json</pre>
+    <pre class="body">
+{
+  "group": 3
+}</pre>
+
+    <h3>Response</h3>
+
+    <pre class="header">Status: 200 (Ok)</pre>
+    <pre class="body">
+{
+  "status": 200,
+  "message": "Woho, our imps are on their way delivering the messages."
+}</pre>
+
+    </div>
+  </div>
+</div>
+{% endblock %}
+
+{% block footer %}
+{% endblock %}
+

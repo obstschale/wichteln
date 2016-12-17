@@ -1,35 +1,29 @@
-# AdonisJs Application
+# Wichteln-as-a-Service
 
-This repo is the pre-configured project structure to be used for creating ambitious web servers using AdonisJs.
-
-> Make sure to star the official [framework repo](https://github.com/adonisjs/adonis-framework) or [tweet on twitter](https://twitter.com/intent/tweet?url=http://adonisjs.com&text=I%20am%20using%20AdonisJs,%20a%20practical%20MVC%20framework%20for%20nodejs&hashtags=nodejs,adonisframework) :wave:
+Wichteln (german (verb) for Secret Santa) is fun and will take place these days around the world. But it's not possible everytime to gather around and draw pieces of paper out of a hat. Therefore I created wichteln-as-a-service for all remote developer groups out there.
 
 ## Story
 
-One day a :boy: wanted to write a web application to slowly turn it into a business and make some :moneybag: for better living. Being a Javascript lover, he decided to go with Node.js. 
+I like Secret Santa or as we say in Germany to wichtel ;). Like years before I am part of one or more groups. Like this year (2016) we do it for christmas. The problem was, we are all scattered around Germany. So we needed a third instance to trust on so there is no person who knows the outcome.
 
-Hosting Node.js applications are cheap and offers lots of mordern programming concepts to build realtime data rich applications.
+Gladly, there exits a website called [Wichtel-O-Mat](https://www.wichtel-o-mat.de). This services allows you to enter eMail addresses and the service will send out mails with all needed information about the person you may get a present for.
 
-He was so excited and full of energy to build this application and share it with the world. But soon his dreams started struggling with the amount of decisions he has to make, just to build an MVP of his idea. These decisions were not even related to the business and was about.
+This service inspired me. At this time I was looking for a project, which is not too big and easy to develop so I can realize it with [AdonisJS](adonisjs.com). The goal was not to create something completely new, but to have a side project to work on where I can learn AdonisJS and how to deploy and run a service properly.
 
-1. How should I structure my application?
-2. Why do I need to download 20 modules just to start an HTTP server, parse request body and upload files.
-3. How should I manage the authentication on website, and expose public API for others to interact with the data?
-4. What do I need to do to secure my application from web attacks and how to handle CORS?
-5. Why do I have ton of `require` statements everywhere?
-6. How the heck should I test my code? I am having hard time mocking dependencies.
-7. **WHY THE :fish:** there are no standards to write some code. Hell I am not going to write this application and going for a walk.
-
+However, Wichtel-O-Mat is nice and I don't want to copy it completely. I thought about it and found out, that this service has no API and I poor developers cannot use it :O
 
 ## Not Anymore
 
-This is so frustating. Node.js is a beautiful language but all of the above questions have never been answered together. We all love writing small concise modules but business are not created by downloading 20 modules.
+To keep the project even simpler I decided to focus on developers only. That said, *wichteln-as-a-service* is born. The app runs on AdonisJS and offers a REST API.
 
-Developers needs productive tools, so that they can focus on what matters, and not on downloading & finding the best ways to combine these small modules. 
+Now even remote developers can play Secret Santa \o/
 
-## AdonisJs
+## Beta Phase
 
-AdonisJs is a beautiful framework with pre-configured answers to all of your questions. We not only created this framework, but validated the features of framework with realtime problems and still improving every bit, so that you have to write less and structured code.
+**[17.12.2016]** The service is only and running at [wichtel.me](https://wichtel.me). However it is still an early beta phase. So please be aware that the endpoints can change and datalos may happen during this phase.
 
-This time a :boy: will write his ambitious application and will set the world on :fire:``. Don't hesitate to work on your ideas and we promise to improve the framework every :sunny: and :first_quarter_moon_with_face: and YESSSS do not forget to star us on [:octocat:](https://github.com/adonisjs/adonis-framework)
+If you want to join the beta test. Go ahead and start exploring the endpoint and please read the [Beta Testers Information](https://github.com/obstschale/wichteln-as-a-service/wiki/Beta-Testers-Information).
+
+
+
 

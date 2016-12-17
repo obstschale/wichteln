@@ -1,6 +1,6 @@
 {
-  "name": "adonis-app",
-  "version": "3.1.0",
+  "name": "wichteln-as-a-service",
+  "version": "0.1.0",
   "main": "server.js",
   "scripts": {
     "dev": "nodemon --watch app --watch bootstrap --watch config --watch .env -x node server.js",
@@ -18,7 +18,10 @@
     "adonis-fold": "^3.0.3",
     "adonis-framework": "^3.0.5",
     "adonis-lucid": "^3.0.10",
+    "adonis-mail-provider": "^2.0.2",
     "adonis-middleware": "^1.0.8",
+    "adonis-validation-provider": "^3.0.4",
+    "mysql": "^2.12.0",
     "standard": "^8.4.0",
     "youch": "^1.0.1"
   },
@@ -33,6 +36,9 @@
   },
   "devDependencies": {
     "nodemon": "^1.11.0",
+    "shipit-cli": "^2.0.0",
+    "shipit-deploy": "^2.4.0",
+    "shipit-shared": "^4.4.2",
     "sqlite3": "^3.1.8",
     "standard": "^8.5.0"
   }
