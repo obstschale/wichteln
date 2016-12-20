@@ -13,6 +13,22 @@ use Illuminate\Http\Request;
 |
 */
 
-Route::get('/user', function (Request $request) {
-    return $request->user();
-})->middleware('auth:api');
+Route::get('/', function (Request $request) {
+    return [
+        'api' => [
+            'version' => '0.2.0',
+            'framework' => 'Laravel 5.3',
+        ],
+        'author' => [
+            'name' => 'Hans-Helge Bürger',
+            'email' => 'santa@wichtel.me',
+        ],
+    ];
+});
+
+Route::group(['prefix' => 'v1'], function () {
+    Route::resource('/wichtelgroup', 'WichtelGroupController');
+
+    Route::resource('/wichtelmember', 'WichtelMemberController');
+});
+
