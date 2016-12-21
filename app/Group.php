@@ -13,7 +13,7 @@ class Group extends Model
      */
     protected $fillable = [
         'name',
-        'data',
+        'date',
         'status',
     ];
 
