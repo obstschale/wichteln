@@ -20,9 +20,7 @@ class CreateGroupUserTable extends Migration
             $table->integer('user_id')->unsigned()->index();
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
 
-            $table->integer('buddy_id')->unsigned();
-
-            $table->timestamps();
+            $table->integer('buddy_id')->unsigned()->nullable();
         });
     }
 
