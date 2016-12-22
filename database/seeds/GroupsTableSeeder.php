@@ -14,7 +14,24 @@ class GroupsTableSeeder extends Seeder
         factory(App\Group::class, 5)
             ->create()
             ->each(function ($g) {
-                $g->users()->saveMany(factory(App\User::class, 10)->make());
+
+                for ($i = 0; $i < 10; $i++) {
+                    $status = [
+                        'invited',
+                        'approved',
+                        'declined',
+                    ];
+
+                    $pivotData = [
+                        'status' => $status[array_rand($status)],
+                        'wishlist' => generateRandomString(100),
+                    ];
+
+                    $g->users()->save(
+                        factory(App\User::class)->make(),
+                        $pivotData
+                    );
+                }
             });
     }
 }
