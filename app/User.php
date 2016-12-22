@@ -4,6 +4,7 @@ namespace App;
 
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Support\Facades\DB;
 
 class User extends Authenticatable
 {
@@ -18,8 +19,6 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
-        'stauts',
-        'wishlist',
     ];
 
     /**
@@ -70,4 +69,72 @@ class User extends Authenticatable
 
         return false;
     }
+
+    /**
+     * Get pivot tables data for this user of a given group.
+     *
+     * @param Group $group
+     * @return mixed
+     */
+    public function pivotDataFor(Group $group)
+    {
+        return DB::table('group_user')
+            ->select('status', 'wishlist')
+            ->where('group_id', $group->id)
+            ->where('user_id', $this->id)
+            ->first();
+    }
+
+    /**
+     * Get status of this user for a given group.
+     *
+     * @uses \App\User::pivotDataFor()
+     * @param Group $group
+     * @return mixed
+     */
+    public function status(Group $group)
+    {
+        return $this->pivotDataFor($group)->status;
+    }
+
+    /**
+     * Update status of this user for a given group.
+     *
+     * @param Group $group
+     * @param $status
+     */
+    public function saveStatus(Group $group, $status)
+    {
+        DB::table('group_user')
+            ->where('group_id', $group->id)
+            ->where('user_id', $this->id)
+            ->update(['status' => $status]);
+    }
+
+    /**
+     * Get wishlist of this user for a given group.
+     *
+     * @uses \App\User::pivotDataFor()
+     * @param Group $group
+     * @return mixed
+     */
+    public function wishlist(Group $group)
+    {
+        return $this->pivotDataFor($group)->status;
+    }
+
+    /**
+     * Update wishlist of this user for a given group.
+     *
+     * @param Group $group
+     * @param $wishlist
+     */
+    public function saveWishlist(Group $group, $wishlist)
+    {
+        DB::table('group_user')
+            ->where('group_id', $group->id)
+            ->where('user_id', $this->id)
+            ->update(['wishlist' => $wishlist]);
+    }
+
 }
