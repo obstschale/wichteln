@@ -28,7 +28,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $hidden = [
-        'password', 'remember_token',
+        'password', 'remember_token', 'pivot'
     ];
 
     /**
@@ -52,5 +52,22 @@ class User extends Authenticatable
         return $this->belongsToMany('App\Group')
             ->wherePivot('group_id', $group->id)
             ->withPivot('buddy_id')->first();
+    }
+
+    /**
+     * Policy-Like check to see if a user is part of a given group.
+     *
+     * @param Group $group
+     * @return bool
+     */
+    public function belongsToGroup(Group $group)
+    {
+        $res = $this->groups()->where('id', $group->id)->get();
+
+        if (count($res) > 0) {
+            return true;
+        }
+
+        return false;
     }
 }
