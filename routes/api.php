@@ -31,6 +31,8 @@ Route::group(['prefix' => 'v1'], function () {
         'create', 'edit'
     ]]);
 
-    Route::resource('/wichtelmember', 'WichtelMemberController');
+    Route::resource('/wichtelgroup/{group}/wichtelmember', 'WichtelMemberController', ['except' => [
+        'create', 'edit'
+    ]]);
 });
 
