@@ -15,18 +15,10 @@
 $factory->define(App\User::class, function (Faker\Generator $faker) {
     static $password;
 
-    $status = [
-        'invited',
-        'approved',
-        'declined',
-    ];
-
     return [
         'name' => $faker->name,
         'email' => $faker->unique()->safeEmail,
         'password' => $password ?: $password = bcrypt('secret'),
-        'status' => $status[array_rand($status)],
-        'wishlist' => $faker->sentences(5, true),
         'remember_token' => str_random(10),
     ];
 });
@@ -42,5 +34,19 @@ $factory->define(App\Group::class, function (Faker\Generator $faker) {
         'name' => $faker->name,
         'date' => $faker->date('Y-m-d'),
         'status' => $status[array_rand($status)],
+    ];
+});
+
+$factory->define('GroupUserPivot', function (Faker\Generator $faker) {
+
+    $status = [
+        'invited',
+        'approved',
+        'declined',
+    ];
+
+    return [
+        'status' => $status[array_rand($status)],
+        'wishlist' => $faker->sentences(5, true),
     ];
 });

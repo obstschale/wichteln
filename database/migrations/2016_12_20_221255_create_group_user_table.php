@@ -21,6 +21,9 @@ class CreateGroupUserTable extends Migration
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
 
             $table->integer('buddy_id')->unsigned()->nullable();
+
+            $table->string('status');
+            $table->string('wishlist', 1000)->nullable();
         });
     }
 
