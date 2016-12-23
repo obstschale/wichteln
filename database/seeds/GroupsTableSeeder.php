@@ -24,7 +24,8 @@ class GroupsTableSeeder extends Seeder
 
                     $pivotData = [
                         'status' => $status[array_rand($status)],
-                        'wishlist' => generateRandomString(100),
+                        'wishlist' => str_random(100),
+                        'is_admin' => ($i === 0) ? true : false,
                     ];
 
                     $g->users()->save(

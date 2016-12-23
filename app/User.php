@@ -19,6 +19,7 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'api_token',
     ];
 
     /**
@@ -79,10 +80,21 @@ class User extends Authenticatable
     public function pivotDataFor(Group $group)
     {
         return DB::table('group_user')
-            ->select('status', 'wishlist')
+            ->select('status', 'wishlist', 'is_admin')
             ->where('group_id', $group->id)
             ->where('user_id', $this->id)
             ->first();
+    }
+
+    /**
+     * Get is_admin property of this user for a given group.
+     * 
+     * @param Group $group
+     * @return mixed
+     */
+    public function isAdminInGroup(Group $group)
+    {
+        return $this->pivotDataFor($group)->is_admin;
     }
 
     /**

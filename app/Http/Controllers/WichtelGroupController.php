@@ -4,9 +4,20 @@ namespace App\Http\Controllers;
 
 use App\Group;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class WichtelGroupController extends Controller
 {
+    /**
+     * WichtelGroupController constructor.
+     *
+     * Apply API Token Guard for authentication to this controller.
+     */
+    public function __construct()
+    {
+        $this->middleware('auth:api');
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -15,7 +26,9 @@ class WichtelGroupController extends Controller
     public function index()
     {
         // @TODO: Only Access for Admins
-        return response()->json(Group::all());
+//        return response()->json(Group::all());
+
+        return response('', 501);
     }
 
     /**
@@ -26,6 +39,8 @@ class WichtelGroupController extends Controller
      */
     public function store(Request $request)
     {
+        $this->authorize('create', Group::class);
+
         // @TODO: Return JSON on validation fail. Should happen automatically
         $this->validate($request, [
             'name' => 'required|max:255',
@@ -36,6 +51,11 @@ class WichtelGroupController extends Controller
             'name' => $request->name,
             'date' => $request->date,
             'status' => 'created',
+        ]);
+
+        $group->users()->attach(Auth::user(), [
+            'status' => 'approved',
+            'is_admin' => true,
         ]);
 
         return response()->json($group, 201);
@@ -49,6 +69,8 @@ class WichtelGroupController extends Controller
      */
     public function show(Group $wichtelgroup)
     {
+        $this->authorize('view', $wichtelgroup);
+
         return response()->json($wichtelgroup);
     }
 
@@ -61,6 +83,8 @@ class WichtelGroupController extends Controller
      */
     public function update(Request $request, Group $wichtelgroup)
     {
+        $this->authorize('update', $wichtelgroup);
+
         // @TODO: Return JSON on validation fail. Should happen automatically
         $this->validate($request, [
             'name' => 'required|max:255',
@@ -82,6 +106,8 @@ class WichtelGroupController extends Controller
      */
     public function destroy(Group $wichtelgroup)
     {
+        $this->authorize('delete', $wichtelgroup);
+
         $wichtelgroup->delete();
 
         return response('', 204);

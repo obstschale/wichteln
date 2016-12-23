@@ -24,6 +24,8 @@ class CreateGroupUserTable extends Migration
 
             $table->string('status');
             $table->string('wishlist', 1000)->nullable();
+
+            $table->boolean('is_admin');
         });
     }
 
