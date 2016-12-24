@@ -4,7 +4,6 @@ namespace App\Providers;
 
 use App\Group;
 use App\Policies\GroupPolicy;
-use Illuminate\Support\Facades\Gate;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 
 class AuthServiceProvider extends ServiceProvider

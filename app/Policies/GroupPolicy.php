@@ -56,4 +56,68 @@ class GroupPolicy
     {
         return $user->isAdminInGroup($group);
     }
+
+    /**
+     * Determine whether the user can view the member(s) of the group.
+     *
+     * @param User $user
+     * @param Group $group
+     * @return bool
+     */
+    public function viewMembers(User $user, Group $group)
+    {
+        return $user->belongsToGroup($group);
+    }
+
+    /**
+     * Determine whether the user can create new members of the group.
+     *
+     * @param User $user
+     * @param Group $group
+     * @return mixed
+     */
+    public function createMember(User $user, Group $group)
+    {
+        return $user->isAdminInGroup($group);
+    }
+
+    /**
+     * Determine whether the user can update members of the group.
+     *
+     * @param User $user
+     * @param Group $group
+     * @param User $member
+     * @return bool
+     */
+    public function updateMember(User $user, Group $group, User $member)
+    {
+        // Member to update is not part of group
+        if (! $member->belongsToGroup($group)) {
+            return false;
+        }
+
+        // User is admin in group and may update member
+        if ($user->isAdminInGroup($group)) {
+            return true;
+        }
+
+        // User who makes request wants to update his record
+        if ($user == $member) {
+            return true;
+        }
+
+        return false;
+    }
+
+    /**
+     * Determine whether the user can delete members of the group.
+     *
+     * @param User $user
+     * @param Group $group
+     * @return mixed
+     */
+    public function deleteMember(User $user, Group $group)
+    {
+        return $user->isAdminInGroup($group);
+    }
 }

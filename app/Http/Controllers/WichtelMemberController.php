@@ -5,10 +5,21 @@ namespace App\Http\Controllers;
 use App\Group;
 use App\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 
 class WichtelMemberController extends Controller
 {
+    /**
+     * WichtelMemberController constructor.
+     *
+     * Apply API Token Guard for authentication to this controller.
+     */
+    public function __construct()
+    {
+        $this->middleware('auth:api')->except('store');
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -17,7 +28,8 @@ class WichtelMemberController extends Controller
      */
     public function index(Group $group)
     {
-        // @TODO: Only Access for Admins
+        $this->authorize('viewMembers', $group);
+
         $members = $group->users()->get();
 
         return response()->json($members);
@@ -32,6 +44,8 @@ class WichtelMemberController extends Controller
      */
     public function store(Request $request, Group $group)
     {
+        $this->authorize('createMember', $group);
+
         // @TODO: Return JSON on validation fail. Should happen automatically
         $this->validate($request, [
             'name' => 'required|max:255',
@@ -53,7 +67,8 @@ class WichtelMemberController extends Controller
             $member = User::create([
                 'name' => $request->name,
                 'email' => $request->email,
-                'password' => Hash::make(generateRandomString(16)),
+                'password' => Hash::make(str_random(16)),
+                'api_token' => str_random(60),
             ]);
         }
 
@@ -78,11 +93,7 @@ class WichtelMemberController extends Controller
      */
     public function show(Group $group, User $wichtelmember)
     {
-        if (!$wichtelmember->belongsToGroup($group)) {
-            return response()->json([
-                'message' => "This member ({$wichtelmember->id}) is not part of this group ({$group->id})",
-            ], 403);
-        }
+        $this->authorize('viewMember', $group);
 
         return response()->json($wichtelmember);
     }
@@ -97,11 +108,7 @@ class WichtelMemberController extends Controller
      */
     public function update(Request $request, Group $group, User $wichtelmember)
     {
-        if (!$wichtelmember->belongsToGroup($group)) {
-            return response()->json([
-                'message' => "This member ({$wichtelmember->id}) is not part of this group ({$group->id})",
-            ], 403);
-        }
+        $this->authorize('updateMember', [$group, $wichtelmember]);
 
         // @TODO: Return JSON on validation fail. Should happen automatically
         $this->validate($request, [
@@ -123,11 +130,7 @@ class WichtelMemberController extends Controller
      */
     public function destroy(Group $group, User $wichtelmember)
     {
-        if (!$wichtelmember->belongsToGroup($group)) {
-            return response()->json([
-                'message' => "This member ({$wichtelmember->id}) is not part of this group ({$group->id})",
-            ], 403);
-        }
+        $this->authorize('deleteMember', $group);
 
         $group->users()->detach($wichtelmember);
 
