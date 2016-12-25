@@ -28,7 +28,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $hidden = [
-        'password', 'remember_token', 'pivot'
+        'password', 'remember_token', 'pivot', 'api_token',
     ];
 
     /**
@@ -80,15 +80,42 @@ class User extends Authenticatable
     public function pivotDataFor(Group $group)
     {
         return DB::table('group_user')
-            ->select('status', 'wishlist', 'is_admin')
+            ->select('status', 'wishlist', 'is_admin', 'token')
             ->where('group_id', $group->id)
             ->where('user_id', $this->id)
             ->first();
     }
 
     /**
-     * Get is_admin property of this user for a given group.
+     * Get token for user of a group.
      * 
+     * @uses \App\User::pivotDataFor()
+     * @param Group $group
+     * @return mixed
+     */
+    public function approveToken(Group $group)
+    {
+        return $this->pivotDataFor($group)->token;
+    }
+
+    /**
+     * Update approve token of this user for a given group.
+     *
+     * @param Group $group
+     * @param $token
+     */
+    public function saveApproveToken(Group $group, $token)
+    {
+        DB::table('group_user')
+            ->where('group_id', $group->id)
+            ->where('user_id', $this->id)
+            ->update(['token' => $token]);
+    }
+
+    /**
+     * Get is_admin property of this user for a given group.
+     *
+     * @uses \App\User::pivotDataFor()
      * @param Group $group
      * @return mixed
      */

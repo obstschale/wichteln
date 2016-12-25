@@ -3,10 +3,13 @@
 namespace App\Http\Controllers;
 
 use App\Group;
+use App\Jobs\SendApprovalEmail;
+use App\Mail\ApproveWichtelmember;
 use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Mail;
 
 class WichtelMemberController extends Controller
 {
@@ -17,7 +20,7 @@ class WichtelMemberController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('auth:api')->except('store');
+        $this->middleware('auth:api');
     }
 
     /**
@@ -56,12 +59,6 @@ class WichtelMemberController extends Controller
         // Check if user is already in DB
         $member = User::where('email', $request->email)->first();
 
-        if ($member->belongsToGroup($group)) {
-            return response()->json([
-                'message' => 'User already belongs to group.'
-            ]);
-        }
-
         // If not create new instance
         if (is_null($member)) {
             $member = User::create([
@@ -70,16 +67,23 @@ class WichtelMemberController extends Controller
                 'password' => Hash::make(str_random(16)),
                 'api_token' => str_random(60),
             ]);
+        } else {
+            if ($member->belongsToGroup($group)) {
+                return response()->json([
+                    'message' => 'User already belongs to group.'
+                ]);
+            }
         }
 
         $pivotData = [
             'wishlist' => $request->wishlist,
             'status' => 'invited',
+            'is_admin' => false,
         ];
 
         $group->users()->save($member, $pivotData);
 
-        // @TODO: dispatch( Invite Mail )
+        Mail::to($member)->queue(new ApproveWichtelmember($member, $group));
 
         return response()->json($member, 201);
     }

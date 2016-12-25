@@ -88,7 +88,7 @@ class WichtelGroupController extends Controller
         // @TODO: Return JSON on validation fail. Should happen automatically
         $this->validate($request, [
             'name' => 'required|max:255',
-            'date' => 'required|date'
+            'date' => 'required|date',
         ]);
 
         $wichtelgroup->name = $request->name;
