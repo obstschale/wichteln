@@ -1,5 +1,16 @@
 # Changelog
 
+## 0.2.0 (27.12.2016)
+
+Switch completely to Laravel Framework.
+
+### Changes
+
+* No `wichteln/` endpoint anymore. To start update the group status to `started`.
+* Nice E-Mails with blade templates
+* Using a queue to dispatch raffle job and sending mails
+* Add wish list of buddy to email
+
 ## 0.1.0 (17.12.2016)
 
 The service is only and running at [wichtel.me](https://wichtel.me)
