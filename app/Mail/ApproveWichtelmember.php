@@ -49,7 +49,7 @@ class ApproveWichtelmember extends Mailable
         // Create approve link
         $token = str_random(16);
         $this->user->saveApproveToken($this->group, $token);
-        $link = sprintf('%s/token?action=approve&token=%s', env('APP_URL'), $token);
+        $link = sprintf('%s/token?action=approve&token=%s', config('app.url'), $token);
 
         return $this->view('emails.approve')->with([
             'link' => $link,
