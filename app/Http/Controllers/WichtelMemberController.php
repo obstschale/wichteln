@@ -3,11 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Group;
-use App\Jobs\SendApprovalEmail;
 use App\Mail\ApproveWichtelmember;
 use App\User;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
 

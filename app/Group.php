@@ -25,6 +25,28 @@ class Group extends Model
      */
     public function users()
     {
-        return $this->belongsToMany('App\User');
+        return $this->belongsToMany('App\User')->withPivot('status', 'buddy_id', 'wishlist');
+    }
+
+    /**
+     * See if the group started the game.
+     *
+     * @return bool
+     */
+    public function started()
+    {
+        return $this->status === 'started';
+    }
+
+    /**
+     * Get all users who approved participation.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     */
+    public function approvedUsers()
+    {
+        return $this->belongsToMany('App\User')
+            ->wherePivot('status', 'approved')
+            ->withPivot('status', 'buddy_id', 'wishlist');
     }
 }

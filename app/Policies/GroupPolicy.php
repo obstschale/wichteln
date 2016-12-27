@@ -42,6 +42,10 @@ class GroupPolicy
      */
     public function update(User $user, Group $group)
     {
+        if ($group->started()) {
+            return false;
+        }
+
         return $user->isAdminInGroup($group);
     }
 

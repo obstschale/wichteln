@@ -18,16 +18,15 @@ class UserPolicy
      */
     public function view(User $authUser, User $user)
     {
-        return $authUser == $user;
+        return $authUser->id === $user->id;
     }
 
     /**
      * Determine whether the user can create users.
      *
-     * @param  User  $authUser
      * @return mixed
      */
-    public function create(User $authUser)
+    public function create()
     {
         return true;
     }
@@ -41,7 +40,7 @@ class UserPolicy
      */
     public function update(User $authUser, User $user)
     {
-        return $authUser == $user;
+        return $authUser->id === $user->id;
     }
 
     /**
@@ -53,6 +52,6 @@ class UserPolicy
      */
     public function delete(User $authUser, User $user)
     {
-        return $authUser == $user;
+        return $authUser->id === $user->id;
     }
 }

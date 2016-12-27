@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Group;
+use App\Jobs\WichtelJob;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -26,7 +27,7 @@ class WichtelGroupController extends Controller
     public function index()
     {
         // @TODO: Only Access for Admins
-//        return response()->json(Group::all());
+        // return response()->json(Group::all());
 
         return response('', 501);
     }
@@ -89,7 +90,13 @@ class WichtelGroupController extends Controller
         $this->validate($request, [
             'name' => 'required|max:255',
             'date' => 'required|date',
+            'status' => 'string',
         ]);
+
+        if ($request->status === 'started') {
+            $wichtelgroup->status = 'started';
+            dispatch(new WichtelJob($wichtelgroup));
+        }
 
         $wichtelgroup->name = $request->name;
         $wichtelgroup->date = $request->date;

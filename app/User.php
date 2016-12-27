@@ -28,7 +28,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $hidden = [
-        'password', 'remember_token', 'pivot', 'api_token',
+        'password', 'remember_token',  'api_token',
     ];
 
     /**
@@ -38,7 +38,7 @@ class User extends Authenticatable
      */
     public function groups()
     {
-        return $this->belongsToMany('App\Group')->withPivot('buddy_id');
+        return $this->belongsToMany('App\Group')->withPivot('buddy_id', 'wishlist');
     }
 
     /**
@@ -51,7 +51,15 @@ class User extends Authenticatable
     {
         return $this->belongsToMany('App\Group')
             ->wherePivot('group_id', $group->id)
-            ->withPivot('buddy_id')->first();
+            ->withPivot('buddy_id')->first()->buddy;
+    }
+
+    public function saveBuddy(Group $group, $id)
+    {
+        DB::table('group_user')
+            ->where('group_id', $group->id)
+            ->where('user_id', $this->id)
+            ->update(['buddy_id' => $id]);
     }
 
     /**
