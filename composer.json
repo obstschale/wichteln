@@ -4,6 +4,7 @@
     "keywords": ["framework", "laravel"],
     "license": "MIT",
     "type": "project",
+    "version": "0.2.0",
     "require": {
         "php": ">=5.6.4",
         "guzzlehttp/guzzle": "^6.2",
