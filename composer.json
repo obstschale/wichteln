@@ -6,11 +6,12 @@
     "type": "project",
     "version": "0.2.0",
     "require": {
-        "php": ">=5.6.4",
+        "php": ">=7.1",
         "guzzlehttp/guzzle": "^6.2",
         "laravel/framework": "5.3.*"
     },
     "require-dev": {
+        "deployer/deployer": "^4.3",
         "fzaninotto/faker": "~1.4",
         "mockery/mockery": "0.9.*",
         "phpunit/phpunit": "~5.0",
