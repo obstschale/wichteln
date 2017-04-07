@@ -82,6 +82,11 @@
                     Wichtel.me
                 </div>
 
+                <div id="app">
+                    <example></example>
+                    @{{ message }}
+                </div>
+
                 <div class="links">
                     <a href="https://laravel.com/docs">Documentation</a>
                     <a href="https://laracasts.com">Laracasts</a>
@@ -91,5 +96,6 @@
                 </div>
             </div>
         </div>
+        <script src="/js/app.js"></script>
     </body>
 </html>
