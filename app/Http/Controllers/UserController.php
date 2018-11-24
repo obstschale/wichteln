@@ -67,11 +67,14 @@ class UserController extends Controller
 
     }
 
+
     /**
      * Display the specified resource.
      *
      * @param User $user
+     *
      * @return \Illuminate\Http\Response
+     * @throws \Illuminate\Auth\Access\AuthorizationException
      */
     public function show(User $user)
     {
@@ -89,7 +92,8 @@ class UserController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        // TODO: Update User Infos
+        return response('', 501);
     }
 
     /**
@@ -100,6 +104,7 @@ class UserController extends Controller
      */
     public function destroy($id)
     {
-        //
+        // TODO: Delete User
+        return response('', 501);
     }
 }

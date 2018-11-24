@@ -21,11 +21,12 @@ class Group extends Model
     /**
      * Get all users of group.
      *
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
      */
     public function users()
     {
-        return $this->belongsToMany('App\User')->withPivot('status', 'buddy_id', 'wishlist');
+        return $this->belongsToMany('App\User')
+            ->withPivot('status', 'buddy_id', 'wishlist');
     }
 
     /**

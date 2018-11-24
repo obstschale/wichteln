@@ -17,7 +17,7 @@ Route::get('/', function (Request $request) {
     return [
         'api' => [
             'version' => '0.2.0',
-            'framework' => 'Laravel 5.3',
+            'framework' => 'Laravel 5.7',
         ],
         'author' => [
             'name' => 'Hans-Helge Bürger',
@@ -27,15 +27,15 @@ Route::get('/', function (Request $request) {
 });
 
 Route::group(['prefix' => 'v1'], function () {
-    Route::resource('/wichtelgroup', 'WichtelGroupController', ['except' => [
+    Route::resource('/wichtelgroups', 'WichtelGroupController', ['except' => [
         'create', 'edit'
     ]]);
 
-    Route::resource('/wichtelgroup/{group}/wichtelmember', 'WichtelMemberController', ['except' => [
+    Route::resource('/wichtelgroups/{group}/wichtelmembers', 'WichtelMemberController', ['except' => [
         'create', 'edit'
     ]]);
 
-    Route::resource('/user', 'UserController', ['except' => [
+    Route::resource('/users', 'UserController', ['except' => [
         'create', 'edit'
     ]]);
 });
