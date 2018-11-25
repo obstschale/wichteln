@@ -13,18 +13,7 @@ use Illuminate\Http\Request;
 |
 */
 
-Route::get('/', function (Request $request) {
-    return [
-        'api' => [
-            'version' => '0.2.0',
-            'framework' => 'Laravel 5.7',
-        ],
-        'author' => [
-            'name' => 'Hans-Helge Bürger',
-            'email' => 'santa@wichtel.me',
-        ],
-    ];
-});
+Route::get('/', 'ApiController@index');
 
 Route::group(['prefix' => 'v1'], function () {
     Route::resource('/wichtelgroups', 'WichtelGroupController', ['except' => [
