@@ -5,6 +5,10 @@
 
     RewriteEngine On
 
+    RewriteEngine On
+    RewriteCond %{HTTP_HOST} ^www.wichtel.me$ [NC]
+    RewriteRule ^(.*)$ https://wichtel.me/$1 [R=301,L]
+
     # Redirect Trailing Slashes If Not A Folder...
     RewriteCond %{REQUEST_FILENAME} !-d
     RewriteRule ^(.*)/$ /$1 [L,R=301]
