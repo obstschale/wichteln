@@ -1,5 +1,6 @@
 <template>
     <div>
+        <h2 class="subtitle">Teilnehmer einladen</h2>
         <div class="field">
             <label class="label">Name</label>
             <div class="control">

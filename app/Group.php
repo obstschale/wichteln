@@ -52,6 +52,9 @@ class Group extends Model
     }
 
 
+    /**
+     * @return User
+     */
     public function admin()
     {
         return $this->users()->wherePivot('is_admin', 1)->first();

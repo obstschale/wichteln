@@ -31221,7 +31221,7 @@ exports = module.exports = __webpack_require__(2)(false);
 
 
 // module
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
+exports.push([module.i, "\n.top-bar[data-v-0e431a77] {\n    background-color: darkgreen;\n    height: 7px;\n}\n#top[data-v-0e431a77] {\n    background-color: #ffffff;\n    background-image: url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='80' height='80' viewBox='0 0 80 80'%3E%3Cg fill='%23d42426' fill-opacity='.1'%3E%3Cpath fill-rule='evenodd' d='M11 0l5 20H6l5-20zm42 31a3 3 0 1 0 0-6 3 3 0 0 0 0 6zM0 72h40v4H0v-4zm0-8h31v4H0v-4zm20-16h20v4H20v-4zM0 56h40v4H0v-4zm63-25a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm10 0a3 3 0 1 0 0-6 3 3 0 0 0 0 6zM53 41a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm10 0a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm10 0a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm-30 0a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm-28-8a5 5 0 0 0-10 0h10zm10 0a5 5 0 0 1-10 0h10zM56 5a5 5 0 0 0-10 0h10zm10 0a5 5 0 0 1-10 0h10zm-3 46a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm10 0a3 3 0 1 0 0-6 3 3 0 0 0 0 6zM21 0l5 20H16l5-20zm43 64v-4h-4v4h-4v4h4v4h4v-4h4v-4h-4zM36 13h4v4h-4v-4zm4 4h4v4h-4v-4zm-4 4h4v4h-4v-4zm8-8h4v4h-4v-4z'/%3E%3C/g%3E%3C/svg%3E\");\n}\n#top .container[data-v-0e431a77] {\n    margin-top: -100px;\n}\n.articles[data-v-0e431a77] {\n    margin: 5rem 0;\n    margin-top: -142px;\n}\n.articles .content p[data-v-0e431a77] {\n    line-height: 1.9;\n    margin: 15px 0;\n}\ndiv.column.is-8[data-v-0e431a77]:first-child {\n    padding-top: 0;\n    margin-top: 0;\n}\n.article-title[data-v-0e431a77] {\n    font-size: 2rem;\n    font-weight: lighter;\n    line-height: 2;\n}\n.table tr.is-selected[data-v-0e431a77] {\n    background-color: darkgreen;\n}\n.table tr[data-v-0e431a77] {\n    -webkit-transition: background-color 1000ms linear;\n    transition: background-color 1000ms linear;\n}\n.card-footer button[data-v-0e431a77] {\n    width: 100%;\n}\n", ""]);
 
 // exports
 
@@ -31249,13 +31249,66 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     name: "WichtelgroupView",
     props: ['group'],
     data: function data() {
         return {
-            members: []
+            members: [],
+            newMember: {}
         };
     },
     mounted: function mounted() {
@@ -31270,24 +31323,72 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         token: function token() {
             var urlParams = new URLSearchParams(window.location.search);
             return urlParams.get('token');
+        },
+        totalMembers: function totalMembers() {
+            return this.members.length;
         }
     },
     methods: {
-        addMember: function addMember($member) {
-            console.log($member);
-            this.members.push($member);
+        addMember: function addMember(member) {
+            var _this = this;
+
+            this.members.push(member);
+            setTimeout(function () {
+                _this.newMember = member;
+                setTimeout(function () {
+                    _this.newMember = {};
+                }, 5000);
+            }, 100);
+        },
+        isNew: function isNew(member) {
+            return this.newMember.id === member.id;
         },
         status: function status(member) {
-            return member.pivot ? member.pivot.status : 'invited';
+            if (!member.pivot) {
+                return 'Eingeladen';
+            }
+
+            switch (member.pivot.status) {
+                case 'approved':
+                    return 'Nimmt teil';
+                default:
+                case 'invited':
+                    return 'Eingeladen';
+            }
+        },
+        statusColor: function statusColor(member) {
+            switch (this.status(member)) {
+                case 'Eingeladen':
+                    return 'is-warning';
+                case 'Nimmt teil':
+                    return 'is-success';
+                default:
+                    return '';
+            }
+        },
+        wishlist: function wishlist(member) {
+            if (!member.pivot) {
+                return "🚫";
+            }
+
+            if (member.pivot.wishlist !== null) {
+                return "✅";
+            }
+
+            return "🚫";
         },
         startRaffle: function startRaffle() {
-            axios.put('/api/v1/wichtelgroups/' + this.group.id, {
-                name: this.group.name,
-                date: this.group.date,
-                status: 'started'
-            }, {
-                headers: { Authorization: 'Bearer ' + this.token }
-            });
+            var startRaffle = confirm("Möchtest du die Auslosung starten?\nHiermit werden all Teilnehmer benachrichtigt. Dieser Schritt kann nicht rückgängig gemacht werden!");
+
+            if (startRaffle) {
+                axios.put('/api/v1/wichtelgroups/' + this.group.id, {
+                    name: this.group.name,
+                    date: this.group.date,
+                    status: 'started'
+                }, {
+                    headers: { Authorization: 'Bearer ' + this.token }
+                });
+            }
         }
     }
 });
@@ -31300,58 +31401,157 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c(
-    "div",
-    [
-      _c("h1", [
-        _vm._v(_vm._s(_vm.group.name) + " - (" + _vm._s(_vm.date) + ")")
-      ]),
-      _vm._v(" "),
-      _c(
-        "ul",
-        _vm._l(_vm.members, function(member) {
-          return _c("li", [
-            _vm._v(
-              _vm._s(member.name) + " - (" + _vm._s(_vm.status(member)) + ")"
-            )
+  return _c("div", [
+    _c("div", { staticClass: "top-bar" }),
+    _vm._v(" "),
+    _c(
+      "section",
+      { staticClass: "hero is-info is-medium is-bold", attrs: { id: "top" } },
+      [
+        _c("div", { staticClass: "hero-body" }, [
+          _c("div", { staticClass: "container has-text-centered" }, [
+            _c("h1", { staticClass: "title has-text-black" }, [
+              _vm._v(_vm._s(_vm.group.name))
+            ]),
+            _vm._v(" "),
+            _c("h2", { staticClass: "subtitle has-text-black" }, [
+              _vm._v(
+                "\n                    am " +
+                  _vm._s(_vm.date) +
+                  "\n                "
+              )
+            ])
           ])
-        })
-      ),
-      _vm._v(" "),
-      _c("member-add-form", {
-        directives: [
-          {
-            name: "show",
-            rawName: "v-show",
-            value: _vm.group.status !== "started",
-            expression: "group.status !== 'started'"
-          }
-        ],
-        attrs: { group: _vm.group },
-        on: { newMember: _vm.addMember }
-      }),
-      _vm._v(" "),
-      _c(
-        "button",
-        {
-          directives: [
-            {
-              name: "show",
-              rawName: "v-show",
-              value: _vm.group.status !== "started",
-              expression: "group.status !== 'started'"
-            }
-          ],
-          staticClass: "button",
-          on: { click: _vm.startRaffle }
-        },
-        [_vm._v("Auslosung Starten")]
-      )
-    ],
-    1
-  )
+        ])
+      ]
+    ),
+    _vm._v(" "),
+    _c("div", { staticClass: "container" }, [
+      _c("section", { staticClass: "articles" }, [
+        _c("div", { staticClass: "column is-8 is-offset-2" }, [
+          _c("div", { staticClass: "card article" }, [
+            _c("div", { staticClass: "card-content" }, [
+              _c("div", { staticClass: "has-text-centered" }, [
+                _c("p", { staticClass: "title article-title" }, [
+                  _vm._v("Teilnehmer")
+                ]),
+                _vm._v(" "),
+                _c("div", { staticClass: "tags has-addons level-item" }, [
+                  _c("span", { staticClass: "tag is-rounded is-info" }, [
+                    _vm._v("Anzahl")
+                  ]),
+                  _vm._v(" "),
+                  _c("span", { staticClass: "tag is-rounded" }, [
+                    _vm._v(_vm._s(_vm.totalMembers))
+                  ])
+                ])
+              ]),
+              _vm._v(" "),
+              _c(
+                "div",
+                { staticClass: "content" },
+                [
+                  _c("table", { staticClass: "table" }, [
+                    _vm._m(0),
+                    _vm._v(" "),
+                    _c(
+                      "tbody",
+                      _vm._l(_vm.members, function(member) {
+                        return _c(
+                          "tr",
+                          { class: { "is-selected": _vm.isNew(member) } },
+                          [
+                            _c("td", [_vm._v(_vm._s(member.name))]),
+                            _vm._v(" "),
+                            _c("td", [
+                              _c(
+                                "a",
+                                {
+                                  staticClass: "button",
+                                  class: _vm.statusColor(member)
+                                },
+                                [_vm._v(_vm._s(_vm.status(member)))]
+                              )
+                            ]),
+                            _vm._v(" "),
+                            _c("td", [_vm._v(_vm._s(_vm.wishlist(member)))])
+                          ]
+                        )
+                      })
+                    )
+                  ]),
+                  _vm._v(" "),
+                  _c("hr"),
+                  _vm._v(" "),
+                  _c("member-add-form", {
+                    directives: [
+                      {
+                        name: "show",
+                        rawName: "v-show",
+                        value: _vm.group.status !== "started",
+                        expression: "group.status !== 'started'"
+                      }
+                    ],
+                    attrs: { group: _vm.group },
+                    on: { newMember: _vm.addMember }
+                  })
+                ],
+                1
+              )
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "card-footer" }, [
+              _c(
+                "button",
+                {
+                  directives: [
+                    {
+                      name: "show",
+                      rawName: "v-show",
+                      value: _vm.group.status !== "started",
+                      expression: "group.status !== 'started'"
+                    }
+                  ],
+                  staticClass: "button is-warning",
+                  on: { click: _vm.startRaffle }
+                },
+                [
+                  _vm._v(
+                    "Auslosung\n                            Starten\n                        "
+                  )
+                ]
+              )
+            ])
+          ])
+        ])
+      ])
+    ])
+  ])
 }
-var staticRenderFns = []
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("thead", [
+      _c("tr", [
+        _c("th", [_c("abbr", { attrs: { title: "Name" } }, [_vm._v("Name")])]),
+        _vm._v(" "),
+        _c("th", [
+          _c("abbr", { attrs: { title: "Teilnahme-Status" } }, [
+            _vm._v("Status")
+          ])
+        ]),
+        _vm._v(" "),
+        _c("th", [
+          _c("abbr", { attrs: { title: "Wunschzettel ausgefüllt" } }, [
+            _vm._v("Wunschzettel")
+          ])
+        ])
+      ])
+    ])
+  }
+]
 render._withStripped = true
 module.exports = { render: render, staticRenderFns: staticRenderFns }
 if (false) {
@@ -31454,7 +31654,7 @@ exports = module.exports = __webpack_require__(2)(false);
 
 
 // module
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
 
 // exports
 
@@ -31465,6 +31665,7 @@ exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+//
 //
 //
 //
@@ -31555,6 +31756,8 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c("div", [
+    _c("h2", { staticClass: "subtitle" }, [_vm._v("Teilnehmer einladen")]),
+    _vm._v(" "),
     _c("div", { staticClass: "field" }, [
       _c("label", { staticClass: "label" }, [_vm._v("Name")]),
       _vm._v(" "),

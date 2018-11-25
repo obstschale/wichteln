@@ -3,6 +3,7 @@
 namespace App\Jobs;
 
 use App\Group;
+use App\Mail\GroupTooSmall;
 use Illuminate\Bus\Queueable;
 use App\Mail\WichtelBuddyMail;
 use Illuminate\Support\Facades\Mail;
@@ -42,7 +43,9 @@ class WichtelJob implements ShouldQueue
 
         // Send Mail to Admin if Group too small
         if ($approvedUsers->count() <= 2) {
-            // Mail
+            $this->group->status = 'created';
+            $this->group->save();
+            Mail::to($this->group->admin())->queue(new GroupTooSmall($this->group));
             return;
         }
 
