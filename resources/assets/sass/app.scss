@@ -4,3 +4,22 @@
 @import "variables";
 // Bootstrap
 @import "node_modules/bulma/bulma";
+
+#landing-page.hero.is-info {
+  background: linear-gradient(
+                  rgba(0, 0, 0, 0.5),
+                  rgba(0, 0, 0, 0.5)
+  ), url('/img/background.jpg') no-repeat center center fixed;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+}
+#landing-page.hero .nav, .hero.is-success .nav {
+  -webkit-box-shadow: none;
+  box-shadow: none;
+}
+#landing-page.hero .subtitle {
+  padding: 3rem 0;
+  line-height: 1.5;
+}

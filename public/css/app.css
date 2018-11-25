@@ -12140,3 +12140,20 @@ label.panel-block:hover {
   padding: 3rem 1.5rem 6rem;
 }
 
+#landing-page.hero.is-info {
+  background: -webkit-gradient(linear, left top, left bottom, from(rgba(0, 0, 0, 0.5)), to(rgba(0, 0, 0, 0.5))), url("/img/background.jpg") no-repeat center center fixed;
+  background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url("/img/background.jpg") no-repeat center center fixed;
+  background-size: cover;
+}
+
+#landing-page.hero .nav,
+.hero.is-success .nav {
+  -webkit-box-shadow: none;
+  box-shadow: none;
+}
+
+#landing-page.hero .subtitle {
+  padding: 3rem 0;
+  line-height: 1.5;
+}
+

@@ -30743,7 +30743,7 @@ exports = module.exports = __webpack_require__(2)(false);
 
 
 // module
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
+exports.push([module.i, "\n.section[data-v-24dd00d2] {\n    margin-bottom: 0;\n    padding-bottom: 20px;\n}\n", ""]);
 
 // exports
 
@@ -30923,205 +30923,217 @@ var render = function() {
             expression: "! isSubmitted"
           }
         ],
-        staticClass: "section"
+        staticClass: "section columns"
       },
       [
-        _c("div", { staticClass: "field" }, [
-          _c("label", { staticClass: "label" }, [
-            _vm._v("Name der Wichtelgruppe")
-          ]),
-          _vm._v(" "),
-          _c("div", { staticClass: "control" }, [
-            _c("input", {
-              directives: [
-                {
-                  name: "model",
-                  rawName: "v-model",
-                  value: _vm.name,
-                  expression: "name"
-                }
-              ],
-              staticClass: "input",
-              class: { "is-danger": _vm.hasErrors("name") },
-              attrs: { type: "text", placeholder: "Name" },
-              domProps: { value: _vm.name },
-              on: {
-                input: function($event) {
-                  if ($event.target.composing) {
-                    return
+        _c("div", { staticClass: "column" }, [
+          _c("div", { staticClass: "field" }, [
+            _c("label", { staticClass: "label" }, [
+              _vm._v("Name der Wichtelgruppe")
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "control" }, [
+              _c("input", {
+                directives: [
+                  {
+                    name: "model",
+                    rawName: "v-model",
+                    value: _vm.name,
+                    expression: "name"
                   }
-                  _vm.name = $event.target.value
-                }
-              }
-            })
-          ]),
-          _vm._v(" "),
-          _c(
-            "p",
-            {
-              directives: [
-                {
-                  name: "show",
-                  rawName: "v-show",
-                  value: _vm.hasErrors("name"),
-                  expression: "hasErrors('name')"
-                }
-              ],
-              staticClass: "help is-danger"
-            },
-            [_vm._v(_vm._s(_vm.errorMessage("name")))]
-          )
-        ]),
-        _vm._v(" "),
-        _c("div", { staticClass: "field" }, [
-          _c("label", { staticClass: "label" }, [_vm._v("Aktionstag")]),
-          _vm._v(" "),
-          _c("div", { staticClass: "control" }, [
-            _c("input", {
-              directives: [
-                {
-                  name: "model",
-                  rawName: "v-model",
-                  value: _vm.date,
-                  expression: "date"
-                }
-              ],
-              staticClass: "input",
-              class: { "is-danger": _vm.hasErrors("date") },
-              attrs: { type: "date", placeholder: "Name" },
-              domProps: { value: _vm.date },
-              on: {
-                input: function($event) {
-                  if ($event.target.composing) {
-                    return
+                ],
+                staticClass: "input",
+                class: { "is-danger": _vm.hasErrors("name") },
+                attrs: { type: "text", placeholder: "Name" },
+                domProps: { value: _vm.name },
+                on: {
+                  input: function($event) {
+                    if ($event.target.composing) {
+                      return
+                    }
+                    _vm.name = $event.target.value
                   }
-                  _vm.date = $event.target.value
                 }
-              }
-            })
-          ]),
-          _vm._v(" "),
-          _c(
-            "p",
-            {
-              directives: [
-                {
-                  name: "show",
-                  rawName: "v-show",
-                  value: _vm.hasErrors("date"),
-                  expression: "hasErrors('date')"
-                }
-              ],
-              staticClass: "help is-danger"
-            },
-            [_vm._v(_vm._s(_vm.errorMessage("date")))]
-          )
-        ]),
-        _vm._v(" "),
-        _c("div", { staticClass: "field" }, [
-          _c("label", { staticClass: "label" }, [_vm._v("Dein Name")]),
-          _vm._v(" "),
-          _c("div", { staticClass: "control" }, [
-            _c("input", {
-              directives: [
-                {
-                  name: "model",
-                  rawName: "v-model",
-                  value: _vm.username,
-                  expression: "username"
-                }
-              ],
-              staticClass: "input",
-              class: { "is-danger": _vm.hasErrors("username") },
-              attrs: { type: "text", placeholder: "Name" },
-              domProps: { value: _vm.username },
-              on: {
-                input: function($event) {
-                  if ($event.target.composing) {
-                    return
-                  }
-                  _vm.username = $event.target.value
-                }
-              }
-            })
-          ]),
-          _vm._v(" "),
-          _c(
-            "p",
-            {
-              directives: [
-                {
-                  name: "show",
-                  rawName: "v-show",
-                  value: _vm.hasErrors("username"),
-                  expression: "hasErrors('username')"
-                }
-              ],
-              staticClass: "help is-danger"
-            },
-            [_vm._v(_vm._s(_vm.errorMessage("username")))]
-          )
-        ]),
-        _vm._v(" "),
-        _c("div", { staticClass: "field" }, [
-          _c("label", { staticClass: "label" }, [_vm._v("Deine E-Mail")]),
-          _vm._v(" "),
-          _c("div", { staticClass: "control" }, [
-            _c("input", {
-              directives: [
-                {
-                  name: "model",
-                  rawName: "v-model",
-                  value: _vm.email,
-                  expression: "email"
-                }
-              ],
-              staticClass: "input",
-              class: { "is-danger": _vm.hasErrors("email") },
-              attrs: { type: "email", placeholder: "E-Mail", value: "hello@" },
-              domProps: { value: _vm.email },
-              on: {
-                input: function($event) {
-                  if ($event.target.composing) {
-                    return
-                  }
-                  _vm.email = $event.target.value
-                }
-              }
-            })
-          ]),
-          _vm._v(" "),
-          _c(
-            "p",
-            {
-              directives: [
-                {
-                  name: "show",
-                  rawName: "v-show",
-                  value: _vm.hasErrors("email"),
-                  expression: "hasErrors('email')"
-                }
-              ],
-              staticClass: "help is-danger"
-            },
-            [_vm._v(_vm._s(_vm.errorMessage("email")))]
-          )
-        ]),
-        _vm._v(" "),
-        _c("div", { staticClass: "field is-grouped" }, [
-          _c("div", { staticClass: "control" }, [
+              })
+            ]),
+            _vm._v(" "),
             _c(
-              "button",
+              "p",
               {
-                staticClass: "button is-link",
-                attrs: { disabled: _vm.isSubmitted },
-                on: { click: _vm.submit }
+                directives: [
+                  {
+                    name: "show",
+                    rawName: "v-show",
+                    value: _vm.hasErrors("name"),
+                    expression: "hasErrors('name')"
+                  }
+                ],
+                staticClass: "help is-danger"
               },
-              [_vm._v("Neue Wichtel Aktion starten")]
+              [_vm._v(_vm._s(_vm.errorMessage("name")))]
+            )
+          ]),
+          _vm._v(" "),
+          _c("div", { staticClass: "field" }, [
+            _c("label", { staticClass: "label" }, [_vm._v("Aktionstag")]),
+            _vm._v(" "),
+            _c("div", { staticClass: "control" }, [
+              _c("input", {
+                directives: [
+                  {
+                    name: "model",
+                    rawName: "v-model",
+                    value: _vm.date,
+                    expression: "date"
+                  }
+                ],
+                staticClass: "input",
+                class: { "is-danger": _vm.hasErrors("date") },
+                attrs: { type: "date", placeholder: "Name" },
+                domProps: { value: _vm.date },
+                on: {
+                  input: function($event) {
+                    if ($event.target.composing) {
+                      return
+                    }
+                    _vm.date = $event.target.value
+                  }
+                }
+              })
+            ]),
+            _vm._v(" "),
+            _c(
+              "p",
+              {
+                directives: [
+                  {
+                    name: "show",
+                    rawName: "v-show",
+                    value: _vm.hasErrors("date"),
+                    expression: "hasErrors('date')"
+                  }
+                ],
+                staticClass: "help is-danger"
+              },
+              [_vm._v(_vm._s(_vm.errorMessage("date")))]
+            )
+          ])
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "column" }, [
+          _c("div", { staticClass: "field" }, [
+            _c("label", { staticClass: "label" }, [_vm._v("Dein Name")]),
+            _vm._v(" "),
+            _c("div", { staticClass: "control" }, [
+              _c("input", {
+                directives: [
+                  {
+                    name: "model",
+                    rawName: "v-model",
+                    value: _vm.username,
+                    expression: "username"
+                  }
+                ],
+                staticClass: "input",
+                class: { "is-danger": _vm.hasErrors("username") },
+                attrs: { type: "text", placeholder: "Name" },
+                domProps: { value: _vm.username },
+                on: {
+                  input: function($event) {
+                    if ($event.target.composing) {
+                      return
+                    }
+                    _vm.username = $event.target.value
+                  }
+                }
+              })
+            ]),
+            _vm._v(" "),
+            _c(
+              "p",
+              {
+                directives: [
+                  {
+                    name: "show",
+                    rawName: "v-show",
+                    value: _vm.hasErrors("username"),
+                    expression: "hasErrors('username')"
+                  }
+                ],
+                staticClass: "help is-danger"
+              },
+              [_vm._v(_vm._s(_vm.errorMessage("username")))]
+            )
+          ]),
+          _vm._v(" "),
+          _c("div", { staticClass: "field" }, [
+            _c("label", { staticClass: "label" }, [_vm._v("Deine E-Mail")]),
+            _vm._v(" "),
+            _c("div", { staticClass: "control" }, [
+              _c("input", {
+                directives: [
+                  {
+                    name: "model",
+                    rawName: "v-model",
+                    value: _vm.email,
+                    expression: "email"
+                  }
+                ],
+                staticClass: "input",
+                class: { "is-danger": _vm.hasErrors("email") },
+                attrs: {
+                  type: "email",
+                  placeholder: "E-Mail",
+                  value: "hello@"
+                },
+                domProps: { value: _vm.email },
+                on: {
+                  input: function($event) {
+                    if ($event.target.composing) {
+                      return
+                    }
+                    _vm.email = $event.target.value
+                  }
+                }
+              })
+            ]),
+            _vm._v(" "),
+            _c(
+              "p",
+              {
+                directives: [
+                  {
+                    name: "show",
+                    rawName: "v-show",
+                    value: _vm.hasErrors("email"),
+                    expression: "hasErrors('email')"
+                  }
+                ],
+                staticClass: "help is-danger"
+              },
+              [_vm._v(_vm._s(_vm.errorMessage("email")))]
             )
           ])
         ])
       ]
+    ),
+    _vm._v(" "),
+    _c(
+      "button",
+      {
+        directives: [
+          {
+            name: "show",
+            rawName: "v-show",
+            value: !_vm.isSubmitted,
+            expression: "! isSubmitted"
+          }
+        ],
+        staticClass: "button is-link",
+        attrs: { disabled: _vm.isSubmitted },
+        on: { click: _vm.submit }
+      },
+      [_vm._v("Neue Wichtel Aktion starten")]
     )
   ])
 }
@@ -31221,7 +31233,7 @@ exports = module.exports = __webpack_require__(2)(false);
 
 
 // module
-exports.push([module.i, "\n.top-bar[data-v-0e431a77] {\n    background-color: darkgreen;\n    height: 7px;\n}\n#top[data-v-0e431a77] {\n    background-color: #ffffff;\n    background-image: url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='80' height='80' viewBox='0 0 80 80'%3E%3Cg fill='%23d42426' fill-opacity='.1'%3E%3Cpath fill-rule='evenodd' d='M11 0l5 20H6l5-20zm42 31a3 3 0 1 0 0-6 3 3 0 0 0 0 6zM0 72h40v4H0v-4zm0-8h31v4H0v-4zm20-16h20v4H20v-4zM0 56h40v4H0v-4zm63-25a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm10 0a3 3 0 1 0 0-6 3 3 0 0 0 0 6zM53 41a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm10 0a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm10 0a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm-30 0a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm-28-8a5 5 0 0 0-10 0h10zm10 0a5 5 0 0 1-10 0h10zM56 5a5 5 0 0 0-10 0h10zm10 0a5 5 0 0 1-10 0h10zm-3 46a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm10 0a3 3 0 1 0 0-6 3 3 0 0 0 0 6zM21 0l5 20H16l5-20zm43 64v-4h-4v4h-4v4h4v4h4v-4h4v-4h-4zM36 13h4v4h-4v-4zm4 4h4v4h-4v-4zm-4 4h4v4h-4v-4zm8-8h4v4h-4v-4z'/%3E%3C/g%3E%3C/svg%3E\");\n}\n#top .container[data-v-0e431a77] {\n    margin-top: -100px;\n}\n.articles[data-v-0e431a77] {\n    margin: 5rem 0;\n    margin-top: -142px;\n}\n.articles .content p[data-v-0e431a77] {\n    line-height: 1.9;\n    margin: 15px 0;\n}\ndiv.column.is-8[data-v-0e431a77]:first-child {\n    padding-top: 0;\n    margin-top: 0;\n}\n.article-title[data-v-0e431a77] {\n    font-size: 2rem;\n    font-weight: lighter;\n    line-height: 2;\n}\n.table tr.is-selected[data-v-0e431a77] {\n    background-color: darkgreen;\n}\n.table tr[data-v-0e431a77] {\n    -webkit-transition: background-color 1000ms linear;\n    transition: background-color 1000ms linear;\n}\n.card-footer button[data-v-0e431a77] {\n    width: 100%;\n}\n", ""]);
+exports.push([module.i, "\n.top-bar[data-v-0e431a77] {\n    background-color: darkgreen;\n    height: 7px;\n}\n#top[data-v-0e431a77] {\n    background-color: #ffffff;\n    background-image: url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='80' height='80' viewBox='0 0 80 80'%3E%3Cg fill='%23d42426' fill-opacity='.1'%3E%3Cpath fill-rule='evenodd' d='M11 0l5 20H6l5-20zm42 31a3 3 0 1 0 0-6 3 3 0 0 0 0 6zM0 72h40v4H0v-4zm0-8h31v4H0v-4zm20-16h20v4H20v-4zM0 56h40v4H0v-4zm63-25a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm10 0a3 3 0 1 0 0-6 3 3 0 0 0 0 6zM53 41a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm10 0a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm10 0a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm-30 0a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm-28-8a5 5 0 0 0-10 0h10zm10 0a5 5 0 0 1-10 0h10zM56 5a5 5 0 0 0-10 0h10zm10 0a5 5 0 0 1-10 0h10zm-3 46a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm10 0a3 3 0 1 0 0-6 3 3 0 0 0 0 6zM21 0l5 20H16l5-20zm43 64v-4h-4v4h-4v4h4v4h4v-4h4v-4h-4zM36 13h4v4h-4v-4zm4 4h4v4h-4v-4zm-4 4h4v4h-4v-4zm8-8h4v4h-4v-4z'/%3E%3C/g%3E%3C/svg%3E\");\n}\n#top .container[data-v-0e431a77] {\n    margin-top: -100px;\n}\n.articles[data-v-0e431a77] {\n    margin: 5rem 0;\n    margin-top: -142px;\n}\n.articles .content p[data-v-0e431a77] {\n    line-height: 1.9;\n    margin: 15px 0;\n}\ndiv.column.is-8[data-v-0e431a77]:first-child {\n    padding-top: 0;\n    margin-top: 0;\n}\n.article-title[data-v-0e431a77] {\n    font-size: 2rem;\n    font-weight: lighter;\n    line-height: 2;\n}\n.table tr.is-selected[data-v-0e431a77] {\n    background-color: darkgreen;\n}\n.table tr[data-v-0e431a77] {\n    -webkit-transition: background-color 1000ms linear;\n    transition: background-color 1000ms linear;\n}\n.card-header[data-v-0e431a77] {\n    background-color: darkgreen;\n}\n.card-footer button[data-v-0e431a77] {\n    width: 100%;\n}\n", ""]);
 
 // exports
 
@@ -31301,6 +31313,11 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     name: "WichtelgroupView",
@@ -31308,11 +31325,13 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     data: function data() {
         return {
             members: [],
-            newMember: {}
+            newMember: {},
+            groupStatus: ''
         };
     },
     mounted: function mounted() {
         this.members = this.group.users;
+        this.groupStatus = this.group.status;
     },
 
     computed: {
@@ -31378,6 +31397,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             return "🚫";
         },
         startRaffle: function startRaffle() {
+            var _this2 = this;
+
             var startRaffle = confirm("Möchtest du die Auslosung starten?\nHiermit werden all Teilnehmer benachrichtigt. Dieser Schritt kann nicht rückgängig gemacht werden!");
 
             if (startRaffle) {
@@ -31387,6 +31408,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                     status: 'started'
                 }, {
                     headers: { Authorization: 'Bearer ' + this.token }
+                }).then(function () {
+                    _this2.groupStatus = 'started';
                 });
             }
         }
@@ -31430,6 +31453,28 @@ var render = function() {
       _c("section", { staticClass: "articles" }, [
         _c("div", { staticClass: "column is-8 is-offset-2" }, [
           _c("div", { staticClass: "card article" }, [
+            _c(
+              "div",
+              {
+                directives: [
+                  {
+                    name: "show",
+                    rawName: "v-show",
+                    value: _vm.groupStatus === "started",
+                    expression: "groupStatus === 'started'"
+                  }
+                ],
+                staticClass: "card-header"
+              },
+              [
+                _c("div", { staticClass: "card-header-title has-text-white" }, [
+                  _vm._v(
+                    "\n                            Ausgelost: Teilnehmer wurden benachrichtigt\n                        "
+                  )
+                ])
+              ]
+            ),
+            _vm._v(" "),
             _c("div", { staticClass: "card-content" }, [
               _c("div", { staticClass: "has-text-centered" }, [
                 _c("p", { staticClass: "title article-title" }, [
@@ -31488,8 +31533,8 @@ var render = function() {
                       {
                         name: "show",
                         rawName: "v-show",
-                        value: _vm.group.status !== "started",
-                        expression: "group.status !== 'started'"
+                        value: _vm.groupStatus !== "started",
+                        expression: "groupStatus !== 'started'"
                       }
                     ],
                     attrs: { group: _vm.group },
@@ -31508,8 +31553,8 @@ var render = function() {
                     {
                       name: "show",
                       rawName: "v-show",
-                      value: _vm.group.status !== "started",
-                      expression: "group.status !== 'started'"
+                      value: _vm.groupStatus !== "started",
+                      expression: "groupStatus !== 'started'"
                     }
                   ],
                   staticClass: "button is-warning",

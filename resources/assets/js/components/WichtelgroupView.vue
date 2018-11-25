@@ -18,6 +18,11 @@
                 <div class="column is-8 is-offset-2">
                     <!-- START ARTICLE -->
                     <div class="card article">
+                        <div v-show="groupStatus === 'started'" class="card-header">
+                            <div class="card-header-title has-text-white">
+                                Ausgelost: Teilnehmer wurden benachrichtigt
+                            </div>
+                        </div>
                         <div class="card-content">
                             <div class="has-text-centered">
                                 <p class="title article-title">Teilnehmer</p>
@@ -47,7 +52,7 @@
                                 <hr>
 
                                 <member-add-form
-                                        v-show="group.status !== 'started'"
+                                        v-show="groupStatus !== 'started'"
                                         :group="group"
                                         @newMember="addMember"
                                 ></member-add-form>
@@ -55,7 +60,7 @@
                         </div>
 
                         <div class="card-footer">
-                            <button v-show="group.status !== 'started'" class="button is-warning" @click="startRaffle">Auslosung
+                            <button v-show="groupStatus !== 'started'" class="button is-warning" @click="startRaffle">Auslosung
                                 Starten
                             </button>
                         </div>
@@ -75,10 +80,12 @@
             return {
                 members: [],
                 newMember: {},
+                groupStatus: '',
             }
         },
         mounted() {
             this.members = this.group.users;
+            this.groupStatus = this.group.status;
         },
         computed: {
             date() {
@@ -91,7 +98,7 @@
             },
             totalMembers() {
                 return this.members.length;
-            }
+            },
         },
         methods: {
             addMember(member) {
@@ -150,6 +157,8 @@
                         status: 'started'
                     }, {
                         headers: {Authorization: `Bearer ${this.token}`}
+                    }).then(() => {
+                        this.groupStatus = 'started';
                     });
                 }
             }
@@ -194,6 +203,9 @@
     }
     .table tr {
         transition: background-color 1000ms linear;
+    }
+    .card-header {
+        background-color: darkgreen;
     }
     .card-footer button {
         width: 100%;
