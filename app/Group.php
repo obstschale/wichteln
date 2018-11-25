@@ -21,11 +21,12 @@ class Group extends Model
     /**
      * Get all users of group.
      *
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
      */
     public function users()
     {
-        return $this->belongsToMany('App\User')->withPivot('status', 'buddy_id', 'wishlist');
+        return $this->belongsToMany('App\User')
+            ->withPivot('status', 'buddy_id', 'wishlist');
     }
 
     /**
@@ -48,5 +49,14 @@ class Group extends Model
         return $this->belongsToMany('App\User')
             ->wherePivot('status', 'approved')
             ->withPivot('status', 'buddy_id', 'wishlist');
+    }
+
+
+    /**
+     * @return User
+     */
+    public function admin()
+    {
+        return $this->users()->wherePivot('is_admin', 1)->first();
     }
 }

@@ -16,3 +16,6 @@ Route::get('/', function () {
 });
 
 Route::get('/token', 'TokenController@index');
+
+Route::get('/wichtelgroup/create', 'RegistrationController@create');
+Route::get('/wichtelgroup/{group}', 'FrontendController@showWichtelgroup')->name('wichtelgroup');

@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Group;
-use App\Mail\ApproveWichtelmember;
 use App\User;
+use App\Group;
 use Illuminate\Http\Request;
+use App\Mail\ApproveWichtelMember;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
 
@@ -21,11 +21,14 @@ class WichtelMemberController extends Controller
         $this->middleware('auth:api');
     }
 
+
     /**
      * Display a listing of the resource.
      *
      * @param Group $group
+     *
      * @return \Illuminate\Http\Response
+     * @throws \Illuminate\Auth\Access\AuthorizationException
      */
     public function index(Group $group)
     {
@@ -36,12 +39,16 @@ class WichtelMemberController extends Controller
         return response()->json($members);
     }
 
+
     /**
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request $request
-     * @param Group $group
+     * @param Group                     $group
+     *
      * @return \Illuminate\Http\Response
+     * @throws \Illuminate\Auth\Access\AuthorizationException
+     * @throws \Illuminate\Validation\ValidationException
      */
     public function store(Request $request, Group $group)
     {
@@ -81,17 +88,20 @@ class WichtelMemberController extends Controller
 
         $group->users()->save($member, $pivotData);
 
-        Mail::to($member)->queue(new ApproveWichtelmember($member, $group));
+        Mail::to($member)->queue(new ApproveWichtelMember($member, $group));
 
         return response()->json($member, 201);
     }
+
 
     /**
      * Display the specified resource.
      *
      * @param Group $group
-     * @param User $wichtelmember
+     * @param User  $wichtelmember
+     *
      * @return \Illuminate\Http\Response
+     * @throws \Illuminate\Auth\Access\AuthorizationException
      */
     public function show(Group $group, User $wichtelmember)
     {
@@ -100,13 +110,17 @@ class WichtelMemberController extends Controller
         return response()->json($wichtelmember);
     }
 
+
     /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request $request
-     * @param Group $group
-     * @param User $wichtelmember
+     * @param Group                     $group
+     * @param User                      $wichtelmember
+     *
      * @return \Illuminate\Http\Response
+     * @throws \Illuminate\Auth\Access\AuthorizationException
+     * @throws \Illuminate\Validation\ValidationException
      */
     public function update(Request $request, Group $group, User $wichtelmember)
     {
@@ -123,12 +137,15 @@ class WichtelMemberController extends Controller
 
     }
 
+
     /**
      * Remove the specified resource from storage.
      *
      * @param Group $group
-     * @param User $wichtelmember
+     * @param User  $wichtelmember
+     *
      * @return \Illuminate\Http\Response
+     * @throws \Illuminate\Auth\Access\AuthorizationException
      */
     public function destroy(Group $group, User $wichtelmember)
     {

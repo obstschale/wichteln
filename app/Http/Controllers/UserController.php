@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\User;
+use Validator;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 
@@ -39,10 +40,14 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
-        $this->validate($request, [
+        $validator = Validator::make($request->all(), [
             'name' => 'required|string',
-            'email' => 'required|email|unique:users,email',
+            'email' => 'required|email',
         ]);
+
+        if ($validator->fails()) {
+            return response()->json($validator->messages(), 422);
+        }
 
         $user = User::create([
             'name' => $request->name,
@@ -50,6 +55,8 @@ class UserController extends Controller
             'password' => Hash::make(str_random(16)),
             'api_token' => str_random(60)
         ]);
+
+        // TODO: Sent Welcome Mail
 
         return response()->json([
             'id' => $user->id,
@@ -62,11 +69,14 @@ class UserController extends Controller
 
     }
 
+
     /**
      * Display the specified resource.
      *
      * @param User $user
+     *
      * @return \Illuminate\Http\Response
+     * @throws \Illuminate\Auth\Access\AuthorizationException
      */
     public function show(User $user)
     {
@@ -84,7 +94,8 @@ class UserController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        // TODO: Update User Infos
+        return response('', 501);
     }
 
     /**
@@ -95,6 +106,7 @@ class UserController extends Controller
      */
     public function destroy($id)
     {
-        //
+        // TODO: Delete User
+        return response('', 501);
     }
 }
