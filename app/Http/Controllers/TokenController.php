@@ -19,7 +19,7 @@ class TokenController extends Controller
 
                 if ($row === 1) {
                     $user = User::whereHas('groups', function ($group) {
-                        $group->where('token', '0rP0m2G8HChPwFNt');
+                        $group->where('token', $request->token);
                     })->first();
                     Mail::to($user)->send(new WelcomeMemberMail($user, $request->token));
 
