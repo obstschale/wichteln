@@ -38,7 +38,7 @@ class User extends Authenticatable
      */
     public function groups()
     {
-        return $this->belongsToMany('App\Group')->withPivot('buddy_id', 'wishlist');
+        return $this->belongsToMany('App\Group')->withPivot('buddy_id', 'wishlist', 'token');
     }
 
     /**

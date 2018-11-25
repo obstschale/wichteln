@@ -12,12 +12,13 @@
     },
     "require-dev": {
         "deployer/deployer": "^6.0",
+        "filp/whoops": "^2.0",
         "fzaninotto/faker": "~1.8",
+        "laravel/tinker": "^1.0",
         "mockery/mockery": "^1.2",
         "phpunit/phpunit": "^7.0",
         "symfony/css-selector": "3.1.*",
-        "symfony/dom-crawler": "3.1.*",
-        "filp/whoops": "^2.0"
+        "symfony/dom-crawler": "3.1.*"
     },
     "autoload": {
         "classmap": [

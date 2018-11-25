@@ -31321,7 +31321,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     name: "WichtelgroupView",
-    props: ['group'],
+    props: ['group', 'isAdmin'],
     data: function data() {
         return {
             members: [],
@@ -31533,8 +31533,8 @@ var render = function() {
                       {
                         name: "show",
                         rawName: "v-show",
-                        value: _vm.groupStatus !== "started",
-                        expression: "groupStatus !== 'started'"
+                        value: _vm.groupStatus !== "started" && _vm.isAdmin,
+                        expression: "groupStatus !== 'started' && isAdmin"
                       }
                     ],
                     attrs: { group: _vm.group },
@@ -31553,8 +31553,8 @@ var render = function() {
                     {
                       name: "show",
                       rawName: "v-show",
-                      value: _vm.groupStatus !== "started",
-                      expression: "groupStatus !== 'started'"
+                      value: _vm.groupStatus !== "started" && _vm.isAdmin,
+                      expression: "groupStatus !== 'started' && isAdmin"
                     }
                   ],
                   staticClass: "button is-warning",

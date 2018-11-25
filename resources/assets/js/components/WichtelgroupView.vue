@@ -52,7 +52,7 @@
                                 <hr>
 
                                 <member-add-form
-                                        v-show="groupStatus !== 'started'"
+                                        v-show="groupStatus !== 'started' && isAdmin"
                                         :group="group"
                                         @newMember="addMember"
                                 ></member-add-form>
@@ -60,7 +60,7 @@
                         </div>
 
                         <div class="card-footer">
-                            <button v-show="groupStatus !== 'started'" class="button is-warning" @click="startRaffle">Auslosung
+                            <button v-show="groupStatus !== 'started' && isAdmin" class="button is-warning" @click="startRaffle">Auslosung
                                 Starten
                             </button>
                         </div>
@@ -75,7 +75,7 @@
 <script>
     export default {
         name: "WichtelgroupView",
-        props: ['group'],
+        props: ['group', 'isAdmin'],
         data() {
             return {
                 members: [],
