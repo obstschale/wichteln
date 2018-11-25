@@ -44,7 +44,12 @@
                                         <tr v-for="member in members" :class="{ 'is-selected': isNew(member) }">
                                             <td>{{ member.name }}</td>
                                             <td><a class="button" :class="statusColor(member)">{{ status(member) }}</a></td>
-                                            <td>{{ wishlist(member) }}</td>
+                                            <td>
+                                                <span>{{ wishlist(member) }}</span>
+                                                <span class="button" v-show="member.id === userId && groupStatus !== 'started'" @click="toggleWishlistModal">
+                                                    Wunschzettel bearbeiten
+                                                </span>
+                                            </td>
                                         </tr>
                                     </tbody>
                                 </table>
@@ -69,23 +74,55 @@
                 </div>
             </section>
         </div>
+
+        <div class="modal" :class="{ 'is-active': showWishlist }">
+            <div class="modal-background" @click="toggleWishlistModal"></div>
+            <div class="modal-card">
+                <header class="modal-card-head">
+                    <p class="modal-card-title">Dein Wunschzettel</p>
+                    <button class="delete" aria-label="close" @click="toggleWishlistModal"></button>
+                </header>
+                <section class="modal-card-body">
+                    <div class="notification is-danger" v-show="wishlistError">
+                        Es gab Probleme beim speichern des Wunschzettel. Lade einmal die Seite neu und probier es bitte noch mal.
+                    </div>
+                    <div class="field">
+                        <div class="control">
+                            <textarea v-model="user.wishlist" class="textarea is-success" placeholder="Wunschzettel schreiben"></textarea>
+                        </div>
+                    </div>
+                </section>
+                <footer class="modal-card-foot">
+                    <button class="button is-success" @click="saveWishlist">Speichern</button>
+                </footer>
+            </div>
+            <button class="modal-close is-large" aria-label="close" @click="toggleWishlistModal"></button>
+        </div>
     </div>
 </template>
 
 <script>
     export default {
         name: "WichtelgroupView",
-        props: ['group', 'isAdmin'],
+        props: ['userId', 'group', 'isAdmin'],
         data() {
             return {
                 members: [],
                 newMember: {},
                 groupStatus: '',
+                showWishlist: false,
+                user: {
+                    wishlist: '',
+                },
+                wishlistError: false
             }
         },
         mounted() {
             this.members = this.group.users;
             this.groupStatus = this.group.status;
+            this.user.wishlist = this.members.find((member) => {
+                return member.id === this.userId;
+            }).pivot.wishlist;
         },
         computed: {
             date() {
@@ -147,6 +184,9 @@
 
                 return "🚫";
             },
+            toggleWishlistModal() {
+                this.showWishlist = !this.showWishlist;
+            },
             startRaffle() {
                 const startRaffle = confirm("Möchtest du die Auslosung starten?\nHiermit werden all Teilnehmer benachrichtigt. Dieser Schritt kann nicht rückgängig gemacht werden!");
 
@@ -161,6 +201,18 @@
                         this.groupStatus = 'started';
                     });
                 }
+            },
+            saveWishlist() {
+                this.wishlistError = false;
+                axios.put(`/api/v1/wichtelgroups/${this.group.id}/wichtelmembers/${this.userId}`, {
+                    wishlist: this.user.wishlist
+                }, {
+                    headers: {Authorization: `Bearer ${this.token}`}
+                }).then(() => {
+                    this.toggleWishlistModal();
+                }).catch(() => {
+                    this.wishlistError = true;
+                })
             }
         }
     }

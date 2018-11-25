@@ -31318,20 +31318,59 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     name: "WichtelgroupView",
-    props: ['group', 'isAdmin'],
+    props: ['userId', 'group', 'isAdmin'],
     data: function data() {
         return {
             members: [],
             newMember: {},
-            groupStatus: ''
+            groupStatus: '',
+            showWishlist: false,
+            user: {
+                wishlist: ''
+            },
+            wishlistError: false
         };
     },
     mounted: function mounted() {
+        var _this = this;
+
         this.members = this.group.users;
         this.groupStatus = this.group.status;
+        this.user.wishlist = this.members.find(function (member) {
+            return member.id === _this.userId;
+        }).pivot.wishlist;
     },
 
     computed: {
@@ -31349,13 +31388,13 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     },
     methods: {
         addMember: function addMember(member) {
-            var _this = this;
+            var _this2 = this;
 
             this.members.push(member);
             setTimeout(function () {
-                _this.newMember = member;
+                _this2.newMember = member;
                 setTimeout(function () {
-                    _this.newMember = {};
+                    _this2.newMember = {};
                 }, 5000);
             }, 100);
         },
@@ -31396,8 +31435,11 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
             return "🚫";
         },
+        toggleWishlistModal: function toggleWishlistModal() {
+            this.showWishlist = !this.showWishlist;
+        },
         startRaffle: function startRaffle() {
-            var _this2 = this;
+            var _this3 = this;
 
             var startRaffle = confirm("Möchtest du die Auslosung starten?\nHiermit werden all Teilnehmer benachrichtigt. Dieser Schritt kann nicht rückgängig gemacht werden!");
 
@@ -31409,9 +31451,23 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 }, {
                     headers: { Authorization: 'Bearer ' + this.token }
                 }).then(function () {
-                    _this2.groupStatus = 'started';
+                    _this3.groupStatus = 'started';
                 });
             }
+        },
+        saveWishlist: function saveWishlist() {
+            var _this4 = this;
+
+            this.wishlistError = false;
+            axios.put('/api/v1/wichtelgroups/' + this.group.id + '/wichtelmembers/' + this.userId, {
+                wishlist: this.user.wishlist
+            }, {
+                headers: { Authorization: 'Bearer ' + this.token }
+            }).then(function () {
+                _this4.toggleWishlistModal();
+            }).catch(function () {
+                _this4.wishlistError = true;
+            });
         }
     }
 });
@@ -31519,7 +31575,35 @@ var render = function() {
                               )
                             ]),
                             _vm._v(" "),
-                            _c("td", [_vm._v(_vm._s(_vm.wishlist(member)))])
+                            _c("td", [
+                              _c("span", [
+                                _vm._v(_vm._s(_vm.wishlist(member)))
+                              ]),
+                              _vm._v(" "),
+                              _c(
+                                "span",
+                                {
+                                  directives: [
+                                    {
+                                      name: "show",
+                                      rawName: "v-show",
+                                      value:
+                                        member.id === _vm.userId &&
+                                        _vm.groupStatus !== "started",
+                                      expression:
+                                        "member.id === userId && groupStatus !== 'started'"
+                                    }
+                                  ],
+                                  staticClass: "button",
+                                  on: { click: _vm.toggleWishlistModal }
+                                },
+                                [
+                                  _vm._v(
+                                    "\n                                                Wunschzettel bearbeiten\n                                            "
+                                  )
+                                ]
+                              )
+                            ])
                           ]
                         )
                       })
@@ -31570,7 +31654,97 @@ var render = function() {
           ])
         ])
       ])
-    ])
+    ]),
+    _vm._v(" "),
+    _c(
+      "div",
+      { staticClass: "modal", class: { "is-active": _vm.showWishlist } },
+      [
+        _c("div", {
+          staticClass: "modal-background",
+          on: { click: _vm.toggleWishlistModal }
+        }),
+        _vm._v(" "),
+        _c("div", { staticClass: "modal-card" }, [
+          _c("header", { staticClass: "modal-card-head" }, [
+            _c("p", { staticClass: "modal-card-title" }, [
+              _vm._v("Dein Wunschzettel")
+            ]),
+            _vm._v(" "),
+            _c("button", {
+              staticClass: "delete",
+              attrs: { "aria-label": "close" },
+              on: { click: _vm.toggleWishlistModal }
+            })
+          ]),
+          _vm._v(" "),
+          _c("section", { staticClass: "modal-card-body" }, [
+            _c(
+              "div",
+              {
+                directives: [
+                  {
+                    name: "show",
+                    rawName: "v-show",
+                    value: _vm.wishlistError,
+                    expression: "wishlistError"
+                  }
+                ],
+                staticClass: "notification is-danger"
+              },
+              [
+                _vm._v(
+                  "\n                    Es gab Probleme beim speichern des Wunschzettel. Lade einmal die Seite neu und probier es bitte noch mal.\n                "
+                )
+              ]
+            ),
+            _vm._v(" "),
+            _c("div", { staticClass: "field" }, [
+              _c("div", { staticClass: "control" }, [
+                _c("textarea", {
+                  directives: [
+                    {
+                      name: "model",
+                      rawName: "v-model",
+                      value: _vm.user.wishlist,
+                      expression: "user.wishlist"
+                    }
+                  ],
+                  staticClass: "textarea is-success",
+                  attrs: { placeholder: "Wunschzettel schreiben" },
+                  domProps: { value: _vm.user.wishlist },
+                  on: {
+                    input: function($event) {
+                      if ($event.target.composing) {
+                        return
+                      }
+                      _vm.$set(_vm.user, "wishlist", $event.target.value)
+                    }
+                  }
+                })
+              ])
+            ])
+          ]),
+          _vm._v(" "),
+          _c("footer", { staticClass: "modal-card-foot" }, [
+            _c(
+              "button",
+              {
+                staticClass: "button is-success",
+                on: { click: _vm.saveWishlist }
+              },
+              [_vm._v("Speichern")]
+            )
+          ])
+        ]),
+        _vm._v(" "),
+        _c("button", {
+          staticClass: "modal-close is-large",
+          attrs: { "aria-label": "close" },
+          on: { click: _vm.toggleWishlistModal }
+        })
+      ]
+    )
   ])
 }
 var staticRenderFns = [

@@ -98,16 +98,16 @@ class WichtelMemberController extends Controller
      * Display the specified resource.
      *
      * @param Group $group
-     * @param User  $wichtelMember
+     * @param User  $wichtelmember
      *
      * @return \Illuminate\Http\Response
      * @throws \Illuminate\Auth\Access\AuthorizationException
      */
-    public function show(Group $group, User $wichtelMember)
+    public function show(Group $group, User $wichtelmember)
     {
         $this->authorize('viewMember', $group);
 
-        return response()->json($wichtelMember);
+        return response()->json($wichtelmember);
     }
 
 
@@ -116,24 +116,24 @@ class WichtelMemberController extends Controller
      *
      * @param  \Illuminate\Http\Request $request
      * @param Group                     $group
-     * @param User                      $wichtelMember
+     * @param User                      $wichtelmember
      *
      * @return \Illuminate\Http\Response
      * @throws \Illuminate\Auth\Access\AuthorizationException
      * @throws \Illuminate\Validation\ValidationException
      */
-    public function update(Request $request, Group $group, User $wichtelMember)
+    public function update(Request $request, Group $group, User $wichtelmember)
     {
-        $this->authorize('updateMember', [$group, $wichtelMember]);
+        $this->authorize('updateMember', [$group, $wichtelmember]);
 
         // @TODO: Return JSON on validation fail. Should happen automatically
         $this->validate($request, [
             'wishlist' => 'string|max:1000',
         ]);
 
-        $wichtelMember->saveWishlist($group, $request->wishlist);
+        $wichtelmember->saveWishlist($group, $request->wishlist);
 
-        return response()->json($wichtelMember);
+        return response()->json($wichtelmember);
 
     }
 
@@ -142,19 +142,19 @@ class WichtelMemberController extends Controller
      * Remove the specified resource from storage.
      *
      * @param Group $group
-     * @param User  $wichtelMember
+     * @param User  $wichtelmember
      *
      * @return \Illuminate\Http\Response
      * @throws \Illuminate\Auth\Access\AuthorizationException
      */
-    public function destroy(Group $group, User $wichtelMember)
+    public function destroy(Group $group, User $wichtelmember)
     {
         $this->authorize('deleteMember', $group);
 
-        $group->users()->detach($wichtelMember);
+        $group->users()->detach($wichtelmember);
 
-        if (count($wichtelMember->groups) === 0) {
-            $wichtelMember->delete();
+        if (count($wichtelmember->groups) === 0) {
+            $wichtelmember->delete();
         }
 
         return response('', 204);

@@ -27,6 +27,7 @@ class FrontendController extends Controller
         $group->loadMissing('users');
 
         return view('web.wichtelgroup.view')->with([
+            'userId' => Auth::user()->id,
             'group' => $group,
             'isAdmin' => $group->admin()->id === Auth::user()->id
         ]);
