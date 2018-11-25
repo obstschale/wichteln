@@ -2,15 +2,16 @@
 
 namespace App\Http\Controllers;
 
-use App\User;
 use App\Group;
-use Illuminate\Http\Request;
 use App\Mail\ApproveWichtelMember;
+use App\User;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
 
 class WichtelMemberController extends Controller
 {
+
     /**
      * WichtelMemberController constructor.
      *
@@ -56,33 +57,28 @@ class WichtelMemberController extends Controller
 
         // @TODO: Return JSON on validation fail. Should happen automatically
         $this->validate($request, [
-            'name' => 'required|max:255',
-            'email' => 'required|email',
+            'name'     => 'required|max:255',
+            'email'    => 'required|email',
             'wishlist' => 'string|max:1000',
         ]);
 
-        // Check if user is already in DB
-        $member = User::where('email', $request->email)->first();
-
-        // If not create new instance
-        if (is_null($member)) {
-            $member = User::create([
-                'name' => $request->name,
-                'email' => $request->email,
-                'password' => Hash::make(str_random(16)),
-                'api_token' => str_random(60),
-            ]);
-        } else {
-            if ($member->belongsToGroup($group)) {
-                return response()->json([
-                    'message' => 'User already belongs to group.'
-                ]);
-            }
-        }
+        $member = User::create([
+            'name'      => $request->name,
+            'email'     => $request->email,
+            'password'  => Hash::make(str_random(16)),
+            'api_token' => str_random(60),
+        ]);
+        //} else {
+        //    if ($member->belongsToGroup($group)) {
+        //        return response()->json([
+        //            'message' => 'User already belongs to group.'
+        //        ]);
+        //    }
+        //}
 
         $pivotData = [
             'wishlist' => $request->wishlist,
-            'status' => 'invited',
+            'status'   => 'invited',
             'is_admin' => false,
         ];
 
