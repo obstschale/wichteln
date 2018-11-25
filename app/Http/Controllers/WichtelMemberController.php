@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\User;
 use App\Group;
 use Illuminate\Http\Request;
-use App\Mail\ApproveWichtelmember;
+use App\Mail\ApproveWichtelMember;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
 
@@ -88,7 +88,7 @@ class WichtelMemberController extends Controller
 
         $group->users()->save($member, $pivotData);
 
-        Mail::to($member)->queue(new ApproveWichtelmember($member, $group));
+        Mail::to($member)->queue(new ApproveWichtelMember($member, $group));
 
         return response()->json($member, 201);
     }

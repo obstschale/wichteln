@@ -129,7 +129,7 @@ class User extends Authenticatable
      */
     public function isAdminInGroup(Group $group)
     {
-        return $this->pivotDataFor($group)->is_admin;
+        return is_null($this->pivotDataFor($group)) ? false: $this->pivotDataFor($group)->is_admin;
     }
 
     /**

@@ -1,11 +1,13 @@
-@extends('layouts.email')
+@component('mail::message')
+# Hallo {{ $user->name }},
 
-@section('title', 'You have been invited')
+du wurdest von {{ $admin->name }} eingeladen zum Wichteln. Wenn du an der Wichtel-Aktion teilnehmen willst bestätige deine Teilnahme durch einen Klick auf den Button.
 
-@section('content')
-    <h2>Hello {{ $user->name }},</h2>
+@component('mail::button', ['url' => $link, 'color' => 'success'])
+    Ich nehme teil bei "{{ $group->name }}".
+@endcomponent
+<small>Falls der Button nicht funktioniert, rufe diesen Link in deinem Browser auf:<br>{{ $link }}</small>
 
-    <p>you have been invited to join the group "{{ $group->name }}" for Secrete Santa. Please approve your participation by clicking the following link.</p>
-
-    <p><a href="{{ $link }}" title="Approve Wichtel.me">{{ $link }}</a></p>
-@endsection
+Liebe Grüße von<br>
+{{ config('app.name') }}
+@endcomponent

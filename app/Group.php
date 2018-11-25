@@ -50,4 +50,10 @@ class Group extends Model
             ->wherePivot('status', 'approved')
             ->withPivot('status', 'buddy_id', 'wishlist');
     }
+
+
+    public function admin()
+    {
+        return $this->users()->wherePivot('is_admin', 1)->first();
+    }
 }

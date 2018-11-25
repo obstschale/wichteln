@@ -12,12 +12,11 @@ require('./bootstrap');
  * or customize the JavaScript scaffolding to fit your unique needs.
  */
 
-Vue.component('example', require('./components/Example.vue'));
+Vue.component('create-wichtelgroup', require('./components/CreateWichtelGroupForm.vue'));
+Vue.component('wichtelgroup-view', require('./components/WichtelgroupView.vue'));
+Vue.component('member-add-form', require('./components/MemberAddForm.vue'));
 
 
 const app = new Vue({
 	el: '#app',
-	data: {
-		message: 'Hello Vue!'
-	}
 });

@@ -4,8 +4,13 @@ namespace App\Http\Controllers;
 
 use App\Group;
 use App\Jobs\WichtelJob;
+use App\Mail\WelcomeMail;
+use App\User;
+use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Mail;
 use Validator;
 
 class WichtelGroupController extends Controller
@@ -17,7 +22,7 @@ class WichtelGroupController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('auth:api');
+        $this->middleware('auth:api')->except('store');
     }
 
     /**
@@ -44,13 +49,25 @@ class WichtelGroupController extends Controller
      */
     public function store(Request $request)
     {
-        $this->authorize('create', Group::class);
-
-        // @TODO: Return JSON on validation fail. Should happen automatically
         $this->validate($request, [
             'name' => 'required|max:255',
             'date' => 'required|date',
+            'username' => 'required|string',
+            'email' => 'required|email',
         ]);
+
+        if ($request->username) {
+            $user = User::create([
+                'name' => $request->username,
+                'email' => $request->email,
+                'password' => Hash::make(str_random(16)),
+                'api_token' => str_random(60)
+            ]);
+
+            Auth::guard('web')->login($user);
+        }
+
+        $this->authorize('create', Group::class);
 
         $group = Group::create([
             'name' => $request->name,
@@ -62,6 +79,8 @@ class WichtelGroupController extends Controller
             'status' => 'approved',
             'is_admin' => true,
         ]);
+
+        Mail::to(Auth::user())->queue(new WelcomeMail($user, $group));
 
         return response()->json($group, 201);
     }

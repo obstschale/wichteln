@@ -82,7 +82,7 @@ class GroupPolicy
      */
     public function createMember(User $user, Group $group)
     {
-        return $user->isAdminInGroup($group);
+        return ! $group->started() && $user->isAdminInGroup($group);
     }
 
     /**

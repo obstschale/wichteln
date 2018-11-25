@@ -1,22 +1,26 @@
-@extends('layouts.email')
+@component('mail::message')
+# Hallo {{ $user->name }},
 
-@section('title', 'You Buddy is...')
+für die Gruppe "{{ $group->name }}" wurden die Wichtel gezogen.
 
-@section('content')
-    <h2>Hello {{ $user->name }},</h2>
+@component('mail::panel')
+## Dein Wichtel ist:
 
-    <p>Secret Santa is coming quickly. You group <strong>{{ $group->name }}</strong> has raffled your buddy.</p>
+@component('mail::button', ['url' => $linkToGroup, 'color' => 'success'])
+{{ $buddy->name }}
+@endcomponent
 
-    <p>Your buddy is:</p>
+@endcomponent
 
-    <h3>{{ $buddy->name }}</h3>
+@if (is_null($buddy->groups[0]->pivot->wishlist))
+Leider hat dein Wichtel keinen Wunschzettle abgegeben. Da musst du wohl kreativ werden.
+@else
+Dein Wichtel hat einen Wunschzettel abgegeben. Darauf steht:
 
-    @if (is_null($buddy->groups[0]->pivot->wishlist))
-        <p>Your buddy haven't provided a wish list. That means you have to get creative.</p>
-    @else
-        <p>You buddy provided a wish list:</p>
-        <p>Wishlist: {{ $buddy->groups[0]->pivot->wishlist }}</p>
-    @endif
+**{{ $buddy->groups[0]->pivot->wishlist }}**
+@endif
 
-    <em>Happy Holidays.</em>
-@endsection
+Wir wünschen dir viel Spaß beim Wichteln<br>
+{{ config('app.name') }}
+@endcomponent
+

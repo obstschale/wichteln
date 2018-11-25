@@ -42,7 +42,7 @@ class UserController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'name' => 'required|string',
-            'email' => 'required|email|unique:users,email',
+            'email' => 'required|email',
         ]);
 
         if ($validator->fails()) {
@@ -55,6 +55,8 @@ class UserController extends Controller
             'password' => Hash::make(str_random(16)),
             'api_token' => str_random(60)
         ]);
+
+        // TODO: Sent Welcome Mail
 
         return response()->json([
             'id' => $user->id,
