@@ -11,7 +11,9 @@
 |
 */
 
-Route::get('/', 'FrontendController@welcome');
+Route::get('/   ', 'FrontendController@welcome');
+Route::get('/imprint', 'FrontendController@imprint');
+Route::get('/privacy', 'FrontendController@dataPrivacy');
 
 Route::get('/token', 'TokenController@index');
 

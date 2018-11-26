@@ -37,4 +37,16 @@ class FrontendController extends Controller
             'isAdmin' => $group->admin()->id === Auth::user()->id
         ]);
     }
+
+
+    public function imprint()
+    {
+        return view('imprint');
+    }
+
+
+    public function dataPrivacy()
+    {
+        return view('data-privacy');
+    }
 }
