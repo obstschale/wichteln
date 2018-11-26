@@ -21,5 +21,13 @@
             @yield('content')
         </main>
     </div>
+    <footer class="footer">
+        <div class="content has-text-centered">
+            <p>
+                <a href="{{ url('/imprint') }}">Impressum</a> |
+                <a href="{{ url('/privacy') }}">Datenschutzerklärung</a>
+            </p>
+        </div>
+    </footer>
 </body>
 </html>
