@@ -89,10 +89,3 @@
         }
     }
 </script>
-
-<style scoped>
-.section {
-    margin-bottom: 0;
-    padding-bottom: 20px;
-}
-</style>

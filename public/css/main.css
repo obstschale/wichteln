@@ -631,8 +631,8 @@ video {
   }
 }
 
-.gradient {
-  background: linear-gradient(90deg, #DC3D2A 0%, #0D5901 100%);
+* {
+  border: 1px solid black;
 }
 
 .sr-only {

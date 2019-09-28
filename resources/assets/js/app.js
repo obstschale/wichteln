@@ -12,9 +12,9 @@ require('./bootstrap');
  * or customize the JavaScript scaffolding to fit your unique needs.
  */
 
-Vue.component('create-wichtelgroup', require('./components/CreateWichtelGroupForm.vue'));
-Vue.component('wichtelgroup-view', require('./components/WichtelgroupView.vue'));
-Vue.component('member-add-form', require('./components/MemberAddForm.vue'));
+Vue.component('create-wichtelgroup', require('./components/CreateWichtelGroupForm.vue').default);
+Vue.component('wichtelgroup-view', require('./components/WichtelgroupView.vue').default);
+Vue.component('member-add-form', require('./components/MemberAddForm.vue').default);
 
 
 const app = new Vue({

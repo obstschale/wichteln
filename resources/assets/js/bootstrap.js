@@ -1,8 +1,3 @@
-/**
- * Using Bulma CSS Framework
- */
-require('bulma');
-
 window.moment = require('moment');
 
 /**

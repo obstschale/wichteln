@@ -9,25 +9,19 @@
 
     <title>{{ config('app.name', 'Laravel') }}</title>
 
-    <!-- Scripts -->
-    <script src="{{ asset('js/app.js') }}" defer></script>
-
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
 </head>
-<body>
+<body class="leading-normal tracking-normal">
     <div id="app">
-        <main class="py-4">
+        <main>
             @yield('content')
         </main>
     </div>
-    <footer class="footer">
-        <div class="content has-text-centered">
-            <p>
-                <a href="{{ url('/imprint') }}">Impressum</a> |
-                <a href="{{ url('/privacy') }}">Datenschutzerklärung</a>
-            </p>
-        </div>
-    </footer>
+
+    @include('partials.footer')
+
+    <!-- Scripts -->
+    <script src="{{ asset('js/app.js') }}" defer></script>
 </body>
 </html>
