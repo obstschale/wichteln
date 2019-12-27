@@ -1,24 +1,20 @@
 {
-    "name": "obstschale/wichteln-as-a-service",
-    "description": "Wichteln as a Service. Secret Santa for developers.",
-    "keywords": ["framework", "laravel"],
+    "name": "obstschale/wichteln",
+    "description": "Wichteln as a Service. Secret Santa for remote teams.",
+    "keywords": ["wichteln", "secret santa", "xmas", "christmas", "gift", "present"],
     "license": "MIT",
     "type": "project",
-    "version": "0.2.0",
+    "version": "0.3.0",
     "require": {
-        "php": ">=7.1",
-        "guzzlehttp/guzzle": "^6.2",
-        "laravel/framework": "^5.7.0"
+        "php": ">=7.3",
+        "laravel/framework": "^6.8.0"
     },
     "require-dev": {
         "deployer/deployer": "^6.0",
-        "filp/whoops": "^2.0",
         "fzaninotto/faker": "~1.8",
         "laravel/tinker": "^1.0",
         "mockery/mockery": "^1.2",
-        "phpunit/phpunit": "^7.0",
-        "symfony/css-selector": "3.1.*",
-        "symfony/dom-crawler": "3.1.*"
+        "phpunit/phpunit": "^7.0"
     },
     "autoload": {
         "classmap": [

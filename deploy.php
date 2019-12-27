@@ -15,7 +15,7 @@ set('ssh_type', 'native');
  * DEP_PATH    Path to deploy to on server
  =========================================================================== */
 
-set('repository', 'git@github.com:obstschale/wichteln-as-a-service.git');
+set('repository', 'git@github.com:obstschale/wichteln.git');
 set('http_user', getenv('DEP_USER'));
 set('keep_releases', 3);
 

@@ -3,7 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\User;
-use Validator;
+use Illuminate\Support\Str;
+use Illuminate\Validation\Validator;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 
@@ -52,8 +53,8 @@ class UserController extends Controller
         $user = User::create([
             'name' => $request->name,
             'email' => $request->email,
-            'password' => Hash::make(str_random(16)),
-            'api_token' => str_random(60)
+            'password' => Hash::make(Str::random()),
+            'api_token' => Str::random(60)
         ]);
 
         // TODO: Sent Welcome Mail

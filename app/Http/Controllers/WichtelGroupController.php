@@ -11,6 +11,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Str;
 use Validator;
 
 class WichtelGroupController extends Controller
@@ -60,8 +61,8 @@ class WichtelGroupController extends Controller
             $user = User::create([
                 'name' => $request->username,
                 'email' => $request->email,
-                'password' => Hash::make(str_random(16)),
-                'api_token' => str_random(60)
+                'password' => Hash::make(Str::random()),
+                'api_token' => Str::random(60),
             ]);
 
             Auth::guard('web')->login($user);

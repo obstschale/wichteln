@@ -8,6 +8,7 @@ use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Str;
 
 class WichtelMemberController extends Controller
 {
@@ -65,8 +66,8 @@ class WichtelMemberController extends Controller
         $member = User::create([
             'name'      => $request->name,
             'email'     => $request->email,
-            'password'  => Hash::make(str_random(16)),
-            'api_token' => str_random(60),
+            'password'  => Hash::make(Str::random()),
+            'api_token' => Str::random(60),
         ]);
         //} else {
         //    if ($member->belongsToGroup($group)) {
