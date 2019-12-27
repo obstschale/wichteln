@@ -38,7 +38,8 @@ class User extends Authenticatable
      */
     public function groups()
     {
-        return $this->belongsToMany('App\Group')->withPivot('buddy_id', 'wishlist', 'token');
+        return $this->belongsToMany('App\Group')
+                    ->withPivot('buddy_id', 'wishlist', 'token');
     }
 
     /**
@@ -96,7 +97,7 @@ class User extends Authenticatable
 
     /**
      * Get token for user of a group.
-     * 
+     *
      * @uses \App\User::pivotDataFor()
      * @param Group $group
      * @return mixed
@@ -129,7 +130,7 @@ class User extends Authenticatable
      */
     public function isAdminInGroup(Group $group)
     {
-        return is_null($this->pivotDataFor($group)) ? false: $this->pivotDataFor($group)->is_admin;
+        return $this->pivotDataFor($group) === null ? false: $this->pivotDataFor($group)->is_admin;
     }
 
     /**
