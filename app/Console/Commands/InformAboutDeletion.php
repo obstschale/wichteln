@@ -4,10 +4,8 @@ namespace App\Console\Commands;
 
 use App\Group;
 use Illuminate\Console\Command;
-use Illuminate\Database\Eloquent\Collection;
 
-class InformAboutDeletion extends Command
-{
+class InformAboutDeletion extends Command {
     /**
      * The name and signature of the console command.
      *
@@ -27,8 +25,7 @@ class InformAboutDeletion extends Command
      *
      * @return void
      */
-    public function __construct()
-    {
+    public function __construct() {
         parent::__construct();
     }
 
@@ -37,16 +34,11 @@ class InformAboutDeletion extends Command
      *
      * @return mixed
      */
-    public function handle()
-    {
-        /** @var Collection $groups */
-        $groups = Group::with('users')
-                       ->started()
-                       ->notInformed()
-                       ->olderThan(30, 'days')
-                       ->get();
+    public function handle() {
+        $expiredGroups  = Group::with('users')->created()->notInformed()->olderThan(30, 'days')->dateReached()->get();
+        $finishedGroups = Group::with('users')->started()->notInformed()->olderThan(30, 'days')->get();
 
-        $groups->each(function (Group $group) {
+        $expiredGroups->merge($finishedGroups)->each(static function (Group $group) {
             $group->informAboutDeletion();
         });
     }

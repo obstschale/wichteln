@@ -13,7 +13,7 @@ class InformAboutDeletion extends Mailable
     use Queueable, SerializesModels;
 
     /** @var User  */
-    public $user;
+    public $admin;
 
     /** @var Group */
     public $group;
@@ -22,12 +22,12 @@ class InformAboutDeletion extends Mailable
     /**
      * Create a new message instance.
      *
-     * @param User  $user
+     * @param User  $admin
      * @param Group $group
      */
-    public function __construct(User $user, Group $group)
+    public function __construct(User $admin, Group $group)
     {
-        $this->user = $user;
+        $this->admin = $admin;
         $this->group = $group;
     }
 
@@ -38,7 +38,14 @@ class InformAboutDeletion extends Mailable
      */
     public function build()
     {
-        return $this->subject('Wichtelgruppe wird gelöscht')
-                    ->markdown('emails.inform-deletion');
+        $mail = $this->subject('Wichtelgruppe wird gelöscht');
+
+        if ($this->group->started()) {
+            $mail = $mail->markdown('emails.inform-deletion-finished');
+        } else {
+            $mail = $mail->markdown('emails.inform-deletion-expired');
+        }
+
+        return $mail;
     }
 }

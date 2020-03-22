@@ -76,6 +76,14 @@ class Group extends Model
         return $query->where('status', 'started');
     }
 
+    public function scopeCreated(Builder $query): Builder {
+        return $query->where('status', 'created');
+    }
+
+    public function scopeDateReached(Builder $query): Builder {
+        return $query->whereDate('date', '<', Carbon::now());
+    }
+
     public function informAboutDeletion(): void {
         $admin = $this->users->filter(function(User $user) {
           return $user->isAdminInGroup($this);
