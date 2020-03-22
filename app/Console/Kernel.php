@@ -31,6 +31,7 @@ class Kernel extends ConsoleKernel
     {
         $schedule->command('wichtel:count-accounts')->daily();
         $schedule->command('wichtel:delete-users')->daily();
+        $schedule->command('wichtel:inform-deletion')->daily();
     }
 
     /**
