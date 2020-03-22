@@ -7,6 +7,7 @@ use App\User;
 use Illuminate\Bus\Queueable;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
+use Illuminate\Support\Str;
 
 class ApproveWichtelMember extends Mailable
 {
@@ -49,7 +50,7 @@ class ApproveWichtelMember extends Mailable
     public function build()
     {
         // Create approve link
-        $token = str_random(16);
+        $token = Str::random(16);
         $this->user->saveApproveToken($this->group, $token);
         $link = sprintf('%s/token?action=approve&token=%s', config('app.url'), $token);
 

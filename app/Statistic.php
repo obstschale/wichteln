@@ -9,6 +9,7 @@ class Statistic extends Model
 {
     public const ACCOUNTS = 'accounts';
     public const CREATED_GROUPS = 'created_groups';
+    public const STARTED_GROUPS = 'started_groups';
 
     protected $fillable = [
         'name',
@@ -24,7 +25,7 @@ class Statistic extends Model
         return self::latest(self::ACCOUNTS);
     }
 
-    public static function addCreatedGroup(): void {
+    public static function groupCreated(): void {
         $latest = self::latest(self::CREATED_GROUPS);
 
         if (Carbon::now()->isSameMonth($latest->created_at)) {
@@ -39,4 +40,22 @@ class Statistic extends Model
 
         $latest->save();
     }
+
+    public static function groupStarted(): void {
+      $latest = self::latest(self::STARTED_GROUPS);
+
+      if (Carbon::now()->isSameMonth($latest->created_at)) {
+        $latest->count += 1;
+        $latest->save();
+      } else {
+        $latest = new Statistic([
+          'name' => self::STARTED_GROUPS,
+          'count' => 1,
+        ]);
+      }
+
+      $latest->save();
+    }
+
+
 }

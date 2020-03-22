@@ -84,7 +84,7 @@ class WichtelGroupController extends Controller
         ]);
 
         Mail::to(Auth::user())->queue(new WelcomeMail($user, $group));
-        Statistic::addCreatedGroup();
+        Statistic::groupCreated();
 
         return response()->json($group, 201);
     }
