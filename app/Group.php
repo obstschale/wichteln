@@ -2,7 +2,11 @@
 
 namespace App;
 
+use App\Mail\InformAboutDeletion;
+use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Mail;
 
 class Group extends Model
 {
@@ -58,5 +62,30 @@ class Group extends Model
     public function admin()
     {
         return $this->users()->wherePivot('is_admin', 1)->first();
+    }
+
+    public function scopeNotInformed(Builder $query): Builder {
+        return $query->where('isInformedDeletion', '=', 0);
+    }
+
+    public function scopeOlderThan(Builder $query, int $value, string $unit): Builder {
+        return $query->whereDate('updated_at', '<', Carbon::now()->subUnit($unit, $value));
+    }
+
+    public function scopeStarted(Builder $query): Builder {
+        return $query->where('status', 'started');
+    }
+
+    public function informAboutDeletion(): void {
+        $admin = $this->users->filter(function(User $user) {
+          return $user->isAdminInGroup($this);
+        })->first();
+
+        if ($admin instanceof User) {
+          Mail::to($admin)->queue(new InformAboutDeletion($admin, $this));
+        }
+
+        $this->isInformedDeletion = true;
+        $this->save();
     }
 }

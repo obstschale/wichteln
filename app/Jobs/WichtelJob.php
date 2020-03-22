@@ -4,6 +4,7 @@ namespace App\Jobs;
 
 use App\Group;
 use App\Mail\GroupTooSmall;
+use App\Statistic;
 use Illuminate\Bus\Queueable;
 use App\Mail\WichtelBuddyMail;
 use Illuminate\Support\Facades\Mail;
@@ -57,5 +58,7 @@ class WichtelJob implements ShouldQueue
 
             return $item;
         });
+
+        Statistic::groupStarted();
     }
 }

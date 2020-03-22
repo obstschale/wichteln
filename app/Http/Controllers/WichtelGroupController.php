@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\GroupCreated;
 use App\Group;
 use App\Jobs\WichtelJob;
 use App\Mail\WelcomeMail;
+use App\Statistic;
 use App\User;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Http\Request;
@@ -82,6 +84,7 @@ class WichtelGroupController extends Controller
         ]);
 
         Mail::to(Auth::user())->queue(new WelcomeMail($user, $group));
+        Statistic::groupCreated();
 
         return response()->json($group, 201);
     }
