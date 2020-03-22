@@ -8,23 +8,14 @@ use Illuminate\Bus\Queueable;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 
-class WelcomeMail extends Mailable
+class InformAboutDeletion extends Mailable
 {
-
     use Queueable, SerializesModels;
 
-    /**
-     * New user to welcome.
-     *
-     * @var User
-     */
+    /** @var User  */
     public $user;
 
-    /**
-     * New Group
-     *
-     * @var Group
-     */
+    /** @var Group */
     public $group;
 
 
@@ -36,10 +27,9 @@ class WelcomeMail extends Mailable
      */
     public function __construct(User $user, Group $group)
     {
-        $this->user  = $user;
+        $this->user = $user;
         $this->group = $group;
     }
-
 
     /**
      * Build the message.
@@ -48,15 +38,7 @@ class WelcomeMail extends Mailable
      */
     public function build()
     {
-        $linkToGroup = route('wichtelgroup', [
-            'group' => $this->group->id,
-            'token' => $this->user->api_token
-        ]);
-
-        return $this->subject("Willkommen bei Wichtel.me")
-                    ->markdown('emails.welcome')
-                    ->with([
-                        'linkToGroup' => $linkToGroup
-                    ]);
+        return $this->subject('Wichtelgruppe wird gelöscht')
+                    ->markdown('emails.inform-deletion');
     }
 }
