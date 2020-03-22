@@ -3,6 +3,7 @@
 namespace App\Console;
 
 use App\Console\Commands\CountAccounts;
+use App\Console\Commands\DeleteOldGroups;
 use App\Console\Commands\DeleteUsersWithoutGroup;
 use App\Console\Commands\InformAboutDeletion;
 use Illuminate\Console\Scheduling\Schedule;
@@ -18,7 +19,8 @@ class Kernel extends ConsoleKernel
     protected $commands = [
       DeleteUsersWithoutGroup::class,
       CountAccounts::class,
-      InformAboutDeletion::class
+      InformAboutDeletion::class,
+      DeleteOldGroups::class,
     ];
 
     /**
@@ -31,7 +33,8 @@ class Kernel extends ConsoleKernel
     {
         $schedule->command('wichtel:count-accounts')->daily();
         $schedule->command('wichtel:delete-users')->daily();
-        $schedule->command('wichtel:inform-deletion')->daily();
+        $schedule->command('wichtel:inform-deletion')->hourly();
+        $schedule->command('wichtel:delete-groups')->hourly();
     }
 
     /**

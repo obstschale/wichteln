@@ -1,5 +1,5 @@
 @component('mail::message')
-# Hallo {{ $user->name }},
+# Hallo {{ $admin->name }},
 
 was für ein Spaß! Wichteln ist doch immer wieder eine tolle Sache. Wir hoffen deine Wichtel-Aktion verlieft wie du es geplant hast.
 

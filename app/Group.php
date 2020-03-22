@@ -68,6 +68,12 @@ class Group extends Model
         return $query->where('isInformedDeletion', '=', 0);
     }
 
+    public function scopeForDeletion(Builder $query): Builder {
+        return $query
+            ->where('isInformedDeletion', '=', 1)
+            ->whereDate('updated_at', '<', Carbon::now()->subWeeks(1));
+    }
+
     public function scopeOlderThan(Builder $query, int $value, string $unit): Builder {
         return $query->whereDate('updated_at', '<', Carbon::now()->subUnit($unit, $value));
     }
