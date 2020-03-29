@@ -24,16 +24,6 @@ class DeleteOldGroups extends Command
     protected $description = 'Delete all groups with users, which are informed about deletion';
 
     /**
-     * Create a new command instance.
-     *
-     * @return void
-     */
-    public function __construct()
-    {
-        parent::__construct();
-    }
-
-    /**
      * Execute the console command.
      *
      * @return mixed
