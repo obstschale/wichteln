@@ -37,7 +37,7 @@ class WichtelGroupController extends Controller
     {
         // @TODO: Only Access for Admins
         // return response()->json(Group::all());
-        return response('', 501);
+        return response('', 401);
     }
 
 

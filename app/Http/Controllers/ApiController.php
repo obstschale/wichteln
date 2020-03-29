@@ -9,8 +9,7 @@ class ApiController extends Controller
     {
         return [
             'api'    => [
-                'version'   => '0.2.0',
-                'framework' => 'Laravel 5.7',
+                'version'   => '1.1.0',
             ],
             'author' => [
                 'name'  => 'Hans-Helge Bürger',

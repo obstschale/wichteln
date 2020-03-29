@@ -1,0 +1,86 @@
+openapi: 3.0.0
+info:
+  title: Wichtel API
+  version: 1.1.0
+  description: ''
+servers:
+  - url: 'https://wichtel.me/api/v1'
+    description: Production
+  - url: 'http://wichtel.test/api/v1'
+    description: Development
+paths:
+  '':
+    get:
+      summary: API Information
+      tags: []
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  api:
+                    type: object
+                    properties:
+                      version:
+                        type: string
+                  author:
+                    type: object
+                    properties:
+                      author:
+                        type: string
+                      email:
+                        type: string
+      operationId: getApi
+      description: API version and author information.
+    parameters: []
+  /users:
+    post:
+      summary: Create new users
+      tags: []
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: number
+                  name:
+                    type: string
+                  email:
+                    type: string
+                  api_token:
+                    type: string
+                  updated_at:
+                    type: string
+                    format: date-time
+                  created_at:
+                    type: string
+                    format: date-time
+      operationId: storeUser
+      description: Create new user
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  example: Mr. Grinch
+                email:
+                  type: string
+                  format: email
+                  example: grinch@greenMountian.com
+              required:
+                - name
+                - email
+        description: ''
+      parameters: []
+components:
+  schemas: {}

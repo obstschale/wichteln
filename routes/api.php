@@ -1,7 +1,5 @@
 <?php
 
-use Illuminate\Http\Request;
-
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -13,9 +11,9 @@ use Illuminate\Http\Request;
 |
 */
 
-Route::get('/', 'ApiController@index');
 
-Route::group(['prefix' => 'v1'], function () {
+Route::group(['prefix' => 'v1'], static function () {
+    Route::get('/', 'ApiController@index');
     Route::resource('/wichtelgroups', 'WichtelGroupController', ['except' => [
         'create', 'edit'
     ]]);
@@ -25,7 +23,7 @@ Route::group(['prefix' => 'v1'], function () {
     ]]);
 
     Route::resource('/users', 'UserController', ['except' => [
-        'create', 'edit'
+        'index', 'create', 'edit'
     ]]);
 });
 
