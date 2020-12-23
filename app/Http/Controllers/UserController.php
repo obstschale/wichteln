@@ -21,19 +21,6 @@ class UserController extends Controller
     }
 
     /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
-    {
-        // @TODO: Only Access for Admins
-        // return response()->json(User::all());
-
-        return response('', 501);
-    }
-
-    /**
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
@@ -41,14 +28,10 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
-        $validator = Validator::make($request->all(), [
+        $validated = $request->validate([
             'name' => 'required|string',
             'email' => 'required|email',
         ]);
-
-        if ($validator->fails()) {
-            return response()->json($validator->messages(), 422);
-        }
 
         $user = User::create([
             'name' => $request->name,
@@ -84,30 +67,5 @@ class UserController extends Controller
         $this->authorize('view', $user);
 
         return response()->json($user);
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-        // TODO: Update User Infos
-        return response('', 501);
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        // TODO: Delete User
-        return response('', 501);
     }
 }

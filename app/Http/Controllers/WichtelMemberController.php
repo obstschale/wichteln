@@ -102,9 +102,11 @@ class WichtelMemberController extends Controller
      */
     public function show(Group $group, User $wichtelmember)
     {
-        $this->authorize('viewMember', $group);
+        $this->authorize('viewMembers', $group);
 
-        return response()->json($wichtelmember);
+        return response()->json(
+            $group->users()->where('id', $wichtelmember->id)->first()
+        );
     }
 
 
@@ -130,8 +132,9 @@ class WichtelMemberController extends Controller
 
         $wichtelmember->saveWishlist($group, $request->wishlist);
 
-        return response()->json($wichtelmember);
-
+        return response()->json(
+            $group->users()->where('id', $wichtelmember->id)->first()
+        );
     }
 
 
