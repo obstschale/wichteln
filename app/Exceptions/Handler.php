@@ -29,22 +29,22 @@ class Handler extends ExceptionHandler
      *
      * This is a great spot to send exceptions to Sentry, Bugsnag, etc.
      *
-     * @param  \Exception $exception
+     * @param  \Throwable $throwable
      * @return void
      */
-    public function report(Exception $exception)
+    public function report(\Throwable $throwable)
     {
-        parent::report($exception);
+        parent::report($throwable);
     }
 
     /**
      * Render an exception into an HTTP response.
      *
      * @param  \Illuminate\Http\Request $request
-     * @param  \Exception $exception
+     * @param  \Throwable $throwable
      * @return \Illuminate\Http\Response
      */
-    public function render($request, Exception $exception)
+    public function render($request, \Throwable $throwable)
     {
         // If the request wants JSON (AJAX doesn't always want JSON)
 //        if ($request->wantsJson()) {
@@ -82,7 +82,7 @@ class Handler extends ExceptionHandler
             // Return a JSON response with the response array and status code
 //            return response()->json($response, $status);
 //        }
-        return parent::render($request, $exception);
+        return parent::render($request, $throwable);
     }
 
 
