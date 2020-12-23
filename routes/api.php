@@ -14,7 +14,7 @@
 
 Route::group(['prefix' => 'v1'], static function () {
     Route::resource('/wichtelgroups', 'WichtelGroupController', ['except' => [
-        'create', 'edit'
+        'create', 'edit', 'index'
     ]]);
 
     Route::resource('/wichtelgroups/{group}/wichtelmembers', 'WichtelMemberController', ['except' => [
@@ -22,7 +22,7 @@ Route::group(['prefix' => 'v1'], static function () {
     ]]);
 
     Route::resource('/users', 'UserController', ['except' => [
-        'index', 'create', 'edit'
+        'index', 'create', 'edit', 'destroy', 'update'
     ]]);
 });
 

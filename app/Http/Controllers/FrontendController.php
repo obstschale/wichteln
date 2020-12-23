@@ -3,9 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Group;
+use App\Mail\WelcomeMail;
 use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class FrontendController extends Controller

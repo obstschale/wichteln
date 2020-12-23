@@ -1,13 +1,22 @@
 openapi: 3.0.0
 info:
-  title: Wichtel API
+  title: Wichtel.me API
   version: 1.1.0
-  description: ''
+  description: 'API documentation '
+  contact:
+    name: Hans-Helge Bürger
+    url: 'https://hanshelgebuerger.de'
+    email: webmaster@hanshelgebuerger.de
+  license:
+    name: GNU General Public License v3.0
+    url: 'https://github.com/obstschale/wichteln/blob/master/LICENSE'
 servers:
   - url: 'https://wichtel.me/api/v1'
     description: Production
   - url: 'http://wichtel.test/api/v1'
     description: Development
+tags:
+  - name: Endpoints
 paths:
   /users:
     post:
@@ -15,28 +24,46 @@ paths:
       tags: []
       responses:
         '201':
-          description: Created
+          description: User Created
           content:
             application/json:
               schema:
+                description: ''
                 type: object
                 properties:
                   id:
                     type: number
                   name:
                     type: string
+                    minLength: 1
                   email:
                     type: string
-                  api_token:
-                    type: string
-                  updated_at:
-                    type: string
-                    format: date-time
+                    minLength: 1
                   created_at:
                     type: string
-                    format: date-time
-      operationId: storeUser
+                    minLength: 1
+                  updated_at:
+                    type: string
+                    minLength: 1
+                required:
+                  - id
+                  - name
+                  - email
+                  - created_at
+                  - updated_at
+              examples:
+                Peter Parker:
+                  value:
+                    id: 86
+                    name: Peter Parker
+                    email: peter.parker@example.com
+                    created_at: '2020-12-23T11:30:17.000000Z'
+                    updated_at: '2020-12-23T11:30:17.000000Z'
+        '400':
+          $ref: '#/components/responses/validation-error'
+      operationId: store-user
       description: Create new user
+      parameters: []
       requestBody:
         content:
           application/json:
@@ -45,27 +72,77 @@ paths:
               properties:
                 name:
                   type: string
-                  example: Mr. Grinch
+                  example: Peter Parker
+                  description: User's Name
                 email:
                   type: string
-                  format: email
-                  example: grinch@greenMountian.com
+                  description: User's eMail Address
+                  example: peter.parker@example.com
               required:
                 - name
                 - email
         description: ''
-      parameters: []
+      security: []
   /wichtelgroups:
     post:
       summary: Create new Wichtelgroup
       tags: []
-      responses: {}
-      operationId: post-wichtelgroups
-    get:
-      summary: List my Wichtelgroups
-      tags: []
-      responses: {}
-      operationId: get-wichtelgroups
+      responses:
+        '201':
+          description: Group Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Wichtelgroup'
+              examples:
+                Created Group:
+                  value:
+                    name: X-Mas
+                    date: '2020-12-24'
+                    status: created
+                    updated_at: '2020-12-23T14:39:36.000000Z'
+                    created_at: '2020-12-23T14:39:36.000000Z'
+                    isInformedDeletion: 0
+                    id: 31
+        '400':
+          $ref: '#/components/responses/validation-error'
+        '401':
+          $ref: '#/components/responses/unauthorized'
+      operationId: create-wichtelgroup
+      requestBody:
+        content:
+          application/json:
+            schema:
+              description: ''
+              type: object
+              properties:
+                name:
+                  type: string
+                  minLength: 1
+                date:
+                  type: string
+                  minLength: 1
+                username:
+                  type: string
+                  minLength: 1
+                email:
+                  type: string
+                  minLength: 1
+              required:
+                - name
+                - date
+                - username
+                - email
+            examples:
+              X-Mas Group:
+                value:
+                  name: X-Mas
+                  date: '2020-12-24'
+                  username: Peter Parker
+                  email: peter.parker@example.com
+        description: Data for new user and group.
+      description: Create new user and new wichtel group. The newly created user will be the admin of that group.
+      security: []
   '/wichtelgroups/{groupId}':
     parameters:
       - schema:
@@ -76,18 +153,83 @@ paths:
     get:
       summary: Show Wichtelgroup
       tags: []
-      responses: {}
-      operationId: get-wichtelgroups-wichtelgroupId
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Wichtelgroup'
+              examples:
+                X-Mas Group:
+                  value:
+                    id: 31
+                    name: X-Mas
+                    date: '2020-12-24'
+                    status: created
+                    isInformedDeletion: 0
+                    created_at: '2020-12-23T14:39:36.000000Z'
+                    updated_at: '2020-12-23T14:39:36.000000Z'
+        '401':
+          description: Unauthorized
+      operationId: get-wichtelgroup
+      description: Fetch information about a wichtel group
     put:
       summary: Update Wichtelgroup
       tags: []
-      responses: {}
-      operationId: put-wichtelgroups-wichtelgroupId
+      responses:
+        '200':
+          description: Group Updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Wichtelgroup'
+        '400':
+          $ref: '#/components/responses/validation-error'
+        '401':
+          $ref: '#/components/responses/unauthorized'
+      operationId: update-wichtelgroup
+      description: 'Update name, date or status of wichtelgroup. If the status is set to `started` the raffle beginns and each approved wichtel member will receive an eMail with their buddy information.'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              description: ''
+              type: object
+              properties:
+                name:
+                  type: string
+                  minLength: 1
+                date:
+                  type: string
+                  minLength: 1
+                status:
+                  type: string
+                  minLength: 1
+                  enum:
+                    - started
+                    - created
+              required:
+                - name
+                - date
+                - status
+            examples:
+              Start Raffle:
+                value:
+                  name: X-Mas
+                  date: '2020-12-24'
+                  status: started
+        description: If the status is set to `started` the status cannot be changed later. The group is locked and finished.
     delete:
       summary: Delete Wichtelgroup
       tags: []
-      responses: {}
-      operationId: delete-wichtelgroups-wichtelgroupId
+      responses:
+        '204':
+          description: No Content
+        '401':
+          $ref: '#/components/responses/unauthorized'
+      operationId: delete-wichtelgroup
+      description: Delete wichtel group with all its information and members.
   '/users/{userId}':
     parameters:
       - schema:
@@ -98,18 +240,17 @@ paths:
     get:
       summary: Show User
       tags: []
-      responses: {}
-      operationId: get-users-userId
-    put:
-      summary: Update User Information
-      tags: []
-      responses: {}
-      operationId: put-users-userId
-    delete:
-      summary: Delete User
-      tags: []
-      responses: {}
-      operationId: delete-users-userId
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+        '401':
+          $ref: '#/components/responses/unauthorized'
+      operationId: get-user
+      description: Fetch information about one user.
   '/wichtelgroups/{groupId}/wichtelmembers':
     parameters:
       - schema:
@@ -120,13 +261,83 @@ paths:
     get:
       summary: Show all Members of Group
       tags: []
-      responses: {}
-      operationId: get-wichtelgroups-groupId-wichtelmembers
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Wichtelmember'
+              examples:
+                2 Members:
+                  value:
+                    - id: 96
+                      name: Peter Parker
+                      email: peter.parker@example.com
+                      created_at: '2020-12-23T14:39:36.000000Z'
+                      updated_at: '2020-12-23T14:39:36.000000Z'
+                      pivot:
+                        group_id: 31
+                        user_id: 96
+                        status: approved
+                        buddy_id: null
+                        wishlist: null
+                    - id: 98
+                      name: Uncle Ben
+                      email: uncle.ben@example.com
+                      created_at: '2020-12-23T15:13:00.000000Z'
+                      updated_at: '2020-12-23T15:13:00.000000Z'
+                      pivot:
+                        group_id: 31
+                        user_id: 98
+                        status: invited
+                        buddy_id: null
+                        wishlist: ''
+        '401':
+          $ref: '#/components/responses/unauthorized'
+      operationId: get-members
     post:
       summary: Add Member to Group
       tags: []
-      responses: {}
-      operationId: post-wichtelgroups-groupId-wichtelmembers
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+        '400':
+          $ref: '#/components/responses/validation-error'
+        '401':
+          $ref: '#/components/responses/unauthorized'
+      operationId: add-member
+      description: Create new user and add them to the group as member.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              description: ''
+              type: object
+              properties:
+                name:
+                  type: string
+                  minLength: 1
+                email:
+                  type: string
+                  minLength: 1
+                wishlist:
+                  type: string
+              required:
+                - name
+                - email
+            examples:
+              Uncle Ben:
+                value:
+                  name: Uncle Ben
+                  email: uncle.ben@example.com
+                  wishlist: ''
   '/wichtelgroups/{groupId}/wichtelmembers/{memberId}':
     parameters:
       - schema:
@@ -142,17 +353,259 @@ paths:
     get:
       summary: Show Member Information
       tags: []
-      responses: {}
-      operationId: get-wichtelgroups-groupId-wichtelmembers-memberId
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Wichtelmember'
+        '401':
+          $ref: '#/components/responses/unauthorized'
+      operationId: get-member
+      description: Get user information of one group member.
     put:
       summary: Update Member Information
       tags: []
-      responses: {}
-      operationId: put-wichtelgroups-groupId-wichtelmembers-memberId
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Wichtelmember'
+        '400':
+          $ref: '#/components/responses/validation-error'
+        '401':
+          $ref: '#/components/responses/unauthorized'
+      operationId: update-member
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                wishlist:
+                  type: string
+                  description: ''
+              required:
+                - wishlist
+            examples:
+              Books:
+                value:
+                  wishlist: Books
+          application/xml:
+            schema:
+              type: object
+              properties: {}
+        description: Update Wishlist
+      description: Add/Update wishlist of a member.
     delete:
       summary: Remove Member from Group
       tags: []
-      responses: {}
-      operationId: delete-wichtelgroups-groupId-wichtelmembers-memberId
+      responses:
+        '204':
+          description: No Content
+        '401':
+          $ref: '#/components/responses/unauthorized'
+      operationId: delete-member
+      description: Remove member from group. Deletes also the user record.
 components:
-  schemas: {}
+  schemas:
+    User:
+      description: ''
+      type: object
+      properties:
+        id:
+          type: number
+        name:
+          type: string
+          minLength: 1
+        email:
+          type: string
+          minLength: 1
+        created_at:
+          type: string
+          minLength: 1
+        updated_at:
+          type: string
+          minLength: 1
+      required:
+        - id
+        - name
+        - email
+        - created_at
+        - updated_at
+      x-examples:
+        Peter Parker:
+          id: 86
+          name: Peter Parker
+          email: peter.parker@example.com
+          created_at: '2020-12-23T11:30:17.000000Z'
+          updated_at: '2020-12-23T11:30:17.000000Z'
+      title: User
+    Wichtelgroup:
+      description: Group information.
+      type: object
+      x-examples:
+        X-Mas Group:
+          id: 31
+          name: X-Mas
+          date: '2020-12-24'
+          status: created
+          isInformedDeletion: 0
+          created_at: '2020-12-23T14:39:36.000000Z'
+          updated_at: '2020-12-23T14:39:36.000000Z'
+      properties:
+        id:
+          type: number
+        name:
+          type: string
+          minLength: 1
+        date:
+          type: string
+          minLength: 1
+        status:
+          type: string
+          minLength: 1
+          enum:
+            - created
+            - started
+        isInformedDeletion:
+          type: number
+        created_at:
+          type: string
+          minLength: 1
+        updated_at:
+          type: string
+          minLength: 1
+      required:
+        - id
+        - name
+        - date
+        - status
+        - isInformedDeletion
+        - created_at
+        - updated_at
+    Wichtelmember:
+      description: 'Member object with pivot data, like buddy ID, whishlist and status.'
+      type: object
+      x-examples:
+        Member Peter:
+          id: 96
+          name: Peter Parker
+          email: peter.parker@example.com
+          created_at: '2020-12-23T14:39:36.000000Z'
+          updated_at: '2020-12-23T14:39:36.000000Z'
+          pivot:
+            group_id: 31
+            user_id: 96
+            status: approved
+            buddy_id: null
+            wishlist: null
+      properties:
+        id:
+          type: number
+        name:
+          type: string
+          minLength: 1
+        email:
+          type: string
+          minLength: 1
+        created_at:
+          type: string
+          minLength: 1
+        updated_at:
+          type: string
+          minLength: 1
+        pivot:
+          type: object
+          required:
+            - group_id
+            - user_id
+            - status
+          properties:
+            group_id:
+              type: number
+            user_id:
+              type: number
+            status:
+              type: string
+              minLength: 1
+              enum:
+                - approved
+                - invited
+                - declined
+            buddy_id:
+              type:
+                - integer
+                - 'null'
+            wishlist:
+              type:
+                - string
+                - 'null'
+      required:
+        - id
+        - name
+        - email
+        - created_at
+        - updated_at
+        - pivot
+  securitySchemes:
+    API Token:
+      type: http
+      scheme: bearer
+      description: User's API Token
+  responses:
+    validation-error:
+      description: Response of invalid data.
+      content:
+        application/json:
+          schema:
+            description: ''
+            type: object
+            properties:
+              message:
+                type: string
+                minLength: 1
+              errors:
+                type: object
+                properties:
+                  name:
+                    type: array
+                    items:
+                      properties: {}
+                required:
+                  - name
+            required:
+              - message
+              - errors
+          examples:
+            Name and E-Mail missing:
+              value:
+                message: The given data was invalid.
+                errors:
+                  name:
+                    - The name field is required.
+                  email:
+                    - The email field is required.
+      headers: {}
+    unauthorized:
+      description: Unauthorized to view content or perform action.
+      content:
+        application/json:
+          schema:
+            description: ''
+            type: object
+            properties:
+              message:
+                type: string
+                minLength: 1
+            required:
+              - message
+          examples:
+            Unauthorized:
+              value:
+                message: Unauthorized
+security:
+  - API Token: []

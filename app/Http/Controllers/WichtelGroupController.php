@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Events\GroupCreated;
 use App\Group;
 use App\Jobs\WichtelJob;
 use App\Mail\WelcomeMail;
@@ -13,7 +12,6 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Str;
-use Validator;
 
 class WichtelGroupController extends Controller
 {
@@ -25,18 +23,6 @@ class WichtelGroupController extends Controller
     public function __construct()
     {
         $this->middleware('auth:api')->except('store');
-    }
-
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
-    {
-        // @TODO: Only Access for Admins
-        // return response()->json(Group::all());
-        return response('', 401);
     }
 
 
@@ -117,16 +103,11 @@ class WichtelGroupController extends Controller
     {
         $this->authorize('update', $wichtelgroup);
 
-        // @TODO: Return JSON on validation fail. Should happen automatically
-        $validator = Validator::make($request->all(), [
+        $request->validate([
             'name' => 'required|max:255',
             'date' => 'required|date',
             'status' => 'string',
         ]);
-
-        if ($validator->fails()) {
-            return response()->json($validator->messages(), 422);
-        }
 
         if ($request->status === 'started') {
             $wichtelgroup->status = 'started';
