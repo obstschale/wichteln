@@ -8,7 +8,6 @@ use App\Jobs\WichtelJob;
 use App\Mail\WelcomeMail;
 use App\Statistic;
 use App\User;
-use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;

@@ -9,33 +9,6 @@ servers:
   - url: 'http://wichtel.test/api/v1'
     description: Development
 paths:
-  '':
-    get:
-      summary: API Information
-      tags: []
-      responses:
-        '200':
-          description: OK
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  api:
-                    type: object
-                    properties:
-                      version:
-                        type: string
-                  author:
-                    type: object
-                    properties:
-                      author:
-                        type: string
-                      email:
-                        type: string
-      operationId: getApi
-      description: API version and author information.
-    parameters: []
   /users:
     post:
       summary: Create new users
@@ -82,5 +55,104 @@ paths:
                 - email
         description: ''
       parameters: []
+  /wichtelgroups:
+    post:
+      summary: Create new Wichtelgroup
+      tags: []
+      responses: {}
+      operationId: post-wichtelgroups
+    get:
+      summary: List my Wichtelgroups
+      tags: []
+      responses: {}
+      operationId: get-wichtelgroups
+  '/wichtelgroups/{groupId}':
+    parameters:
+      - schema:
+          type: string
+        name: groupId
+        in: path
+        required: true
+    get:
+      summary: Show Wichtelgroup
+      tags: []
+      responses: {}
+      operationId: get-wichtelgroups-wichtelgroupId
+    put:
+      summary: Update Wichtelgroup
+      tags: []
+      responses: {}
+      operationId: put-wichtelgroups-wichtelgroupId
+    delete:
+      summary: Delete Wichtelgroup
+      tags: []
+      responses: {}
+      operationId: delete-wichtelgroups-wichtelgroupId
+  '/users/{userId}':
+    parameters:
+      - schema:
+          type: string
+        name: userId
+        in: path
+        required: true
+    get:
+      summary: Show User
+      tags: []
+      responses: {}
+      operationId: get-users-userId
+    put:
+      summary: Update User Information
+      tags: []
+      responses: {}
+      operationId: put-users-userId
+    delete:
+      summary: Delete User
+      tags: []
+      responses: {}
+      operationId: delete-users-userId
+  '/wichtelgroups/{groupId}/wichtelmembers':
+    parameters:
+      - schema:
+          type: string
+        name: groupId
+        in: path
+        required: true
+    get:
+      summary: Show all Members of Group
+      tags: []
+      responses: {}
+      operationId: get-wichtelgroups-groupId-wichtelmembers
+    post:
+      summary: Add Member to Group
+      tags: []
+      responses: {}
+      operationId: post-wichtelgroups-groupId-wichtelmembers
+  '/wichtelgroups/{groupId}/wichtelmembers/{memberId}':
+    parameters:
+      - schema:
+          type: string
+        name: groupId
+        in: path
+        required: true
+      - schema:
+          type: string
+        name: memberId
+        in: path
+        required: true
+    get:
+      summary: Show Member Information
+      tags: []
+      responses: {}
+      operationId: get-wichtelgroups-groupId-wichtelmembers-memberId
+    put:
+      summary: Update Member Information
+      tags: []
+      responses: {}
+      operationId: put-wichtelgroups-groupId-wichtelmembers-memberId
+    delete:
+      summary: Remove Member from Group
+      tags: []
+      responses: {}
+      operationId: delete-wichtelgroups-groupId-wichtelmembers-memberId
 components:
   schemas: {}

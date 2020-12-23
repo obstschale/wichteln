@@ -13,7 +13,6 @@
 
 
 Route::group(['prefix' => 'v1'], static function () {
-    Route::get('/', 'ApiController@index');
     Route::resource('/wichtelgroups', 'WichtelGroupController', ['except' => [
         'create', 'edit'
     ]]);
