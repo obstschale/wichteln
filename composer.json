@@ -7,11 +7,11 @@
     "version": "1.1.0",
     "require": {
         "php": ">=7.4",
-        "laravel/framework": "^8.0"
+        "doctrine/dbal": "^3.5",
+        "laravel/framework": "^9.0"
     },
     "require-dev": {
-        "deployer/deployer": "^6.0",
-        "fzaninotto/faker": "~1.8",
+        "deployer/deployer": "^7.0",
         "laravel/tinker": "^2.5",
         "mockery/mockery": "^1.2",
         "phpunit/phpunit": "^9.0"

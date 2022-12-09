@@ -48,7 +48,7 @@ class WichtelMemberController extends Controller
      * @param  \Illuminate\Http\Request $request
      * @param Group                     $group
      *
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse
      * @throws \Illuminate\Auth\Access\AuthorizationException
      * @throws \Illuminate\Validation\ValidationException
      */
