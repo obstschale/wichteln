@@ -2208,9 +2208,16 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: "WichtelgroupView",
-  props: ['userId', 'group', 'isAdmin'],
+  props: ['userId', 'group', 'isAdmin', 'buddy'],
   data: function data() {
     return {
       members: [],
@@ -2420,7 +2427,7 @@ exports = module.exports = __webpack_require__(/*! ../../../../node_modules/css-
 
 
 // module
-exports.push([module.i, "\n.top-bar[data-v-0e431a77] {\n    background-color: darkgreen;\n    height: 7px;\n}\n#top[data-v-0e431a77] {\n    background-color: #ffffff;\n    background-image: url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='80' height='80' viewBox='0 0 80 80'%3E%3Cg fill='%23d42426' fill-opacity='.1'%3E%3Cpath fill-rule='evenodd' d='M11 0l5 20H6l5-20zm42 31a3 3 0 1 0 0-6 3 3 0 0 0 0 6zM0 72h40v4H0v-4zm0-8h31v4H0v-4zm20-16h20v4H20v-4zM0 56h40v4H0v-4zm63-25a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm10 0a3 3 0 1 0 0-6 3 3 0 0 0 0 6zM53 41a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm10 0a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm10 0a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm-30 0a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm-28-8a5 5 0 0 0-10 0h10zm10 0a5 5 0 0 1-10 0h10zM56 5a5 5 0 0 0-10 0h10zm10 0a5 5 0 0 1-10 0h10zm-3 46a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm10 0a3 3 0 1 0 0-6 3 3 0 0 0 0 6zM21 0l5 20H16l5-20zm43 64v-4h-4v4h-4v4h4v4h4v-4h4v-4h-4zM36 13h4v4h-4v-4zm4 4h4v4h-4v-4zm-4 4h4v4h-4v-4zm8-8h4v4h-4v-4z'/%3E%3C/g%3E%3C/svg%3E\");\n}\n#top .container[data-v-0e431a77] {\n    margin-top: -100px;\n}\n.articles[data-v-0e431a77] {\n    margin: 5rem 0;\n    margin-top: -142px;\n}\n.articles .content p[data-v-0e431a77] {\n    line-height: 1.9;\n    margin: 15px 0;\n}\ndiv.column.is-8[data-v-0e431a77]:first-child {\n    padding-top: 0;\n    margin-top: 0;\n}\n.article-title[data-v-0e431a77] {\n    font-size: 2rem;\n    font-weight: lighter;\n    line-height: 2;\n}\n.table tr.is-selected[data-v-0e431a77] {\n    background-color: darkgreen;\n}\n.table tr[data-v-0e431a77] {\n    transition: background-color 1000ms linear;\n}\n.card-header[data-v-0e431a77] {\n    background-color: darkgreen;\n}\n.card-footer button[data-v-0e431a77] {\n    width: 100%;\n}\n", ""]);
+exports.push([module.i, "\n.top-bar[data-v-0e431a77] {\n    background-color: darkgreen;\n    height: 7px;\n}\n#top[data-v-0e431a77] {\n    background-color: #ffffff;\n    background-image: url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='80' height='80' viewBox='0 0 80 80'%3E%3Cg fill='%23d42426' fill-opacity='.1'%3E%3Cpath fill-rule='evenodd' d='M11 0l5 20H6l5-20zm42 31a3 3 0 1 0 0-6 3 3 0 0 0 0 6zM0 72h40v4H0v-4zm0-8h31v4H0v-4zm20-16h20v4H20v-4zM0 56h40v4H0v-4zm63-25a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm10 0a3 3 0 1 0 0-6 3 3 0 0 0 0 6zM53 41a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm10 0a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm10 0a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm-30 0a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm-28-8a5 5 0 0 0-10 0h10zm10 0a5 5 0 0 1-10 0h10zM56 5a5 5 0 0 0-10 0h10zm10 0a5 5 0 0 1-10 0h10zm-3 46a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm10 0a3 3 0 1 0 0-6 3 3 0 0 0 0 6zM21 0l5 20H16l5-20zm43 64v-4h-4v4h-4v4h4v4h4v-4h4v-4h-4zM36 13h4v4h-4v-4zm4 4h4v4h-4v-4zm-4 4h4v4h-4v-4zm8-8h4v4h-4v-4z'/%3E%3C/g%3E%3C/svg%3E\");\n}\n#top .container[data-v-0e431a77] {\n    margin-top: -100px;\n}\n.articles[data-v-0e431a77] {\n    margin: 5rem 0;\n    margin-top: -142px;\n}\n.articles .content p[data-v-0e431a77] {\n    line-height: 1.9;\n    margin: 15px 0;\n}\ndiv.column.is-8[data-v-0e431a77]:first-child {\n    padding-top: 0;\n    margin-top: 0;\n}\n.article-title[data-v-0e431a77] {\n    font-size: 2rem;\n    font-weight: lighter;\n    line-height: 2;\n}\n.table tr.is-selected[data-v-0e431a77] {\n    background-color: darkgreen;\n}\n.table tr[data-v-0e431a77] {\n    transition: background-color 1000ms linear;\n}\n.card-header[data-v-0e431a77] {\n    background-color: darkgreen;\n}\n.card-footer button[data-v-0e431a77] {\n    width: 100%;\n}\n#buddy[data-v-0e431a77] {\n  margin: 20px 0;\n  padding: 5px 0;\n  display: flex;\n  flex-direction: column;\n  border-top: 1px solid black;\n  border-bottom: 1px solid black;\n}\n#buddy > span[data-v-0e431a77] {\n  margin-top: 10px;\n  word-wrap: break-word;\n}\n", ""]);
 
 // exports
 
@@ -21635,12 +21642,34 @@ var render = function() {
                 ])
               ]),
               _vm._v(" "),
+              _vm.buddy.name
+                ? _c(
+                    "div",
+                    {
+                      staticClass: "has-text-centered",
+                      attrs: { id: "buddy" }
+                    },
+                    [
+                      _vm._m(0),
+                      _vm._v(" "),
+                      _c("span", { staticClass: "title" }, [
+                        _vm._v(_vm._s(_vm.buddy.name))
+                      ]),
+                      _vm._v(" "),
+                      _c("span", [
+                        _c("strong", [_vm._v("Wunschzettel")]),
+                        _vm._v(": " + _vm._s(_vm.buddy.wishlist))
+                      ])
+                    ]
+                  )
+                : _vm._e(),
+              _vm._v(" "),
               _c(
                 "div",
                 { staticClass: "content" },
                 [
                   _c("table", { staticClass: "table" }, [
-                    _vm._m(0),
+                    _vm._m(1),
                     _vm._v(" "),
                     _c(
                       "tbody",
@@ -21836,6 +21865,16 @@ var render = function() {
   ])
 }
 var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("span", [
+      _vm._v("Dein Wichtel wurde gezogen."),
+      _c("br"),
+      _vm._v("Du darfst folgende Person beglücken:")
+    ])
+  },
   function() {
     var _vm = this
     var _h = _vm.$createElement

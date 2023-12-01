@@ -31,6 +31,13 @@
                                     <span class="tag is-rounded">{{ totalMembers }}</span>
                                 </div>
                             </div>
+
+                            <div v-if="buddy.name" id="buddy" class="has-text-centered">
+                              <span>Dein Wichtel wurde gezogen.<br>Du darfst folgende Person beglücken:</span>
+                              <span class="title">{{ buddy.name }}</span>
+                              <span><strong>Wunschzettel</strong>: {{ buddy.wishlist }}</span>
+                            </div>
+
                             <div class="content">
                                 <table class="table">
                                     <thead>
@@ -104,7 +111,7 @@
 <script>
     export default {
         name: "WichtelgroupView",
-        props: ['userId', 'group', 'isAdmin'],
+        props: ['userId', 'group', 'isAdmin', 'buddy'],
         data() {
             return {
                 members: [],
@@ -261,5 +268,18 @@
     }
     .card-footer button {
         width: 100%;
+    }
+    #buddy {
+      margin: 20px 0;
+      padding: 5px 0;
+      display: flex;
+      flex-direction: column;
+      border-top: 1px solid black;
+      border-bottom: 1px solid black;
+    }
+
+    #buddy > span {
+      margin-top: 10px;
+      word-wrap: break-word;
     }
 </style>
