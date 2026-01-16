@@ -1,6 +1,9 @@
 <?php
 
+use App\Group;
+use App\User;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Str;
 
 class GroupsTableSeeder extends Seeder
 {
@@ -11,7 +14,8 @@ class GroupsTableSeeder extends Seeder
      */
     public function run()
     {
-        factory(App\Group::class, 5)
+        Group::factory()
+            ->count(5)
             ->create()
             ->each(function ($g) {
 
@@ -24,12 +28,12 @@ class GroupsTableSeeder extends Seeder
 
                     $pivotData = [
                         'status' => $status[array_rand($status)],
-                        'wishlist' => str_random(100),
+                        'wishlist' => Str::random(100),
                         'is_admin' => ($i === 0) ? true : false,
                     ];
 
                     $g->users()->save(
-                        factory(App\User::class)->make(),
+                        User::factory()->make(),
                         $pivotData
                     );
                 }
