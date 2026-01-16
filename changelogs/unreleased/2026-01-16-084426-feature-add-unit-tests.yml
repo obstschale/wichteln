@@ -1,0 +1,4 @@
+title: 'Refactor seeder to use Laravel 9 class-based factories'
+type: fixed
+author: ''
+group: ''

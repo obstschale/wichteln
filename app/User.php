@@ -2,13 +2,14 @@
 
 namespace App;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Support\Facades\DB;
 
 class User extends Authenticatable
 {
-    use Notifiable;
+    use HasFactory, Notifiable;
 
     /**
      * The attributes that are mass assignable.
@@ -168,7 +169,7 @@ class User extends Authenticatable
      */
     public function wishlist(Group $group)
     {
-        return $this->pivotDataFor($group)->status;
+        return $this->pivotDataFor($group)->wishlist;
     }
 
     /**
