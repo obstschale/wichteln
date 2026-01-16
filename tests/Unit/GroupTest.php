@@ -23,7 +23,6 @@ class GroupTest extends TestCase
         config(['database.connections.sqlite.database' => ':memory:']);
     }
 
-    /** @test started() returns true when group status is 'started' */
     public function testStartedReturnsTrueWhenStatusIsStarted()
     {
         $group = Group::factory()->create(['status' => 'started']);
@@ -31,7 +30,6 @@ class GroupTest extends TestCase
         $this->assertTrue($group->started());
     }
 
-    /** @test started() returns false when group status is 'created' */
     public function testStartedReturnsFalseWhenStatusIsCreated()
     {
         $group = Group::factory()->create(['status' => 'created']);
@@ -39,7 +37,6 @@ class GroupTest extends TestCase
         $this->assertFalse($group->started());
     }
 
-    /** @test approvedUsers() only returns users with 'approved' pivot status */
     public function testApprovedUsersReturnsOnlyApprovedMembers()
     {
         $group = Group::factory()->create();
@@ -56,7 +53,6 @@ class GroupTest extends TestCase
         $this->assertFalse($approvedUsers->contains($invitedUser));
     }
 
-    /** @test admin() returns the user with is_admin=true */
     public function testAdminReturnsAdminUser()
     {
         $group = Group::factory()->create();
@@ -69,7 +65,6 @@ class GroupTest extends TestCase
         $this->assertEquals($admin->id, $group->admin()->id);
     }
 
-    /** @test scopeStarted filters groups with status 'started' */
     public function testScopeStartedFiltersOnlyStartedGroups()
     {
         Group::factory()->create(['status' => 'started']);
@@ -81,7 +76,6 @@ class GroupTest extends TestCase
         $this->assertEquals('started', $startedGroups->first()->status);
     }
 
-    /** @test scopeCreated filters groups with status 'created' */
     public function testScopeCreatedFiltersOnlyCreatedGroups()
     {
         Group::factory()->create(['status' => 'started']);
@@ -93,7 +87,6 @@ class GroupTest extends TestCase
         $this->assertEquals('created', $createdGroups->first()->status);
     }
 
-    /** @test scopeOlderThan filters groups older than given time period */
     public function testScopeOlderThanFiltersGroupsOlderThanGivenTime()
     {
         $oldGroup = Group::factory()->create(['status' => 'created']);
@@ -108,7 +101,6 @@ class GroupTest extends TestCase
         $this->assertEquals($oldGroup->id, $olderGroups->first()->id);
     }
 
-    /** @test scopeDateReached filters groups whose event date has passed */
     public function testScopeDateReachedFiltersGroupsWithPastDate()
     {
         $pastGroup = Group::factory()->create(['date' => Carbon::now()->subDays(5)]);
@@ -120,7 +112,6 @@ class GroupTest extends TestCase
         $this->assertEquals($pastGroup->id, $reachedGroups->first()->id);
     }
 
-    /** @test scopeNotInformed filters groups not yet informed about deletion */
     public function testScopeNotInformedFiltersGroupsNotYetInformed()
     {
         $informedGroup = Group::factory()->create(['isInformedDeletion' => true]);
@@ -132,7 +123,6 @@ class GroupTest extends TestCase
         $this->assertEquals($notInformedGroup->id, $notInformed->first()->id);
     }
 
-    /** @test scopeForDeletion filters informed groups older than one week */
     public function testScopeForDeletionFiltersInformedGroupsOlderThanOneWeek()
     {
         $oldInformed = Group::factory()->create(['isInformedDeletion' => true]);

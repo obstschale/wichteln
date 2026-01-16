@@ -22,7 +22,6 @@ class UserTest extends TestCase
         config(['database.connections.sqlite.database' => ':memory:']);
     }
 
-    /** @test belongsToGroup() returns true when user is a member */
     public function testBelongsToGroupReturnsTrueWhenUserIsMember()
     {
         $user = User::factory()->create();
@@ -33,7 +32,6 @@ class UserTest extends TestCase
         $this->assertTrue($user->belongsToGroup($group));
     }
 
-    /** @test belongsToGroup() returns false when user is not a member */
     public function testBelongsToGroupReturnsFalseWhenUserIsNotMember()
     {
         $user = User::factory()->create();
@@ -42,7 +40,6 @@ class UserTest extends TestCase
         $this->assertFalse($user->belongsToGroup($group));
     }
 
-    /** @test pivotDataFor() returns correct pivot table data */
     public function testPivotDataForReturnsCorrectData()
     {
         $user = User::factory()->create();
@@ -63,7 +60,6 @@ class UserTest extends TestCase
         $this->assertEquals('abc123', $pivotData->token);
     }
 
-    /** @test isAdminInGroup() returns true for admin users */
     public function testIsAdminInGroupReturnsTrueForAdmin()
     {
         $user = User::factory()->create();
@@ -74,7 +70,6 @@ class UserTest extends TestCase
         $this->assertTrue((bool) $user->isAdminInGroup($group));
     }
 
-    /** @test isAdminInGroup() returns false for non-admin users */
     public function testIsAdminInGroupReturnsFalseForNonAdmin()
     {
         $user = User::factory()->create();
@@ -85,7 +80,6 @@ class UserTest extends TestCase
         $this->assertFalse((bool) $user->isAdminInGroup($group));
     }
 
-    /** @test isAdminInGroup() returns false when user is not a group member */
     public function testIsAdminInGroupReturnsFalseWhenNotMember()
     {
         $user = User::factory()->create();
@@ -94,7 +88,6 @@ class UserTest extends TestCase
         $this->assertFalse($user->isAdminInGroup($group));
     }
 
-    /** @test status() returns correct pivot status for group */
     public function testStatusReturnsCorrectStatus()
     {
         $user = User::factory()->create();
@@ -105,7 +98,6 @@ class UserTest extends TestCase
         $this->assertEquals('invited', $user->status($group));
     }
 
-    /** @test saveStatus() updates the user's pivot status */
     public function testSaveStatusUpdatesStatus()
     {
         $user = User::factory()->create();
@@ -118,7 +110,6 @@ class UserTest extends TestCase
         $this->assertEquals('approved', $user->status($group));
     }
 
-    /** @test wishlist() returns correct pivot wishlist for group */
     public function testWishlistReturnsCorrectWishlist()
     {
         $user = User::factory()->create();
@@ -133,7 +124,6 @@ class UserTest extends TestCase
         $this->assertEquals('Nintendo Switch', $user->wishlist($group));
     }
 
-    /** @test saveWishlist() updates the user's pivot wishlist */
     public function testSaveWishlistUpdatesWishlist()
     {
         $user = User::factory()->create();
@@ -150,7 +140,6 @@ class UserTest extends TestCase
         $this->assertEquals('New wishlist', $user->wishlist($group));
     }
 
-    /** @test approveToken() returns the user's approval token for group */
     public function testApproveTokenReturnsToken()
     {
         $user = User::factory()->create();
@@ -165,7 +154,6 @@ class UserTest extends TestCase
         $this->assertEquals('secret-token-123', $user->approveToken($group));
     }
 
-    /** @test saveApproveToken() updates the user's approval token */
     public function testSaveApproveTokenUpdatesToken()
     {
         $user = User::factory()->create();
@@ -182,7 +170,6 @@ class UserTest extends TestCase
         $this->assertEquals('new-token', $user->approveToken($group));
     }
 
-    /** @test saveBuddy() updates the user's assigned buddy_id */
     public function testSaveBuddyUpdatesBuddyId()
     {
         $user = User::factory()->create();
