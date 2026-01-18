@@ -11,7 +11,6 @@ use Illuminate\Support\Str;
 
 class ApproveWichtelMember extends Mailable
 {
-
     use Queueable, SerializesModels;
 
     /**
@@ -28,7 +27,6 @@ class ApproveWichtelMember extends Mailable
      */
     public $group;
 
-
     /**
      * Create a new message instance.
      *
@@ -37,10 +35,9 @@ class ApproveWichtelMember extends Mailable
      */
     public function __construct(User $user, Group $group)
     {
-        $this->user  = $user;
+        $this->user = $user;
         $this->group = $group;
     }
-
 
     /**
      * Build the message.
@@ -54,11 +51,12 @@ class ApproveWichtelMember extends Mailable
         $this->user->saveApproveToken($this->group, $token);
         $link = sprintf('%s/token?action=approve&token=%s', config('app.url'), $token);
 
-        return $this->subject('Du wurdest zum Wichteln eingeladen')
+        return $this
+            ->subject('Du wurdest zum Wichteln eingeladen')
             ->markdown('emails.approve')
             ->with([
                 'link' => $link,
-                'admin' => $this->group->admin()
+                'admin' => $this->group->admin(),
             ]);
     }
 }

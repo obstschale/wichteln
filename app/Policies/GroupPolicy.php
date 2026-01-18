@@ -2,8 +2,8 @@
 
 namespace App\Policies;
 
-use App\User;
 use App\Group;
+use App\User;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
 class GroupPolicy
@@ -82,7 +82,7 @@ class GroupPolicy
      */
     public function createMember(User $user, Group $group)
     {
-        return ! $group->started() && $user->isAdminInGroup($group);
+        return !$group->started() && $user->isAdminInGroup($group);
     }
 
     /**
@@ -96,7 +96,7 @@ class GroupPolicy
     public function updateMember(User $user, Group $group, User $member)
     {
         // Member to update is not part of group
-        if (! $member->belongsToGroup($group)) {
+        if (!$member->belongsToGroup($group)) {
             return false;
         }
 

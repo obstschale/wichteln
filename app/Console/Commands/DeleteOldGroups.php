@@ -30,10 +30,9 @@ class DeleteOldGroups extends Command
      */
     public function handle()
     {
-        collect(Group::with('users')->forDeletion()->get())
-            ->each(static function (Group $group) {
-                Mail::to($group->admin())->send(new GroupDeleted($group->admin(), $group));
-                $group->delete();
-            });
+        collect(Group::with('users')->forDeletion()->get())->each(static function (Group $group) {
+            Mail::to($group->admin())->send(new GroupDeleted($group->admin(), $group));
+            $group->delete();
+        });
     }
 }

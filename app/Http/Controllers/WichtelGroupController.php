@@ -25,7 +25,6 @@ class WichtelGroupController extends Controller
         $this->middleware('auth:api')->except('store');
     }
 
-
     /**
      * Store a newly created resource in storage.
      *
@@ -74,7 +73,6 @@ class WichtelGroupController extends Controller
         return response()->json($group, 201);
     }
 
-
     /**
      * Display the specified resource.
      *
@@ -88,7 +86,6 @@ class WichtelGroupController extends Controller
         $this->authorize('view', $wichtelgroup);
         return response()->json($wichtelgroup);
     }
-
 
     /**
      * Update the specified resource in storage.
@@ -120,7 +117,6 @@ class WichtelGroupController extends Controller
 
         return response()->json($wichtelgroup);
     }
-
 
     /**
      * Remove the specified resource from storage.

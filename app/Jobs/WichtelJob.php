@@ -4,13 +4,13 @@ namespace App\Jobs;
 
 use App\Group;
 use App\Mail\GroupTooSmall;
+use App\Mail\WichtelBuddyMail;
 use App\Statistic;
 use Illuminate\Bus\Queueable;
-use App\Mail\WichtelBuddyMail;
-use Illuminate\Support\Facades\Mail;
-use Illuminate\Queue\SerializesModels;
-use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
+use Illuminate\Queue\InteractsWithQueue;
+use Illuminate\Queue\SerializesModels;
+use Illuminate\Support\Facades\Mail;
 
 class WichtelJob implements ShouldQueue
 {
@@ -51,7 +51,7 @@ class WichtelJob implements ShouldQueue
         }
 
         $approvedUsers->map(function ($item, $key) use ($approvedUsers) {
-            $buddy = ($key + 1 === $approvedUsers->count()) ? 0 : $key + 1;
+            $buddy = ($key + 1) === $approvedUsers->count() ? 0 : $key + 1;
             $item->saveBuddy($this->group, $approvedUsers[$buddy]->id);
 
             Mail::to($item)->queue(new WichtelBuddyMail($item, $this->group));

@@ -10,7 +10,6 @@ use Illuminate\Queue\SerializesModels;
 
 class WelcomeMail extends Mailable
 {
-
     use Queueable, SerializesModels;
 
     /**
@@ -27,7 +26,6 @@ class WelcomeMail extends Mailable
      */
     public $group;
 
-
     /**
      * Create a new message instance.
      *
@@ -36,10 +34,9 @@ class WelcomeMail extends Mailable
      */
     public function __construct(User $user, Group $group)
     {
-        $this->user  = $user;
+        $this->user = $user;
         $this->group = $group;
     }
-
 
     /**
      * Build the message.
@@ -50,13 +47,14 @@ class WelcomeMail extends Mailable
     {
         $linkToGroup = route('wichtelgroup', [
             'group' => $this->group->id,
-            'token' => $this->user->api_token
+            'token' => $this->user->api_token,
         ]);
 
-        return $this->subject("Willkommen bei Wichtel.me")
-                    ->markdown('emails.welcome')
-                    ->with([
-                        'linkToGroup' => $linkToGroup
-                    ]);
+        return $this
+            ->subject('Willkommen bei Wichtel.me')
+            ->markdown('emails.welcome')
+            ->with([
+                'linkToGroup' => $linkToGroup,
+            ]);
     }
 }

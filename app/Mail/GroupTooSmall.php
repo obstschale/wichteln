@@ -22,7 +22,6 @@ class GroupTooSmall extends Mailable
      */
     public $admin;
 
-
     /**
      * Create a new message instance.
      *
@@ -43,10 +42,13 @@ class GroupTooSmall extends Mailable
     {
         $linkToGroup = route('wichtelgroup', [
             'group' => $this->group->id,
-            'token' => $this->admin->api_token
+            'token' => $this->admin->api_token,
         ]);
-        return $this->subject('Zu wenig Teilnehmer')->markdown('emails.group-too-small')->with([
-            'linkToGroup' => $linkToGroup
-        ]);
+        return $this
+            ->subject('Zu wenig Teilnehmer')
+            ->markdown('emails.group-too-small')
+            ->with([
+                'linkToGroup' => $linkToGroup,
+            ]);
     }
 }

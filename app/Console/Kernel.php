@@ -17,10 +17,10 @@ class Kernel extends ConsoleKernel
      * @var array
      */
     protected $commands = [
-      DeleteUsersWithoutGroup::class,
-      CountAccounts::class,
-      InformAboutDeletion::class,
-      DeleteOldGroups::class,
+        DeleteUsersWithoutGroup::class,
+        CountAccounts::class,
+        InformAboutDeletion::class,
+        DeleteOldGroups::class,
     ];
 
     /**
