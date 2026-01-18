@@ -6,7 +6,7 @@
     "type": "project",
     "version": "1.1.0",
     "require": {
-        "php": ">=7.4",
+        "php": "^8.3",
         "doctrine/dbal": "^3.5",
         "laravel/framework": "^9.0",
         "ext-json": "*"
