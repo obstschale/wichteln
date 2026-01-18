@@ -17,7 +17,7 @@
                 <div class="field">
                     <label class="label">Aktionstag</label>
                     <div class="control">
-                        <input v-model="date" :class="{'is-danger' : hasErrors('date')}" class="input" type="date" placeholder="Name">
+                        <input v-model="date" :min="minDate" :class="{'is-danger' : hasErrors('date')}" class="input" type="date" placeholder="Name">
                     </div>
                     <p v-show="hasErrors('date')" class="help is-danger">{{ errorMessage('date') }}</p>
                 </div>
@@ -58,6 +58,11 @@
                 errors: {},
                 isSubmitted: false,
                 success: false
+            }
+        },
+        computed: {
+            minDate() {
+                return new Date().toISOString().split('T')[0];
             }
         },
         methods: {

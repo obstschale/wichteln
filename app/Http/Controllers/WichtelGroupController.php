@@ -38,7 +38,7 @@ class WichtelGroupController extends Controller
     {
         $this->validate($request, [
             'name' => 'required|max:255',
-            'date' => 'required|date',
+            'date' => 'required|date|after_or_equal:today',
             'username' => 'required|string',
             'email' => 'required|email',
         ]);
@@ -102,7 +102,7 @@ class WichtelGroupController extends Controller
 
         $request->validate([
             'name' => 'required|max:255',
-            'date' => 'required|date',
+            'date' => 'required|date|after_or_equal:today',
             'status' => 'string',
         ]);
 
