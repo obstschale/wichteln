@@ -2,9 +2,12 @@ name: PHP Composer
 
 on:
   push:
-    branches: [ master ]
+    branches: [ "main" ]
   pull_request:
-    branches: [ master ]
+    branches: [ "main" ]
+
+permissions:
+  contents: read
 
 jobs:
   tests:
@@ -26,7 +29,7 @@ jobs:
           tools: composer:v2
 
     - name: Validate composer.json and composer.lock
-      run: composer validate
+      run: composer validate --strict
 
     - name: Install dependencies
       run: composer install --prefer-dist --no-progress
