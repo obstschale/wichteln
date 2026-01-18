@@ -7,7 +7,8 @@ use App\User;
 use Carbon\Carbon;
 use Illuminate\Console\Command;
 
-class CountAccounts extends Command {
+class CountAccounts extends Command
+{
     /**
      * The name and signature of the console command.
      *
@@ -27,8 +28,9 @@ class CountAccounts extends Command {
      *
      * @return mixed
      */
-    public function handle() {
-        $accounts  = Statistic::accounts();
+    public function handle()
+    {
+        $accounts = Statistic::accounts();
         $updatedAt = $accounts->updated_at;
 
         $newAccounts = User::where('created_at', '>', $updatedAt)->count();
@@ -41,7 +43,7 @@ class CountAccounts extends Command {
         }
 
         $accounts = new Statistic([
-            'name'  => Statistic::ACCOUNTS,
+            'name' => Statistic::ACCOUNTS,
             'count' => $newAccounts,
         ]);
         $accounts->save();

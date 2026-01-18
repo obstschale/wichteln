@@ -10,7 +10,6 @@ use Illuminate\Support\Facades\Mail;
 
 class TokenController extends Controller
 {
-
     public function index(Request $request)
     {
         switch ($request->action) {
@@ -43,7 +42,6 @@ class TokenController extends Controller
         return redirect('/');
     }
 
-
     /**
      * @todo move to own repository
      *
@@ -54,9 +52,7 @@ class TokenController extends Controller
     public function approve($token)
     {
         return DB::table('group_user')->where('token', $token)->update(['status' => 'approved']);
-
     }
-
 
     /**
      * @todo move to own repository

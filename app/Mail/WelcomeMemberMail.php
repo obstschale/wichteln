@@ -5,9 +5,9 @@ namespace App\Mail;
 use App\Group;
 use App\User;
 use Illuminate\Bus\Queueable;
+use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
-use Illuminate\Contracts\Queue\ShouldQueue;
 
 class WelcomeMemberMail extends Mailable
 {
@@ -50,10 +50,13 @@ class WelcomeMemberMail extends Mailable
     {
         $linkToGroup = route('wichtelgroup', [
             'group' => $this->group->id,
-            'token' => $this->user->api_token
+            'token' => $this->user->api_token,
         ]);
-        return $this->subject('Willkommen bei Wichtel.me')->markdown('emails.welcomeMember')->with([
-            'linkToGroup' => $linkToGroup
-        ]);
+        return $this
+            ->subject('Willkommen bei Wichtel.me')
+            ->markdown('emails.welcomeMember')
+            ->with([
+                'linkToGroup' => $linkToGroup,
+            ]);
     }
 }

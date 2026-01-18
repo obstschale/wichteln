@@ -6,12 +6,13 @@
     "type": "project",
     "version": "1.1.0",
     "require": {
-        "php": ">=7.4",
+        "php": "^8.3",
         "doctrine/dbal": "^3.5",
         "laravel/framework": "^9.0",
         "ext-json": "*"
     },
     "require-dev": {
+        "carthage-software/mago": "^1.1.0",
         "deployer/deployer": "^7.0",
         "fakerphp/faker": "^1.24",
         "laravel/tinker": "^2.5",
@@ -55,6 +56,9 @@
     },
     "config": {
         "preferred-install": "dist",
-        "sort-packages": true
+        "sort-packages": true,
+        "allow-plugins": {
+            "carthage-software/mago": true
+        }
     }
 }

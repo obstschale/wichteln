@@ -13,49 +13,51 @@ class Statistic extends Model
 
     protected $fillable = [
         'name',
-        'count'
+        'count',
     ];
 
-    private static  function latest(string $type): self {
+    private static function latest(string $type): self
+    {
         $latest = self::where('name', '=', $type)->latest()->first();
         return $latest ?? self::create(['name' => $type, 'count' => 0]);
     }
 
-    public static function accounts(): self {
+    public static function accounts(): self
+    {
         return self::latest(self::ACCOUNTS);
     }
 
-    public static function groupCreated(): void {
+    public static function groupCreated(): void
+    {
         $latest = self::latest(self::CREATED_GROUPS);
 
         if (Carbon::now()->isSameMonth($latest->created_at)) {
-          $latest->count += 1;
-          $latest->save();
+            $latest->count += 1;
+            $latest->save();
         } else {
-          $latest = new Statistic([
-            'name' => self::CREATED_GROUPS,
-            'count' => 1,
-          ]);
+            $latest = new Statistic([
+                'name' => self::CREATED_GROUPS,
+                'count' => 1,
+            ]);
         }
 
         $latest->save();
     }
 
-    public static function groupStarted(): void {
-      $latest = self::latest(self::STARTED_GROUPS);
+    public static function groupStarted(): void
+    {
+        $latest = self::latest(self::STARTED_GROUPS);
 
-      if (Carbon::now()->isSameMonth($latest->created_at)) {
-        $latest->count += 1;
+        if (Carbon::now()->isSameMonth($latest->created_at)) {
+            $latest->count += 1;
+            $latest->save();
+        } else {
+            $latest = new Statistic([
+                'name' => self::STARTED_GROUPS,
+                'count' => 1,
+            ]);
+        }
+
         $latest->save();
-      } else {
-        $latest = new Statistic([
-          'name' => self::STARTED_GROUPS,
-          'count' => 1,
-        ]);
-      }
-
-      $latest->save();
     }
-
-
 }

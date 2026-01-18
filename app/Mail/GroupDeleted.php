@@ -8,7 +8,8 @@ use Illuminate\Bus\Queueable;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 
-class GroupDeleted extends Mailable {
+class GroupDeleted extends Mailable
+{
     use Queueable, SerializesModels;
 
     /** @var User */
@@ -23,7 +24,8 @@ class GroupDeleted extends Mailable {
      * @param User  $admin
      * @param Group $group
      */
-    public function __construct(User $admin, Group $group) {
+    public function __construct(User $admin, Group $group)
+    {
         $this->admin = $admin;
         $this->group = $group;
     }
@@ -33,9 +35,8 @@ class GroupDeleted extends Mailable {
      *
      * @return $this
      */
-    public function build() {
-        return $this
-            ->subject('Wichtelgruppe wurde gelöscht')
-            ->markdown('emails.group-deleted');
+    public function build()
+    {
+        return $this->subject('Wichtelgruppe wurde gelöscht')->markdown('emails.group-deleted');
     }
 }

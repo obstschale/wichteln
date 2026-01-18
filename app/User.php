@@ -3,8 +3,8 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Facades\DB;
 
 class User extends Authenticatable
@@ -29,7 +29,9 @@ class User extends Authenticatable
      * @var array
      */
     protected $hidden = [
-        'password', 'remember_token',  'api_token',
+        'password',
+        'remember_token',
+        'api_token',
     ];
 
     /**
@@ -39,8 +41,7 @@ class User extends Authenticatable
      */
     public function groups()
     {
-        return $this->belongsToMany('App\Group')
-                    ->withPivot('buddy_id', 'wishlist', 'token');
+        return $this->belongsToMany('App\Group')->withPivot('buddy_id', 'wishlist', 'token');
     }
 
     /**
@@ -51,9 +52,12 @@ class User extends Authenticatable
      */
     public function buddy(Group $group)
     {
-        return $this->belongsToMany('App\Group')
+        return $this
+            ->belongsToMany('App\Group')
             ->wherePivot('group_id', $group->id)
-            ->withPivot('buddy_id')->first()->buddy;
+            ->withPivot('buddy_id')
+            ->first()
+            ->buddy;
     }
 
     public function saveBuddy(Group $group, $id)
@@ -131,7 +135,7 @@ class User extends Authenticatable
      */
     public function isAdminInGroup(Group $group)
     {
-        return $this->pivotDataFor($group) === null ? false: $this->pivotDataFor($group)->is_admin;
+        return $this->pivotDataFor($group) === null ? false : $this->pivotDataFor($group)->is_admin;
     }
 
     /**
@@ -185,5 +189,4 @@ class User extends Authenticatable
             ->where('user_id', $this->id)
             ->update(['wishlist' => $wishlist]);
     }
-
 }

@@ -18,7 +18,6 @@ class InformAboutDeletion extends Mailable
     /** @var Group */
     public $group;
 
-
     /**
      * Create a new message instance.
      *

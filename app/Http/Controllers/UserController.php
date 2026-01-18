@@ -3,10 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\User;
-use Illuminate\Support\Str;
-use Illuminate\Validation\Validator;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Str;
+use Illuminate\Validation\Validator;
 
 class UserController extends Controller
 {
@@ -37,7 +37,7 @@ class UserController extends Controller
             'name' => $request->name,
             'email' => $request->email,
             'password' => Hash::make(Str::random()),
-            'api_token' => Str::random(60)
+            'api_token' => Str::random(60),
         ]);
 
         // TODO: Sent Welcome Mail
@@ -50,9 +50,7 @@ class UserController extends Controller
             'updated_at' => $user->updated_at,
             'created_at' => $user->created_at,
         ], 201);
-
     }
-
 
     /**
      * Display the specified resource.

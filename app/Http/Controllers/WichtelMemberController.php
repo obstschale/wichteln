@@ -12,7 +12,6 @@ use Illuminate\Support\Str;
 
 class WichtelMemberController extends Controller
 {
-
     /**
      * WichtelMemberController constructor.
      *
@@ -22,7 +21,6 @@ class WichtelMemberController extends Controller
     {
         $this->middleware('auth:api');
     }
-
 
     /**
      * Display a listing of the resource.
@@ -41,7 +39,6 @@ class WichtelMemberController extends Controller
         return response()->json($members);
     }
 
-
     /**
      * Store a newly created resource in storage.
      *
@@ -58,15 +55,15 @@ class WichtelMemberController extends Controller
 
         // @TODO: Return JSON on validation fail. Should happen automatically
         $this->validate($request, [
-            'name'     => 'required|max:255',
-            'email'    => 'required|email',
+            'name' => 'required|max:255',
+            'email' => 'required|email',
             'wishlist' => 'string|max:1000',
         ]);
 
         $member = User::create([
-            'name'      => $request->name,
-            'email'     => $request->email,
-            'password'  => Hash::make(Str::random()),
+            'name' => $request->name,
+            'email' => $request->email,
+            'password' => Hash::make(Str::random()),
             'api_token' => Str::random(60),
         ]);
         //} else {
@@ -79,7 +76,7 @@ class WichtelMemberController extends Controller
 
         $pivotData = [
             'wishlist' => $request->wishlist,
-            'status'   => 'invited',
+            'status' => 'invited',
             'is_admin' => false,
         ];
 
@@ -89,7 +86,6 @@ class WichtelMemberController extends Controller
 
         return response()->json($member, 201);
     }
-
 
     /**
      * Display the specified resource.
@@ -104,11 +100,8 @@ class WichtelMemberController extends Controller
     {
         $this->authorize('viewMembers', $group);
 
-        return response()->json(
-            $group->users()->where('id', $wichtelmember->id)->first()
-        );
+        return response()->json($group->users()->where('id', $wichtelmember->id)->first());
     }
-
 
     /**
      * Update the specified resource in storage.
@@ -132,11 +125,8 @@ class WichtelMemberController extends Controller
 
         $wichtelmember->saveWishlist($group, $request->wishlist);
 
-        return response()->json(
-            $group->users()->where('id', $wichtelmember->id)->first()
-        );
+        return response()->json($group->users()->where('id', $wichtelmember->id)->first());
     }
-
 
     /**
      * Remove the specified resource from storage.
