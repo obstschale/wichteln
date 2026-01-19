@@ -101,9 +101,9 @@ class WichtelGroupController extends Controller
         $this->authorize('update', $wichtelgroup);
 
         $request->validate([
-            'name' => 'required|max:255',
-            'date' => 'required|date|after_or_equal:today',
-            'status' => 'string',
+            'name' => 'sometimes|max:255',
+            'date' => 'sometimes|date',
+            'status' => 'sometimes|string',
         ]);
 
         if ($request->status === 'started') {
@@ -111,8 +111,12 @@ class WichtelGroupController extends Controller
             dispatch(new WichtelJob($wichtelgroup));
         }
 
-        $wichtelgroup->name = $request->name;
-        $wichtelgroup->date = $request->date;
+        if ($request->has('name')) {
+            $wichtelgroup->name = $request->name;
+        }
+        if ($request->has('date')) {
+            $wichtelgroup->date = $request->date;
+        }
         $wichtelgroup->save();
 
         return response()->json($wichtelgroup);

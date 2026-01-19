@@ -31,7 +31,7 @@ class Group extends Model
      */
     public function users()
     {
-        return $this->belongsToMany('App\User')->withPivot('status', 'buddy_id', 'wishlist');
+        return $this->belongsToMany('App\User')->withPivot('status', 'buddy_id', 'wishlist', 'is_admin');
     }
 
     /**

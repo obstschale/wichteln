@@ -19,3 +19,14 @@ Route::get('/token', 'TokenController@index');
 
 Route::get('/wichtelgroup/create', 'RegistrationController@create');
 Route::get('/wichtelgroup/{group}', 'FrontendController@showWichtelgroup')->name('wichtelgroup');
+
+Route::middleware(['throttle:5,1', \App\Http\Middleware\AdminAuth::class])->group(function () {
+    Route::get('/admin', 'AdminController@index')->name('admin.dashboard');
+    Route::post('/admin', 'AdminController@index')->name('admin.login');
+});
+
+Route::get('/admin/logout', function () {
+    session()->forget('admin_authenticated');
+
+    return redirect('/');
+})->name('admin.logout');
