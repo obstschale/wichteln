@@ -7,7 +7,7 @@
         <a href="{{ route('admin.logout') }}" class="text-sm text-gray-600 hover:underline">Logout</a>
     </div>
 
-    <div class="mb-8 grid grid-cols-1 gap-4 md:grid-cols-3">
+    <div class="mb-8 grid grid-cols-2 gap-4 md:grid-cols-3 lg:grid-cols-6">
         <div class="rounded-lg bg-white p-6 shadow">
             <div class="text-3xl font-bold text-blue-600">{{ $groups->count() }}</div>
             <div class="text-gray-600">Gruppen</div>
@@ -20,7 +20,28 @@
             <div class="text-3xl font-bold text-purple-600">{{ $groups->where('status', 'started')->count() }}</div>
             <div class="text-gray-600">Aktive Gruppen</div>
         </div>
+        <div class="rounded-lg bg-white p-6 shadow">
+            <div class="text-3xl font-bold text-cyan-600">{{ $totalCreated }}</div>
+            <div class="text-gray-600">Erstellt (Total)</div>
+        </div>
+        <div class="rounded-lg bg-white p-6 shadow">
+            <div class="text-3xl font-bold text-emerald-600">{{ $totalStarted }}</div>
+            <div class="text-gray-600">Gestartet (Total)</div>
+        </div>
+        <div class="rounded-lg bg-white p-6 shadow">
+            <div class="text-3xl font-bold text-orange-600">{{ $totalAccounts }}</div>
+            <div class="text-gray-600">Accounts (Total)</div>
+        </div>
     </div>
+
+    @if(count($chartData) > 0)
+    <div class="mb-8">
+        <h2 class="mb-4 text-2xl font-semibold text-gray-800">Statistiken</h2>
+        <div class="rounded-lg bg-white p-6 shadow">
+            <canvas id="statisticsChart" height="100"></canvas>
+        </div>
+    </div>
+    @endif
 
     <div class="mb-8">
         <h2 class="mb-4 text-2xl font-semibold text-gray-800">Wichtelgruppen</h2>
@@ -131,4 +152,57 @@
         </div>
     </div>
 </div>
+
+@if(count($chartData) > 0)
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const ctx = document.getElementById('statisticsChart').getContext('2d');
+    const chartData = @json($chartData);
+
+    const labels = Object.keys(chartData);
+    const createdData = labels.map(month => chartData[month].created);
+    const startedData = labels.map(month => chartData[month].started);
+
+    new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: labels,
+            datasets: [
+                {
+                    label: 'Erstellte Gruppen',
+                    data: createdData,
+                    backgroundColor: 'rgba(59, 130, 246, 0.7)',
+                    borderColor: 'rgb(59, 130, 246)',
+                    borderWidth: 1
+                },
+                {
+                    label: 'Gestartete Gruppen',
+                    data: startedData,
+                    backgroundColor: 'rgba(34, 197, 94, 0.7)',
+                    borderColor: 'rgb(34, 197, 94)',
+                    borderWidth: 1
+                }
+            ]
+        },
+        options: {
+            responsive: true,
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    ticks: {
+                        stepSize: 1
+                    }
+                }
+            },
+            plugins: {
+                legend: {
+                    position: 'top'
+                }
+            }
+        }
+    });
+});
+</script>
+@endif
 @endsection

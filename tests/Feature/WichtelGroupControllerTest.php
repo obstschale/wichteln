@@ -35,10 +35,9 @@ class WichtelGroupControllerTest extends TestCase
             'is_admin' => true,
         ]);
 
-        $response = $this->actingAs($user, 'api')
-            ->putJson("/api/v1/wichtelgroups/{$group->id}", [
-                'status' => 'started',
-            ]);
+        $response = $this->actingAs($user, 'api')->putJson("/api/v1/wichtelgroups/{$group->id}", [
+            'status' => 'started',
+        ]);
 
         $response->assertStatus(200);
         $this->assertDatabaseHas('groups', [
@@ -62,10 +61,9 @@ class WichtelGroupControllerTest extends TestCase
             'is_admin' => true,
         ]);
 
-        $response = $this->actingAs($user, 'api')
-            ->putJson("/api/v1/wichtelgroups/{$group->id}", [
-                'name' => 'Updated Name',
-            ]);
+        $response = $this->actingAs($user, 'api')->putJson("/api/v1/wichtelgroups/{$group->id}", [
+            'name' => 'Updated Name',
+        ]);
 
         $response->assertStatus(200);
         $this->assertDatabaseHas('groups', [
