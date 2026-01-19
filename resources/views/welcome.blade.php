@@ -1,31 +1,25 @@
 @extends('layouts.app')
 
 @section('content')
-    <section id="landing-page" class="hero is-info is-fullheight">
-        <div class="hero-head">
-            <nav class="navbar">
-                <div class="container">
-                    <div class="navbar-brand">
-                        <a class="navbar-item title" href="/">Wichtel.me</a>
-                    </div>
-                </div>
-            </nav>
-        </div>
+    <section id="landing-page" class="min-h-screen flex flex-col">
+        <nav class="py-4">
+            <div class="container mx-auto px-4">
+                <a class="text-2xl font-bold text-white" href="/">Wichtel.me</a>
+            </div>
+        </nav>
 
-        <div class="hero-body">
-            <div class="container has-text-centered">
-                <div class="column is-6 is-offset-3">
-                    <h1 class="title">
+        <div class="flex-1 flex items-center justify-center">
+            <div class="container mx-auto px-4 text-center">
+                <div class="max-w-xl mx-auto">
+                    <h1 class="text-4xl font-bold text-white mb-4">
                         Wichteln, ganz einfach!
                     </h1>
-                    <h2 class="subtitle">
+                    <p class="text-lg text-white/90 mb-8 leading-relaxed">
                         Mit Wichtel.me kannst du deine ganz private Wichtel-Aktion in nur 3 Schritten starten. Erstelle eine neue Wichtelgruppe, lade deine Freunde ein und starte die Auslosung.
-                    </h2>
-                    <div class="box">
-                        <div class="field">
-                            <h3 class="title has-text-black">Neue Wichtelgruppe erstellen</h3>
-                            <create-wichtelgroup></create-wichtelgroup>
-                        </div>
+                    </p>
+                    <div class="bg-white rounded-lg shadow-lg p-6">
+                        <h3 class="text-xl font-bold text-gray-900 mb-4">Neue Wichtelgruppe erstellen</h3>
+                        <create-wichtelgroup></create-wichtelgroup>
                     </div>
                 </div>
             </div>

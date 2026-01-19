@@ -9,25 +9,19 @@
 
     <title>{{ config('app.name', 'Laravel') }}</title>
 
-    <!-- Scripts -->
-    <script src="{{ asset('js/app.js') }}" defer></script>
-
-    <!-- Styles -->
-    <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+    @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
-<body>
+<body class="min-h-screen bg-gray-50">
     <div id="app">
-        <main class="py-4">
+        <main>
             @yield('content')
         </main>
     </div>
-    <footer class="footer">
-        <div class="content has-text-centered">
-            <p>
-                <a href="{{ url('/imprint') }}">Impressum</a> |
-                <a href="{{ url('/privacy') }}">Datenschutzerklärung</a>
-            </p>
-        </div>
+    <footer class="py-6 text-center text-gray-600">
+        <p>
+            <a href="{{ url('/imprint') }}" class="hover:underline">Impressum</a> |
+            <a href="{{ url('/privacy') }}" class="hover:underline">Datenschutzerklärung</a>
+        </p>
     </footer>
 </body>
 </html>

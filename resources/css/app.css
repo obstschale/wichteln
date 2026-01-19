@@ -1,0 +1,9 @@
+@import "tailwindcss";
+
+#landing-page {
+    background: linear-gradient(
+        rgba(0, 0, 0, 0.5),
+        rgba(0, 0, 0, 0.5)
+    ), url('/img/background.jpg') no-repeat center center fixed;
+    background-size: cover;
+}
