@@ -1,15 +1,17 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="container">
-    <div class="row justify-content-center">
-        <div class="col-md-8">
-            <div class="card">
-                <div class="card-header">Dashboard</div>
+<div class="container mx-auto px-4">
+    <div class="flex justify-center">
+        <div class="w-full max-w-2xl">
+            <div class="bg-white rounded-lg shadow-lg overflow-hidden">
+                <div class="px-6 py-4 bg-gray-100 border-b border-gray-200 font-medium text-gray-700">
+                    Dashboard
+                </div>
 
-                <div class="card-body">
+                <div class="p-6">
                     @if (session('status'))
-                        <div class="alert alert-success" role="alert">
+                        <div class="mb-4 p-4 bg-green-100 text-green-700 rounded-md" role="alert">
                             {{ session('status') }}
                         </div>
                     @endif
