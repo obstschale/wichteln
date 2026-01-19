@@ -19,8 +19,8 @@
 
                         <p class="text-gray-700">
                             Hans-Helge Bürger <br>
-                            Jakoberstraße 51 <br>
-                            86152 Augsburg
+                            Schillerstraße 41 <br>
+                            67578 Gimbsheim
                         </p>
 
                         <p class="text-gray-700">Wichtel.me ist ein kleiner Service, mit dem man einfach eine Wichtel-Aktion starten kann. Dabei werden Personen eingeladen, ausgelost und jeder Teilnehmer bekommt per Mail mitgeteilt für wen er/sie ein Geschenk besorgen darf.</p>
