@@ -10,3 +10,4 @@ Homestead.yaml
 .env
 .phpunit.result.cache
 .phpunit.cache/
+public/build/
