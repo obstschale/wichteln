@@ -2,6 +2,30 @@
 
 <!-- CHANGELOGGER -->
 
+## [v1.2.0] - 2026-01-20
+
+### New feature (3 changes)
+
+- New Admin-Dashboard /admin with Basic Auth
+- Add statistics history graph and total counts to admin dashboard
+
+### Bug fix (4 changes)
+
+- Use utf8mb4 as DB collaction. Allows emojis
+- Fix User::wishlist() returning status instead of wishlist
+- Check that wichtel date is after or equal to today
+
+### Other (6 changes)
+
+- Add unit tests for User and Group models
+- Upgrade to Laravel 12 & phpunit 12
+- Update required php to php8.3
+- Endpoints documented with OpenAPI.
+- Update test infrastructure for Laravel 12 with SQLite in-memory database
+- Drop Webpack; Use Vite, Vue3
+- Drop Bulma; Use Tailwind
+- Refactor seeder to use Laravel 9 class-based factories
+
 ## [1.1.0] - 2020-03-22
 
 ### Feature change (1 change)
