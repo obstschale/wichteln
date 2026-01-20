@@ -10,7 +10,7 @@
         "ext-json": "*"
     },
     "require-dev": {
-        "carthage-software/mago": "^1.1.0",
+        "carthage-software/mago": "^1.0",
         "deployer/deployer": "^7.0",
         "fakerphp/faker": "^1.24",
         "laravel/tinker": "^2.9",
