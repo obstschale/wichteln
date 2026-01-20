@@ -8,6 +8,7 @@ use App\Group;
 use App\User;
 use Carbon\Carbon;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
+use Illuminate\Support\Facades\Queue;
 use Tests\TestCase;
 
 class WichtelGroupControllerTest extends TestCase
@@ -23,6 +24,8 @@ class WichtelGroupControllerTest extends TestCase
 
     public function testUpdateGroupStatusWithoutNameAndDate(): void
     {
+        Queue::fake();
+
         $user = User::factory()->create();
         $group = Group::factory()->create([
             'name' => 'Test Group',
