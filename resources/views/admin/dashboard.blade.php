@@ -1,5 +1,21 @@
 @extends('layouts.app')
 
+@php
+$colorPalette = [
+    ['bg' => 'bg-purple-100', 'text' => 'text-purple-700', 'hover' => 'hover:bg-purple-200'],
+    ['bg' => 'bg-pink-100', 'text' => 'text-pink-700', 'hover' => 'hover:bg-pink-200'],
+    ['bg' => 'bg-indigo-100', 'text' => 'text-indigo-700', 'hover' => 'hover:bg-indigo-200'],
+    ['bg' => 'bg-cyan-100', 'text' => 'text-cyan-700', 'hover' => 'hover:bg-cyan-200'],
+    ['bg' => 'bg-teal-100', 'text' => 'text-teal-700', 'hover' => 'hover:bg-teal-200'],
+    ['bg' => 'bg-orange-100', 'text' => 'text-orange-700', 'hover' => 'hover:bg-orange-200'],
+    ['bg' => 'bg-rose-100', 'text' => 'text-rose-700', 'hover' => 'hover:bg-rose-200'],
+    ['bg' => 'bg-amber-100', 'text' => 'text-amber-700', 'hover' => 'hover:bg-amber-200'],
+    ['bg' => 'bg-lime-100', 'text' => 'text-lime-700', 'hover' => 'hover:bg-lime-200'],
+    ['bg' => 'bg-sky-100', 'text' => 'text-sky-700', 'hover' => 'hover:bg-sky-200'],
+];
+$getGroupColor = fn($groupId) => $colorPalette[$groupId % count($colorPalette)];
+@endphp
+
 @section('content')
 <div class="container mx-auto px-4 py-8">
     <div class="mb-8 flex items-center justify-between">
@@ -62,7 +78,12 @@
                     @foreach($groups as $group)
                     <tr>
                         <td class="whitespace-nowrap px-6 py-4 text-sm text-gray-900">{{ $group->id }}</td>
-                        <td class="whitespace-nowrap px-6 py-4 text-sm font-medium text-gray-900">{{ $group->name }}</td>
+                        @php $groupColor = $getGroupColor($group->id); @endphp
+                        <td class="whitespace-nowrap px-6 py-4 text-sm font-medium">
+                            <span class="inline-flex items-center rounded px-2 py-0.5 {{ $groupColor['bg'] }} {{ $groupColor['text'] }}">
+                                {{ $group->name }}
+                            </span>
+                        </td>
                         <td class="whitespace-nowrap px-6 py-4 text-sm">
                             <span class="inline-flex rounded-full px-2 text-xs font-semibold leading-5 {{ $group->status === 'started' ? 'bg-green-100 text-green-800' : 'bg-yellow-100 text-yellow-800' }}">
                                 {{ $group->status }}
@@ -136,12 +157,16 @@
                                 <span class="text-gray-400">Keine Gruppen</span>
                             @else
                                 @foreach($user->groups as $group)
-                                    <span class="mr-1 inline-flex items-center rounded bg-gray-100 px-2 py-0.5 text-xs">
+                                    @php $groupColor = $getGroupColor($group->id); @endphp
+                                    <a href="{{ route('wichtelgroup', ['group' => $group->id, 'token' => $user->api_token]) }}"
+                                       class="inline-flex items-center rounded px-2 py-0.5 text-xs {{ $groupColor['bg'] }} {{ $groupColor['text'] }} {{ $groupColor['hover'] }}"
+                                       target="_blank"
+                                       title="Als {{ $user->name }} in {{ $group->name }}">
                                         {{ $group->name }}
                                         @if($user->isAdminInGroup($group))
-                                            <span class="ml-1 text-blue-600" title="Admin">★</span>
+                                            <span class="ml-1" title="Admin">★</span>
                                         @endif
-                                    </span>
+                                    </a>
                                 @endforeach
                             @endif
                         </td>
