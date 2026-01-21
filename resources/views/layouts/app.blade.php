@@ -9,6 +9,8 @@
 
     <title>{{ config('app.name', 'Laravel') }}</title>
 
+    <link rel="icon" type="image/svg+xml" href="{{ asset('images/elf-hat.svg') }}">
+
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
 <body class="min-h-screen bg-gray-50">

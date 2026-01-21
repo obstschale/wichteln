@@ -26,16 +26,7 @@
                     <!-- Main Heading -->
                     <h1 class="text-5xl md:text-6xl lg:text-7xl font-extrabold text-white mb-6 drop-shadow-xl leading-tight">
                         <span class="inline-block relative">
-                            <svg class="elf-hat" viewBox="0 0 60 70" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                <!-- Hat body -->
-                                <path d="M5 65 Q8 35 30 8 Q52 35 55 65 Z" fill="#c41e3a" stroke="#8b0000" stroke-width="1.5"/>
-                                <!-- White fur trim -->
-                                <ellipse cx="30" cy="65" rx="28" ry="8" fill="#f5f5f5" stroke="#ddd" stroke-width="1"/>
-                                <!-- Pompom -->
-                                <circle cx="32" cy="6" r="6" fill="#f5f5f5" stroke="#ddd" stroke-width="1"/>
-                                <!-- Highlight -->
-                                <path d="M15 50 Q20 30 28 15" stroke="rgba(255,255,255,0.3)" stroke-width="3" stroke-linecap="round" fill="none"/>
-                            </svg>W</span>ichteln,<br>
+                            <img src="{{ asset('images/elf-hat.svg') }}" alt="" class="elf-hat">W</span>ichteln,<br>
                         <span class="bg-gradient-to-r from-sky-200 via-white to-sky-200 bg-clip-text text-transparent">
                             ganz einfach!
                         </span>
