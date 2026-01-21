@@ -2,8 +2,80 @@
 
 #landing-page {
     background: linear-gradient(
-        rgba(0, 0, 0, 0.5),
-        rgba(0, 0, 0, 0.5)
-    ), url('/img/background.jpg') no-repeat center center fixed;
-    background-size: cover;
+        135deg,
+        #0f172a 0%,
+        #1e3a5f 50%,
+        #0f172a 100%
+    );
+}
+
+/* Snowflake Animation */
+.snowflakes {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    overflow: hidden;
+    z-index: 1;
+}
+
+.snowflake {
+    position: absolute;
+    top: -20px;
+    color: white;
+    font-size: 1.5rem;
+    opacity: 0.7;
+    animation: snowfall linear infinite;
+    text-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+}
+
+.snowflake:nth-child(1) { left: 5%; animation-duration: 12s; animation-delay: 0s; font-size: 1.2rem; opacity: 0.6; }
+.snowflake:nth-child(2) { left: 15%; animation-duration: 10s; animation-delay: 1s; font-size: 1.8rem; opacity: 0.8; }
+.snowflake:nth-child(3) { left: 25%; animation-duration: 14s; animation-delay: 2s; font-size: 1rem; opacity: 0.5; }
+.snowflake:nth-child(4) { left: 35%; animation-duration: 11s; animation-delay: 0.5s; font-size: 1.6rem; opacity: 0.7; }
+.snowflake:nth-child(5) { left: 45%; animation-duration: 13s; animation-delay: 3s; font-size: 1.4rem; opacity: 0.6; }
+.snowflake:nth-child(6) { left: 55%; animation-duration: 9s; animation-delay: 1.5s; font-size: 2rem; opacity: 0.8; }
+.snowflake:nth-child(7) { left: 65%; animation-duration: 15s; animation-delay: 2.5s; font-size: 1.1rem; opacity: 0.5; }
+.snowflake:nth-child(8) { left: 75%; animation-duration: 10s; animation-delay: 0s; font-size: 1.7rem; opacity: 0.7; }
+.snowflake:nth-child(9) { left: 85%; animation-duration: 12s; animation-delay: 4s; font-size: 1.3rem; opacity: 0.6; }
+.snowflake:nth-child(10) { left: 92%; animation-duration: 11s; animation-delay: 1s; font-size: 1.5rem; opacity: 0.7; }
+.snowflake:nth-child(11) { left: 10%; animation-duration: 16s; animation-delay: 5s; font-size: 0.9rem; opacity: 0.4; }
+.snowflake:nth-child(12) { left: 50%; animation-duration: 8s; animation-delay: 2s; font-size: 2.2rem; opacity: 0.9; }
+
+/* Elf Hat on W */
+.elf-hat {
+    position: absolute;
+    width: 0.9em;
+    height: 1em;
+    top: -0.5em;
+    left: -0.2em;
+    transform: rotate(-30deg);
+    filter: drop-shadow(2px 3px 4px rgba(0, 0, 0, 0.4));
+    z-index: 10;
+    animation: hat-wiggle 3s ease-in-out infinite;
+    transform-origin: bottom center;
+}
+
+@keyframes hat-wiggle {
+    0%, 100% { transform: rotate(-30deg); }
+    50% { transform: rotate(-32deg); }
+}
+
+@keyframes snowfall {
+    0% {
+        transform: translateY(-20px) rotate(0deg);
+        opacity: 0;
+    }
+    10% {
+        opacity: 0.8;
+    }
+    90% {
+        opacity: 0.8;
+    }
+    100% {
+        transform: translateY(100vh) rotate(360deg);
+        opacity: 0;
+    }
 }
