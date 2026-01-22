@@ -2,6 +2,22 @@
 
 <!-- CHANGELOGGER -->
 
+## [v1.3.0] - 2026-01-22
+
+### Feature change (4 changes)
+
+- Admin-Dashboard: Group names are unique colored for better understanding.
+- New favicon
+- Redesign of groups site to use glassmorphism design.
+- Landing Page Redesign: Modern winter theme with animated snowflakes and elf hat on logo
+
+### New feature (4 changes)
+
+- Admin-Dashboard: Open Wichtelgroups using user links.
+- Group admin can resend email invitations.
+- Group admin can change invitation status of users.
+
+
 ## [v1.2.0] - 2026-01-20
 
 ### New feature (3 changes)
