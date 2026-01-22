@@ -48,7 +48,7 @@
                         <div class="bg-white/10 backdrop-blur-md rounded-2xl p-6 border border-white/20 transform hover:scale-105 transition-transform duration-300">
                             <div class="text-4xl mb-3">👥</div>
                             <h3 class="text-lg font-semibold text-white mb-2">2. Freunde einladen</h3>
-                            <p class="text-white/70 text-sm">Teile den Link mit allen Teilnehmern</p>
+                            <p class="text-white/70 text-sm">Lade Freunde per Mail ein oder teile den Link zum selber anmelden</p>
                         </div>
                         <div class="bg-white/10 backdrop-blur-md rounded-2xl p-6 border border-white/20 transform hover:scale-105 transition-transform duration-300">
                             <div class="text-4xl mb-3">🎲</div>

@@ -6,6 +6,7 @@ use App\Group;
 use App\Mail\ApproveWichtelMember;
 use App\User;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Str;
@@ -120,31 +121,59 @@ class WichtelMemberController extends Controller
 
         // @TODO: Return JSON on validation fail. Should happen automatically
         $this->validate($request, [
-            'wishlist' => 'string|max:1000',
+            'wishlist' => 'nullable|string|max:1000',
+            'status' => 'nullable|string|in:invited,approved',
         ]);
 
-        $wichtelmember->saveWishlist($group, $request->wishlist);
+        if ($request->has('wishlist')) {
+            $wichtelmember->saveWishlist($group, $request->wishlist);
+        }
+
+        if ($request->has('status')) {
+            $this->authorize('createMember', $group);
+
+            $group->users()->updateExistingPivot($wichtelmember->id, [
+                'status' => $request->status,
+            ]);
+        }
 
         return response()->json($group->users()->where('id', $wichtelmember->id)->first());
+    }
+
+    /**
+     * Resend the invitation email to a member.
+     *
+     * @param Group $group
+     * @param User  $member
+     *
+     * @return Response
+     */
+    public function resendInvitation(Group $group, User $member)
+    {
+        $this->authorize('createMember', $group);
+
+        Mail::to($member)->queue(new ApproveWichtelMember($member, $group));
+
+        return response()->json(['message' => 'Einladung wurde erneut versendet.']);
     }
 
     /**
      * Remove the specified resource from storage.
      *
      * @param Group $group
-     * @param User  $wichtelmember
+     * @param User  $member
      *
      * @return \Illuminate\Http\Response
      * @throws \Illuminate\Auth\Access\AuthorizationException
      */
-    public function destroy(Group $group, User $wichtelmember)
+    public function destroy(Group $group, User $member)
     {
         $this->authorize('deleteMember', $group);
 
-        $group->users()->detach($wichtelmember);
+        $group->users()->detach($member);
 
-        if (count($wichtelmember->groups) === 0) {
-            $wichtelmember->delete();
+        if (count($member->groups) === 0) {
+            $member->delete();
         }
 
         return response('', 204);
