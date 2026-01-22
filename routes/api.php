@@ -21,6 +21,8 @@ Route::group(['prefix' => 'v1'], static function () {
         'create', 'edit'
     ]]);
 
+    Route::post('/wichtelgroups/{group}/wichtelmembers/{member}/resend-invitation', 'WichtelMemberController@resendInvitation');
+
     Route::resource('/users', 'UserController', ['except' => [
         'index', 'create', 'edit', 'destroy', 'update'
     ]]);

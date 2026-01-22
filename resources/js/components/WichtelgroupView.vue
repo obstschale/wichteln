@@ -77,6 +77,7 @@
                                             <th class="text-left py-3 px-4 font-medium text-white/70">Name</th>
                                             <th class="text-left py-3 px-4 font-medium text-white/70">Status</th>
                                             <th class="text-left py-3 px-4 font-medium text-white/70">Wunschzettel</th>
+                                            <th v-if="isAdmin && groupStatus !== 'started'" class="text-left py-3 px-4 font-medium text-white/70">Aktionen</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -104,6 +105,34 @@
                                                 >
                                                     Bearbeiten
                                                 </button>
+                                            </td>
+                                            <td v-if="isAdmin && groupStatus !== 'started'" class="py-3 px-4">
+                                                <div class="flex items-center gap-2 flex-wrap">
+                                                    <button
+                                                        v-if="member.pivot && member.pivot.status === 'invited'"
+                                                        class="px-3 py-1 text-xs bg-emerald-500/30 hover:bg-emerald-500/50 text-emerald-100 rounded-full backdrop-blur-sm border border-emerald-400/30 transition-all"
+                                                        @click="changeStatus(member, 'approved')"
+                                                        title="Status auf 'Nimmt teil' setzen"
+                                                    >
+                                                        ✓ Bestätigen
+                                                    </button>
+                                                    <button
+                                                        v-if="member.pivot && member.pivot.status !== 'invited'"
+                                                        class="px-3 py-1 text-xs bg-amber-500/30 hover:bg-amber-500/50 text-amber-100 rounded-full backdrop-blur-sm border border-amber-400/30 transition-all"
+                                                        @click="changeStatus(member, 'invited')"
+                                                        title="Status auf 'Eingeladen' zurücksetzen"
+                                                    >
+                                                        ↺ Einladen und E-Mail senden
+                                                    </button>
+                                                    <button
+                                                        v-if="member.pivot && member.pivot.status === 'invited'"
+                                                        class="px-3 py-1 text-xs bg-sky-500/30 hover:bg-sky-500/50 text-sky-100 rounded-full backdrop-blur-sm border border-sky-400/30 transition-all"
+                                                        @click="resendInvitation(member)"
+                                                        title="Einladungs-E-Mail erneut senden"
+                                                    >
+                                                        ✉ Erneut einladen
+                                                    </button>
+                                                </div>
                                             </td>
                                         </tr>
                                     </tbody>
@@ -252,24 +281,24 @@ export default {
             return this.newMember.id === member.id;
         },
         status(member) {
-            if (!member.pivot) {
-                return 'Eingeladen';
-            }
-
             switch (member.pivot.status) {
                 case 'approved':
                     return 'Nimmt teil';
+              case 'declined':
+                return 'Abgelehnt';
                 default:
                 case 'invited':
                     return 'Eingeladen';
             }
         },
         statusColor(member) {
-            switch (this.status(member)) {
-                case 'Eingeladen':
+            switch (member.pivot.status) {
+                case 'invited':
                     return 'bg-amber-500/30 text-amber-100 border border-amber-400/30';
-                case 'Nimmt teil':
+                case 'approved':
                     return 'bg-emerald-500/30 text-emerald-100 border border-emerald-400/30';
+              case 'declined':
+                    return 'bg-rose-500/30 text-rose-100 border border-rose-400/30';
                 default:
                     return 'bg-white/20 text-white/80 border border-white/20';
             }
@@ -314,6 +343,38 @@ export default {
             }).catch(() => {
                 this.wishlistError = true;
             });
+        },
+        changeStatus(member, newStatus) {
+            axios.put(`/api/v1/wichtelgroups/${this.group.id}/wichtelmembers/${member.id}`, {
+                status: newStatus
+            }, {
+                headers: { Authorization: `Bearer ${this.token}` }
+            }).then((response) => {
+                const index = this.members.findIndex(m => m.id === member.id);
+                if (index !== -1) {
+                    this.members[index] = response.data;
+                }
+
+                this.sendInvitation(member);
+            }).catch(() => {
+                alert('Fehler beim Ändern des Status.');
+            });
+        },
+        resendInvitation(member) {
+            if (!confirm(`Möchtest du die Einladungs-E-Mail an ${member.name} erneut senden?`)) {
+                return;
+            }
+
+            this.sendInvitation(member);
+        },
+        sendInvitation(member) {
+          axios.post(`/api/v1/wichtelgroups/${this.group.id}/wichtelmembers/${member.id}/resend-invitation`, {}, {
+            headers: { Authorization: `Bearer ${this.token}` }
+          }).then(() => {
+            alert('Einladung wurde erneut versendet.');
+          }).catch(() => {
+            alert('Fehler beim Senden der Einladung.');
+          });
         }
     }
 };

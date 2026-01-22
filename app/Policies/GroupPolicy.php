@@ -106,7 +106,7 @@ class GroupPolicy
         }
 
         // User who makes request wants to update his record
-        if ($user == $member) {
+        if ($user->id === $member->id) {
             return true;
         }
 
