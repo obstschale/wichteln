@@ -37,8 +37,14 @@ task('opcache:reset', function () {
     run("rm -f {$file}");
 });
 
+desc('Restart PHP on Uberspace');
+task('uberspace:restart', function () {
+    run("uberspace tools restart php");
+});
+
 // Hooks
 after('deploy:failed', 'deploy:unlock');
 after('deploy:vendors', 'npm:install');
 after('npm:install', 'npm:build');
-after('deploy:symlink', 'opcache:reset');
+after('deploy:symlink', 'artisan:optimize:clear');
+after('artisan:optimize:clear', 'uberspace:restart');
