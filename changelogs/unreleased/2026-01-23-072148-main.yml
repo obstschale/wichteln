@@ -1,0 +1,4 @@
+title: 'Approving/Declining invitation is refactored to use POST requests on a dedicated site. Not via GET URI in your Mail client. This prevents link checker to confirm your invitation accidentally.'
+type: changed
+author: ''
+group: ''

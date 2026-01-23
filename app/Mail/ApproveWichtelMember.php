@@ -49,13 +49,15 @@ class ApproveWichtelMember extends Mailable
         // Create approve link
         $token = Str::random(16);
         $this->user->saveApproveToken($this->group, $token);
-        $link = sprintf('%s/token?action=approve&token=%s', config('app.url'), $token);
+        $approveLink = sprintf('%s/answer?action=approve&token=%s', config('app.url'), $token);
+        $declineLink = sprintf('%s/answer?action=decline&token=%s', config('app.url'), $token);
 
         return $this
             ->subject('Du wurdest zum Wichteln eingeladen')
             ->markdown('emails.approve')
             ->with([
-                'link' => $link,
+                'approveLink' => $approveLink,
+                'declineLink' => $declineLink,
                 'admin' => $this->group->admin(),
             ]);
     }

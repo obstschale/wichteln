@@ -14,9 +14,12 @@
                     <h1 class="text-4xl font-bold text-white mb-4">
                         Super, du nimmst Teil!
                     </h1>
-                    <p class="text-lg text-white/90">
+                    <p class="text-lg text-white/90 mb-8">
                         Wir haben dir eine E-Mail mit weiteren Informationen geschickt.
                     </p>
+                    <a href="{{ route('wichtelgroup', ['group' => $group, 'token' => $userToken]) }}" class="bg-green-600 hover:bg-green-700 text-white font-bold py-3 px-8 rounded-lg text-lg transition-colors inline-block">
+                        Zur Gruppe
+                    </a>
                 </div>
             </div>
         </div>

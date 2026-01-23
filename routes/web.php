@@ -15,7 +15,8 @@ Route::get('/   ', 'FrontendController@welcome');
 Route::get('/imprint', 'FrontendController@imprint');
 Route::get('/privacy', 'FrontendController@dataPrivacy');
 
-Route::get('/token', 'TokenController@index');
+Route::get('/answer', 'TokenController@index');
+Route::post('/answer/confirm', 'TokenController@confirm')->name('token.confirm');
 
 Route::get('/wichtelgroup/create', 'RegistrationController@create');
 Route::get('/wichtelgroup/{group}', 'FrontendController@showWichtelgroup')->name('wichtelgroup');
