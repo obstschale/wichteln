@@ -148,6 +148,46 @@
                             ></member-add-form>
                         </div>
 
+                        <!-- Join Link Section -->
+                        <div v-show="groupStatus !== 'started' && isAdmin" class="p-6 border-t border-white/10">
+                            <div class="flex items-center justify-between mb-3">
+                                <h3 class="text-white font-medium flex items-center gap-2">
+                                    <span>🔗</span>
+                                    Einladungslink
+                                </h3>
+                            </div>
+                            <p class="text-white/70 text-sm mb-4">
+                                Teile diesen Link, damit sich Personen selbst zur Gruppe anmelden können.
+                            </p>
+
+                            <div v-if="joinUrl" class="flex items-center gap-2">
+                                <input
+                                    ref="joinLinkInput"
+                                    type="text"
+                                    :value="joinUrl"
+                                    readonly
+                                    class="flex-1 px-4 py-2 bg-white/10 border border-white/20 rounded-lg text-white text-sm focus:outline-none"
+                                />
+                                <button
+                                    @click="copyJoinLink"
+                                    class="px-4 py-2 bg-sky-500/30 hover:bg-sky-500/50 text-sky-100 rounded-lg backdrop-blur-sm border border-sky-400/30 transition-all text-sm whitespace-nowrap"
+                                >
+                                    {{ copyButtonText }}
+                                </button>
+                                <button
+                                    @click="resetJoinLink"
+                                    class="px-4 py-2 bg-amber-500/30 hover:bg-amber-500/50 text-amber-100 rounded-lg backdrop-blur-sm border border-amber-400/30 transition-all text-sm whitespace-nowrap"
+                                    title="Neuen Link generieren"
+                                >
+                                    ↺ Zurücksetzen
+                                </button>
+                            </div>
+
+                            <div v-else class="text-white/50 text-sm">
+                                Link wird geladen...
+                            </div>
+                        </div>
+
                         <!-- Raffle Button -->
                         <div v-show="groupStatus !== 'started' && isAdmin" class="border-t border-white/10">
                             <button
@@ -246,14 +286,21 @@ export default {
             user: {
                 wishlist: '',
             },
-            wishlistError: false
+            wishlistError: false,
+            joinUrl: null,
+            copyButtonText: 'Kopieren'
         };
     },
     mounted() {
         this.members = this.group.users;
         this.groupStatus = this.group.status;
+        this.joinUrl = this.group.join_url || null;
         const currentUser = this.members.find((member) => member.id === this.userId);
         this.user.wishlist = currentUser ? currentUser.pivot.wishlist : '';
+
+        if (this.isAdmin && !this.joinUrl && this.groupStatus !== 'started') {
+            this.generateJoinLink();
+        }
     },
     computed: {
         formattedDate() {
@@ -375,6 +422,53 @@ export default {
           }).catch(() => {
             alert('Fehler beim Senden der Einladung.');
           });
+        },
+        generateJoinLink() {
+            axios.post(`/api/v1/wichtelgroups/${this.group.id}/join-link`, {}, {
+                headers: { Authorization: `Bearer ${this.token}` }
+            }).then((response) => {
+                this.joinUrl = response.data.join_url;
+            }).catch(() => {
+                alert('Fehler beim Generieren des Links.');
+            });
+        },
+        resetJoinLink() {
+            if (!confirm('Möchtest du einen neuen Einladungslink generieren? Der alte Link funktioniert dann nicht mehr.')) {
+                return;
+            }
+
+            axios.delete(`/api/v1/wichtelgroups/${this.group.id}/join-link`, {
+                headers: { Authorization: `Bearer ${this.token}` }
+            }).then(() => {
+                this.joinUrl = null;
+                this.generateJoinLink();
+            }).catch(() => {
+                alert('Fehler beim Zurücksetzen des Links.');
+            });
+        },
+        copyJoinLink() {
+            const input = this.$refs.joinLinkInput;
+            input.select();
+            input.setSelectionRange(0, 99999);
+
+            try {
+                document.execCommand('copy');
+                this.copyButtonText = 'Kopiert!';
+                setTimeout(() => {
+                    this.copyButtonText = 'Kopieren';
+                }, 2000);
+            } catch (err) {
+                navigator.clipboard.writeText(this.joinUrl).then(() => {
+                    this.copyButtonText = 'Kopiert!';
+                    setTimeout(() => {
+                        this.copyButtonText = 'Kopieren';
+                    }, 2000);
+                }).catch(() => {
+                    alert('Bitte manuell kopieren: ' + this.joinUrl);
+                });
+            }
+
+            window.getSelection().removeAllRanges();
         }
     }
 };
