@@ -17,13 +17,13 @@ class TokenController extends Controller
         $token = $request->token;
         $action = $request->action;
 
-        if (! in_array($action, ['approve', 'decline'], true)) {
+        if (!in_array($action, ['approve', 'decline'], true)) {
             return redirect('/');
         }
 
         $membership = DB::table('group_user')->where('token', $token)->first();
 
-        if (! $membership || $membership->status !== 'invited') {
+        if (!$membership || $membership->status !== 'invited') {
             return redirect('/');
         }
 
@@ -50,9 +50,11 @@ class TokenController extends Controller
                 if ($row === 1) {
                     $user = User::whereHas('groups', static function ($group) use ($token) {
                         $group->where('token', $token);
-                    })->with(['groups' => function ($query) use ($token) {
-                        $query->where('token', $token);
-                    }])->first();
+                    })
+                        ->with(['groups' => function ($query) use ($token) {
+                            $query->where('token', $token);
+                        }])
+                        ->first();
 
                     $group = $user->groups->first();
                     Mail::to($user)->send(new WelcomeMemberMail($user, $token));

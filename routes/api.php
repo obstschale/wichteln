@@ -23,6 +23,9 @@ Route::group(['prefix' => 'v1'], static function () {
 
     Route::post('/wichtelgroups/{group}/wichtelmembers/{member}/resend-invitation', 'WichtelMemberController@resendInvitation');
 
+    Route::post('/wichtelgroups/{group}/join-link', 'WichtelGroupController@generateJoinLink');
+    Route::delete('/wichtelgroups/{group}/join-link', 'WichtelGroupController@revokeJoinLink');
+
     Route::resource('/users', 'UserController', ['except' => [
         'index', 'create', 'edit', 'destroy', 'update'
     ]]);
