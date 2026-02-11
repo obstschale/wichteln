@@ -18,6 +18,9 @@ Route::get('/privacy', 'FrontendController@dataPrivacy');
 Route::get('/answer', 'TokenController@index');
 Route::post('/answer/confirm', 'TokenController@confirm')->name('token.confirm');
 
+Route::get('/join/{joinToken}', 'SelfRegistrationController@showForm')->name('join.form');
+Route::post('/join/{joinToken}', 'SelfRegistrationController@register')->name('join.register');
+
 Route::get('/wichtelgroup/create', 'RegistrationController@create');
 Route::get('/wichtelgroup/{group}', 'FrontendController@showWichtelgroup')->name('wichtelgroup');
 

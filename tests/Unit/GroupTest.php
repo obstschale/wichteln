@@ -136,4 +136,48 @@ class GroupTest extends TestCase
         $this->assertCount(1, $forDeletion);
         $this->assertEquals($oldInformed->id, $forDeletion->first()->id);
     }
+
+    public function testGenerateJoinTokenCreatesUniqueToken()
+    {
+        $group = Group::factory()->create(['join_token' => null]);
+
+        $token = $group->generateJoinToken();
+
+        $this->assertNotNull($token);
+        $this->assertEquals(32, strlen($token));
+        $this->assertEquals($token, $group->join_token);
+    }
+
+    public function testJoinUrlReturnsNullWhenNoToken()
+    {
+        $group = Group::factory()->create(['join_token' => null]);
+
+        $this->assertNull($group->joinUrl());
+    }
+
+    public function testJoinUrlReturnsCorrectUrl()
+    {
+        $group = Group::factory()->create(['join_token' => 'test-token-12345678901234']);
+
+        $url = $group->joinUrl();
+
+        $this->assertNotNull($url);
+        $this->assertStringContainsString('/join/test-token-12345678901234', $url);
+    }
+
+    public function testInvitedUsersReturnsOnlyInvitedMembers()
+    {
+        $group = Group::factory()->create();
+        $approvedUser = User::factory()->create();
+        $invitedUser = User::factory()->create();
+
+        $group->users()->attach($approvedUser, ['status' => 'approved', 'is_admin' => false]);
+        $group->users()->attach($invitedUser, ['status' => 'invited', 'is_admin' => false]);
+
+        $invitedUsers = $group->invitedUsers;
+
+        $this->assertCount(1, $invitedUsers);
+        $this->assertTrue($invitedUsers->contains($invitedUser));
+        $this->assertFalse($invitedUsers->contains($approvedUser));
+    }
 }

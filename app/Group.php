@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Str;
 
 class Group extends Model
 {
@@ -22,6 +23,7 @@ class Group extends Model
         'name',
         'date',
         'status',
+        'join_token',
     ];
 
     /**
@@ -107,5 +109,30 @@ class Group extends Model
 
         $this->isInformedDeletion = true;
         $this->save();
+    }
+
+    public function generateJoinToken(): string
+    {
+        $this->join_token = Str::random(32);
+        $this->save();
+
+        return $this->join_token;
+    }
+
+    public function joinUrl(): ?string
+    {
+        if (!$this->join_token) {
+            return null;
+        }
+
+        return route('join.form', $this->join_token);
+    }
+
+    public function invitedUsers()
+    {
+        return $this
+            ->belongsToMany('App\User')
+            ->wherePivot('status', 'invited')
+            ->withPivot('status', 'buddy_id', 'wishlist');
     }
 }

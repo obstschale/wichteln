@@ -84,7 +84,11 @@ class WichtelGroupController extends Controller
     public function show(Group $wichtelgroup)
     {
         $this->authorize('view', $wichtelgroup);
-        return response()->json($wichtelgroup);
+
+        $response = $wichtelgroup->toArray();
+        $response['join_url'] = $wichtelgroup->joinUrl();
+
+        return response()->json($response);
     }
 
     /**
@@ -134,6 +138,30 @@ class WichtelGroupController extends Controller
     {
         $this->authorize('delete', $wichtelgroup);
         $wichtelgroup->delete();
+        return response('', 204);
+    }
+
+    public function generateJoinLink(Group $group)
+    {
+        $this->authorize('update', $group);
+
+        if (!$group->join_token) {
+            $group->generateJoinToken();
+        }
+
+        return response()->json([
+            'join_url' => $group->joinUrl(),
+            'join_token' => $group->join_token,
+        ]);
+    }
+
+    public function revokeJoinLink(Group $group)
+    {
+        $this->authorize('update', $group);
+
+        $group->join_token = null;
+        $group->save();
+
         return response('', 204);
     }
 }
