@@ -2,59 +2,97 @@
 
 ## Project Overview
 
-**Wichtel.me** - A "Wichteln-as-a-Service" (Secret Santa) application. Users can create groups, add participants, fill out wishlists, and perform Secret Santa draws via REST API with a Vue frontend.
+**Wichtel.me** is a Secret Santa ("Wichteln-as-a-Service") application. Organizers create groups, invite participants by email or share a self-registration link, collect wishlists, and start a secret draw. The UI and emails are primarily German; code identifiers are English.
+
+The local application is already served at **http://wichtel.test/**. Use it for browser checks rather than starting a second PHP server. Do not submit forms that send email or modify existing groups merely to explore the application.
 
 ## Tech Stack
 
-- **Backend:** Laravel 12, PHP 8.3
-- **Frontend:** Vue 3, Tailwind CSS 4, Vite
-- **Database:** SQLite (testing), configurable via `.env`
+- **Backend:** Laravel 12, PHP `^8.3`, Composer, PHPUnit 12.
+- **Frontend:** Vue 3 Options API, Tailwind CSS 4, Vite 7, Axios, Day.js; JavaScript ES modules, not TypeScript.
+- **Database:** configured in `config/database.php` and `.env`; tests use in-memory SQLite. `.env.example` defaults to MySQL.
+- **Node:** Vite 7 requires Node `^20.19.0 || >=22.12.0`.
+
+Despite the framework version, this project retains the older Laravel application layout: models live directly under `app/`, and bootstrap, HTTP middleware, routes, and scheduling use explicit kernels and providers. Do not replace them with a fresh Laravel 12 skeleton as part of unrelated work.
 
 ## Commands
 
 | Task | Command |
 |------|---------|
+| Install PHP dependencies | `composer install` |
+| Install frontend dependencies | `npm ci` |
 | Run tests | `composer test` |
-| Format code | `composer format` |
-| Start dev server | `php artisan serve` |
-| Start frontend | `npm run dev` |
+| Run a targeted test | `composer test -- --filter=JoinLinkApiTest` |
+| Inspect routes | `php artisan route:list --except-vendor` |
+| Check PHP formatting without edits | `vendor/bin/mago fmt --check path/to/file.php` |
+| Format changed PHP files | `vendor/bin/mago fmt path/to/file.php` |
+| Format configured PHP sources | `composer format` (alias: `composer fmt`) |
+| PHP lint / static analysis | `vendor/bin/mago lint` / `vendor/bin/mago analyze` |
+| Start frontend with hot reload | `npm run dev` |
 | Build frontend | `npm run build` |
-| Deploy | `dep deploy` |
+| Start an alternative PHP server if needed | `php artisan serve` |
+
+- Composer install/update hooks run Artisan optimization and package discovery; they are not side-effect-free.
+- `composer format` covers the configured `app/` and `tests/` sources. Prefer explicit changed paths to avoid unrelated formatting changes.
+- Vite entry points are `resources/css/app.css` and `resources/js/app.js`; Blade loads them with `@vite`. Build output is ignored under `public/build/`; `public/hot` points to a running Vite dev server. Do not edit generated assets or use the legacy Mix manifest as the current build configuration.
+- There is no frontend test, lint, or typecheck npm script. Use the production build plus browser checks for frontend changes.
 
 ## Code Style & Conventions
 
-- **Always use `declare(strict_types=1);`** in all PHP files
-- **English variable/method names** only
-- Follow **Mago formatter** rules (see `mago.toml`)
-- Laravel integrations enabled for linting
-- PSR-4 autoloading
+- Use `declare(strict_types=1);` in new PHP files and add it when modifying existing PHP files; older files do not consistently have it yet.
+- Use meaningful English variable and method names. Only `i` is allowed as a short variable name, for loop indexes.
+- Follow Mago formatting and `mago.toml` (PHP target 8.3; Laravel and PHPUnit linter integrations).
+- Use existing namespaces and patterns, such as `App\Group`, `App\User`, Eloquent relationships, controller validation, policies, and mailables. Do not introduce `app/Models/` or a new authentication framework without a task requiring it.
+- Keep Vue components in their existing Options API style. Follow the German UI wording and existing Tailwind styles.
+- For UI changes, use semantic controls, explicitly associated form labels, visible keyboard focus, accessible validation messages, and appropriate text alternatives. Check keyboard use and the rendered affected states, including mobile layouts when relevant.
 
 ## Architecture
 
-### Domain Models
+### Backend entry points
 
-- **User** - Participants in Secret Santa groups
-- **Group** - Wichtel groups containing users
-- **Statistic** - Usage statistics
-- **Wishlists** - User gift preferences within groups
+- `bootstrap/app.php` binds `app/Http/Kernel.php`, `app/Console/Kernel.php`, and the exception handler.
+- `app/Providers/RouteServiceProvider.php` loads web routes and prefixes API routes with `/api`; `routes/api.php` adds `/v1`. Controller routes use the provider's `App\Http\Controllers` namespace.
+- `WichtelGroupController` owns group CRUD, starting draws, and generating/revoking join links. `WichtelMemberController` owns membership operations, wishlists, invitation resending, and admin status changes.
+- `SelfRegistrationController` handles `/join/{joinToken}`. `TokenController` handles email approval/decline links: GET `/answer` displays confirmation, POST `/answer/confirm` performs the action. Preserve this distinction so email link scanners do not change participation.
+- `FrontendController` renders the welcome page, legal pages, and token-protected group view. `RegistrationController` renders `/wichtelgroup/create`.
+- `app/Policies/` contains group/user authorization and is registered in `AuthServiceProvider`. Keep authorization on the server, not just in UI visibility rules.
 
-### Structure
+### Data and domain rules
 
-- `app/` - Application code (Models, Controllers, Jobs, Mail, Policies)
-- `resources/views/` - Blade templates
-- `resources/js/` - Vue components
-- `routes/` - API and web routes
-- `tests/` - PHPUnit tests (runs with in-memory SQLite)
+- Models are `app/Group.php`, `app/User.php`, and `app/Statistic.php`. There is **no separate Wishlist model**.
+- The `group_user` pivot stores per-group `status`, `buddy_id`, `wishlist`, `is_admin`, and approval `token`. Do not move these onto the global user record.
+- Group statuses are `created` and `started`; membership statuses include `invited`, `approved`, and `declined`. A group admin is a member with `is_admin`, not the site administrator.
+- The same email address can have separate user records in different groups. Self-registration rejects duplicates within the target group; do not impose global email uniqueness without changing the intended behavior and its tests.
+- `app/Jobs/WichtelJob.php` shuffles approved participants and assigns recipients in a cycle. At least three approved participants are needed; a smaller group is reset to `created` and the organizer is notified. Preserve recipient secrecy and participation filtering.
 
-## Testing
+### Authentication and tokens
 
-Tests run with PHPUnit using in-memory SQLite:
+- `config/auth.php` uses the session-based `web` guard and Laravel's token-based `api` guard, not Sanctum or Passport. Protected API controllers use `auth:api`; Vue sends `Authorization: Bearer <api_token>`.
+- `/wichtelgroup/{group}?token=...` resolves a user's `api_token`, logs them into the web guard, and checks group access. Vue reads this token from the URL for API calls.
+- Keep the three token purposes separate: user `api_token` grants access, pivot `token` confirms participation, group `join_token` enables public self-registration. Treat them as secrets in logs and review artifacts.
+- `/admin` is a separate site dashboard protected by `AdminAuth`, a session flag, throttling, and `ADMIN_PASSWORD` via `config/app.php`; an unset password disables access.
 
-```bash
-composer test
-```
+### Frontend and mail
 
-## Important Notes
+- Blade owns pages and `resources/views/layouts/app.blade.php`; Vue mounts into `#app`, not a standalone SPA router.
+- `resources/js/app.js` registers `CreateWichtelGroupForm.vue`, `WichtelgroupView.vue`, and `MemberAddForm.vue`. The group view receives Blade props and performs API requests.
+- Mailables live in `app/Mail/`, templates in `resources/views/emails/`. Both queued and synchronous mail calls exist; invitation mail rendering also creates/persists the approval token, so rendering is not always read-only.
+- Queue configuration reads **`QUEUE_DRIVER`**, defaulting to `sync`; mail configuration reads **`MAIL_MAILER`** (not the older `MAIL_DRIVER` in `.env.example`). Use a safe local mail transport such as `log` when testing mail manually. Verify effective configuration before running jobs.
 
-- REST API is the primary interface; Vue frontend consumes it
-- Check `mago.toml` for detailed linter/analyzer settings
+## Testing and Verification
+
+- Run `composer test` for backend changes. Tests extend `Tests\TestCase`; database tests use `DatabaseMigrations` and `User::factory()` / `Group::factory()`.
+- `phpunit.xml` forces the testing environment and in-memory SQLite; `tests/CreatesApplication.php` additionally overrides the database connection. Never run destructive database commands against the normal local environment to prepare tests.
+- Use `Mail::fake()` / `Queue::fake()` where a test should not send messages or execute a draw. Test observable results and authorization boundaries.
+- `tests/Feature/` covers group/member APIs, join links, and self-registration; `tests/Unit/` contains Laravel-backed model tests, not isolated pure unit tests.
+- For frontend changes, run `npm run build` and inspect the affected pages at `http://wichtel.test/`. Exercise representative success/error and admin/member states as relevant, using disposable data and safe mail settings.
+- `.github/workflows/php.yml` runs Composer validation and PHPUnit on PHP 8.3, 8.4, and 8.5. Do not assume CI currently checks frontend builds or Mago.
+
+## Operations and Reference Material
+
+- `app/Console/Kernel.php` schedules account statistics and orphan-user cleanup daily, and deletion notifications/group cleanup hourly. Commands under `app/Console/Commands/` can delete data or send mail; do not run them just to inspect the project.
+- `deploy.php` uses Deployer with a production host. Deployment installs dependencies, builds frontend assets, and restarts PHP. **Only deploy with explicit authorization**; it is not a local verification step.
+- `reference/wichtel-api.v1.yaml` is the OpenAPI reference. For API changes, compare it with actual routes/controllers and update affected documentation; do not assume it already covers every recent endpoint.
+- `changelogs/unreleased/` holds YAML changelog entries; `CHANGELOG.md` contains released history.
+- `README.md` mainly contains historical project background. Use code, configuration, and tests as the source of truth for current behavior.
+- Never commit `.env`, credentials, real participant data, access tokens, or generated build/cache files. Keep unrelated changes out of the task.
