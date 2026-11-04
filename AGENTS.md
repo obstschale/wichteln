@@ -88,6 +88,37 @@ Despite the framework version, this project retains the older Laravel applicatio
 - For frontend changes, run `npm run build` and inspect the affected pages at `http://wichtel.test/`. Exercise representative success/error and admin/member states as relevant, using disposable data and safe mail settings.
 - `.github/workflows/php.yml` runs Composer validation and PHPUnit on PHP 8.3, 8.4, and 8.5. Do not assume CI currently checks frontend builds or Mago.
 
+## GitHub Workflow and Accompanying Project Management
+
+- **Repository:** `obstschale/wichteln`. GitHub issues are the durable source of truth for scope, decisions, acceptance criteria, and blockers; Amp threads are the workspace for discussion and implementation.
+- **Wishlist planning:** read the current [concept and parent issue #72](https://github.com/obstschale/wichteln/issues/72) and the existing [Wishlists project](https://github.com/users/obstschale/projects/1), especially its [development plan](https://github.com/users/obstschale/projects/1/views/7). Prefer its current fields, phases, milestones, and labels over creating a parallel plan.
+- For an assigned issue, the agent is authorized to maintain relevant issue bodies/comments, checklists, project fields, labels, milestones, and dependency links as part of the work, without asking for each routine update. This is accompanying project management during active work, not unattended monitoring or permission to start other work packages automatically.
+- Prefer one Amp thread per implementation work package. Product discussions may stay in an existing thread, but record their agreed outcomes in GitHub so future threads do not depend on chat history.
+
+### Before and During Work
+
+1. Read the live issue, parent concept, comments, acceptance criteria, project entry, and native `blocked by` dependencies before starting. Inspect the relevant code and distinguish already implemented behavior from proposed work.
+2. Resolve questions when the affected package starts, not all questions for the entire project upfront. Discuss consequential product choices with the user in Amp; do not turn a recommendation or estimate into an approved decision.
+3. Keep the current agreed decision in the issue body and add a concise comment for significant decisions, their reasons, verification results, or blockers. Re-read live content before editing and preserve others' changes. Do not copy entire chat transcripts or add a comment for every tool call.
+4. Update affected follow-up issues and native dependency links when an agreed decision changes their scope. Keep textual dependency references consistent with GitHub's actual relationships. Do not remove a blocker merely to make a package appear ready.
+5. Keep priority, area labels, milestone/phase, and effort estimates aligned with the actual work. Explain material estimate or roadmap changes; dates are planning scenarios until explicitly agreed, not silent commitments or claims that development has started. Large scope/priority changes and new product directions require user agreement.
+
+### Status and Completion Rules
+
+- **Backlog:** not yet selected or prerequisites unresolved. **Ready:** acceptance criteria are actionable and all blocking prerequisites are satisfied. **In progress:** the assigned package is actively being worked on. **In review:** ready for the applicable review/acceptance, with verification and delivery state documented. **Done:** the closure rules below are met.
+- If work becomes blocked, leave the issue open and document the blocker and needed decision; do not mark it Ready or Done. Do not change an issue being actively owned by someone else without coordination.
+- Mark checklist items complete only when their stated result is actually achieved. Tests, legal reviews, user decisions, merges, and deployments are different deliverables; never imply one proves another.
+- For implementation issues, close the issue and set Done only after acceptance criteria and relevant checks are satisfied, the user has accepted the result, and the changes have been delivered to the agreed shared target branch (merged PR or authorized direct push). Local edits, local commits, or a draft PR alone are not completion. Deployment is required only when the issue's acceptance criteria require it, and needs its own authorization.
+- For product/planning/legal issues without code, close only after the required decisions or review outcomes are documented and accepted by the user. A checklist of future legal checks is not a completed legal review.
+- After completion, inspect downstream dependencies and move only genuinely unblocked, actionable packages to Ready. Keep the parent issue and project overview consistent; report what is complete, what remains blocked, and the next startable package. Wishlist's parent includes later enhancements, so total sub-issue progress is not the MVP completion measure; use the documented MVP phases and launch criteria.
+
+### Authorization and Access Boundaries
+
+- Routine GitHub maintenance does not authorize code commits/pushes, deployments, production migrations/writes, account registrations, tax filings, partner-contract acceptance, paid services, or irreversible/shared-system actions beyond the assigned issue updates. Obtain the specific authorization when needed.
+- Do not independently decide unresolved product, legal, or business questions, weaken release gates, or mark external approvals complete. Record uncertainty and who must resolve it.
+- Use `gh` or another available authenticated GitHub integration. If permissions prevent updates, report the exact remaining action and request the minimum necessary access through the normal authorization flow; never claim GitHub was updated when it was not.
+- Never include real participant data, access tokens, credentials, private legal/financial documents, or other sensitive information in public issues, comments, or review artifacts.
+
 ## Operations and Reference Material
 
 - `app/Console/Kernel.php` schedules account statistics and orphan-user cleanup daily, and deletion notifications/group cleanup hourly. Commands under `app/Console/Commands/` can delete data or send mail; do not run them just to inspect the project.
