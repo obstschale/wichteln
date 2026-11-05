@@ -2,6 +2,17 @@
 
 <!-- CHANGELOGGER -->
 
+## [v1.4.0] - 2026-11-05
+
+### Feature change (1 change)
+
+- Approving/Declining invitation is refactored to use POST requests on a dedicated site. Not via GET URI in your Mail client. This prevents link checker to confirm your invitation accidentally.
+
+### New feature (1 change)
+
+- Group admins can now share a public join link. Participants can register themselves with name, email, and wishlist. Email confirmation is required before joining the group.
+
+
 ## [v1.3.0] - 2026-01-22
 
 ### Feature change (4 changes)
