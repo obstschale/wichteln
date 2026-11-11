@@ -18,6 +18,7 @@ class SelfRegistrationControllerTest extends TestCase
     protected function setUp(): void
     {
         parent::setUp();
+        $this->withoutVite();
         config(['database.default' => 'sqlite']);
         config(['database.connections.sqlite.database' => ':memory:']);
     }
@@ -68,12 +69,11 @@ class SelfRegistrationControllerTest extends TestCase
             'join_token' => 'register-test-token-123',
         ]);
 
-        $response = $this->withoutMiddleware(\App\Http\Middleware\VerifyCsrfToken::class)
-            ->post('/join/register-test-token-123', [
-                'name' => 'Test User',
-                'email' => 'test@example.com',
-                'wishlist' => 'Ein schönes Buch',
-            ]);
+        $response = $this->withoutMiddleware(\App\Http\Middleware\VerifyCsrfToken::class)->post('/join/register-test-token-123', [
+            'name' => 'Test User',
+            'email' => 'test@example.com',
+            'wishlist' => 'Ein schönes Buch',
+        ]);
 
         $response->assertStatus(200);
         $response->assertSee('Fast geschafft');
@@ -114,12 +114,11 @@ class SelfRegistrationControllerTest extends TestCase
             'join_token' => 'existing-user-token-123',
         ]);
 
-        $response = $this->withoutMiddleware(\App\Http\Middleware\VerifyCsrfToken::class)
-            ->post('/join/existing-user-token-123', [
-                'name' => 'New Name',
-                'email' => 'existing@example.com',
-                'wishlist' => 'Etwas Tolles',
-            ]);
+        $response = $this->withoutMiddleware(\App\Http\Middleware\VerifyCsrfToken::class)->post('/join/existing-user-token-123', [
+            'name' => 'New Name',
+            'email' => 'existing@example.com',
+            'wishlist' => 'Etwas Tolles',
+        ]);
 
         $response->assertStatus(200);
 
@@ -153,12 +152,11 @@ class SelfRegistrationControllerTest extends TestCase
             'is_admin' => false,
         ]);
 
-        $response = $this->withoutMiddleware(\App\Http\Middleware\VerifyCsrfToken::class)
-            ->post('/join/already-member-token-123', [
-                'name' => 'Test',
-                'email' => 'member@example.com',
-                'wishlist' => '',
-            ]);
+        $response = $this->withoutMiddleware(\App\Http\Middleware\VerifyCsrfToken::class)->post('/join/already-member-token-123', [
+            'name' => 'Test',
+            'email' => 'member@example.com',
+            'wishlist' => '',
+        ]);
 
         $response->assertRedirect('/join/already-member-token-123');
         $response->assertSessionHas('error');
@@ -171,12 +169,11 @@ class SelfRegistrationControllerTest extends TestCase
             'join_token' => 'started-register-token-1',
         ]);
 
-        $response = $this->withoutMiddleware(\App\Http\Middleware\VerifyCsrfToken::class)
-            ->post('/join/started-register-token-1', [
-                'name' => 'Test User',
-                'email' => 'test@example.com',
-                'wishlist' => '',
-            ]);
+        $response = $this->withoutMiddleware(\App\Http\Middleware\VerifyCsrfToken::class)->post('/join/started-register-token-1', [
+            'name' => 'Test User',
+            'email' => 'test@example.com',
+            'wishlist' => '',
+        ]);
 
         $response->assertRedirect('/join/started-register-token-1');
         $response->assertSessionHas('error');
@@ -189,11 +186,10 @@ class SelfRegistrationControllerTest extends TestCase
             'join_token' => 'validation-test-token-1',
         ]);
 
-        $response = $this->withoutMiddleware(\App\Http\Middleware\VerifyCsrfToken::class)
-            ->post('/join/validation-test-token-1', [
-                'name' => '',
-                'email' => '',
-            ]);
+        $response = $this->withoutMiddleware(\App\Http\Middleware\VerifyCsrfToken::class)->post('/join/validation-test-token-1', [
+            'name' => '',
+            'email' => '',
+        ]);
 
         $response->assertSessionHasErrors(['name', 'email']);
     }
@@ -205,11 +201,10 @@ class SelfRegistrationControllerTest extends TestCase
             'join_token' => 'email-validation-token',
         ]);
 
-        $response = $this->withoutMiddleware(\App\Http\Middleware\VerifyCsrfToken::class)
-            ->post('/join/email-validation-token', [
-                'name' => 'Test',
-                'email' => 'invalid-email',
-            ]);
+        $response = $this->withoutMiddleware(\App\Http\Middleware\VerifyCsrfToken::class)->post('/join/email-validation-token', [
+            'name' => 'Test',
+            'email' => 'invalid-email',
+        ]);
 
         $response->assertSessionHasErrors(['email']);
     }
