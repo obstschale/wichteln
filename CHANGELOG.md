@@ -2,6 +2,13 @@
 
 <!-- CHANGELOGGER -->
 
+## [v1.4.3] - 2026-11-11
+
+### Bug fix (1 change)
+
+- Fix dependency installation on PHP 8.3
+
+
 ## [v1.4.2] - 2026-11-11
 
 ### Security fix (1 change)
