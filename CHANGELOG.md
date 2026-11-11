@@ -2,6 +2,14 @@
 
 <!-- CHANGELOGGER -->
 
+## [v1.4.1] - 2026-11-11
+
+### Bug fix (2 changes)
+
+- Fix blank page after inviting a new member to a group
+- Confirming a member no longer sends them an invitation email
+
+
 ## [v1.4.0] - 2026-11-05
 
 ### Feature change (1 change)
