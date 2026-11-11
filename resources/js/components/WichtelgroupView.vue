@@ -402,7 +402,9 @@ export default {
                     this.members[index] = response.data;
                 }
 
-                this.sendInvitation(member);
+                if (newStatus === 'invited') {
+                    this.sendInvitation(member);
+                }
             }).catch(() => {
                 alert('Fehler beim Ändern des Status.');
             });

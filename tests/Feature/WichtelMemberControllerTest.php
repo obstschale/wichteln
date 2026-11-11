@@ -22,6 +22,38 @@ class WichtelMemberControllerTest extends TestCase
         config(['database.connections.sqlite.database' => ':memory:']);
     }
 
+    public function testAdminCanAddMemberAndResponseIncludesPivot(): void
+    {
+        Mail::fake();
+
+        $admin = User::factory()->create();
+        $group = Group::factory()->create(['status' => 'created']);
+
+        $group->users()->attach($admin, [
+            'status' => 'approved',
+            'is_admin' => true,
+        ]);
+
+        $response = $this->actingAs($admin, 'api')->postJson("/api/v1/wichtelgroups/{$group->id}/wichtelmembers", [
+            'name' => 'Neue Person',
+            'email' => 'neue.person@example.com',
+        ]);
+
+        $response->assertStatus(201);
+        $response->assertJsonPath('pivot.status', 'invited');
+        $response->assertJsonPath('pivot.is_admin', 0);
+
+        $this->assertDatabaseHas('group_user', [
+            'group_id' => $group->id,
+            'user_id' => $response->json('id'),
+            'status' => 'invited',
+        ]);
+
+        Mail::assertQueued(ApproveWichtelMember::class, function ($mail) {
+            return $mail->hasTo('neue.person@example.com');
+        });
+    }
+
     public function testAdminCanChangeStatusToApproved(): void
     {
         $admin = User::factory()->create();

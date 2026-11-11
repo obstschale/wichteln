@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Http\Controllers;
 
 use App\Group;
@@ -85,7 +87,7 @@ class WichtelMemberController extends Controller
 
         Mail::to($member)->queue(new ApproveWichtelMember($member, $group));
 
-        return response()->json($member, 201);
+        return response()->json($group->users()->where('id', $member->id)->first(), 201);
     }
 
     /**
