@@ -60,6 +60,9 @@
         "sort-packages": true,
         "allow-plugins": {
             "carthage-software/mago": true
+        },
+        "platform": {
+            "php": "8.3.0"
         }
     }
 }
