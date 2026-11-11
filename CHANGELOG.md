@@ -2,6 +2,13 @@
 
 <!-- CHANGELOGGER -->
 
+## [v1.4.2] - 2026-11-11
+
+### Security fix (1 change)
+
+- Update PHP and frontend dependencies to fix known security vulnerabilities
+
+
 ## [v1.4.1] - 2026-11-11
 
 ### Bug fix (2 changes)
