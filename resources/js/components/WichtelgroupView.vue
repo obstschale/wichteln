@@ -56,28 +56,39 @@
                     <!-- Main Glass Card -->
                     <div class="bg-white/10 backdrop-blur-md rounded-3xl border border-white/20 overflow-hidden shadow-2xl">
                         <!-- Participants Header -->
-                        <div class="p-6 text-center border-b border-white/10">
-                            <p class="text-2xl font-light text-white mb-3">Teilnehmer</p>
-                            <div class="inline-flex items-center">
-                                <span class="px-4 py-2 bg-sky-500/30 text-white text-sm rounded-l-full backdrop-blur-sm border border-sky-400/30">
-                                    Anzahl
-                                </span>
-                                <span class="px-4 py-2 bg-white/20 text-white text-sm rounded-r-full backdrop-blur-sm border border-white/20 border-l-0">
-                                    {{ totalMembers }}
-                                </span>
+                        <div class="flex flex-col items-start gap-3 border-b border-white/10 px-4 py-5 sm:flex-row sm:items-center sm:justify-between sm:px-6">
+                            <h2 class="flex items-center gap-2 text-2xl font-light text-white" id="participants-heading">
+                                Teilnehmer
+                                <span class="rounded-full bg-white/10 px-2.5 py-0.5 text-sm font-medium text-white/80">{{ totalMembers }}</span>
+                            </h2>
+                            <div v-if="isAdmin && groupStatus === 'started'" class="sm:text-right">
+                                <button
+                                    type="button"
+                                    class="rounded-lg border border-white/20 bg-white/10 px-4 py-2 text-sm font-medium text-white hover:bg-white/20 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
+                                    aria-controls="participants-table"
+                                    :aria-expanded="recipientsByGiver !== null"
+                                    :disabled="loadingAssignments"
+                                    @click="toggleAssignments"
+                                >
+                                    {{ recipientsByGiver ? 'Zuordnungen ausblenden' : 'Zuordnungen anzeigen' }}
+                                </button>
+                                <p role="status" class="text-sm text-white/80 empty:hidden">
+                                    {{ loadingAssignments ? 'Zuordnungen werden geladen …' : assignmentError }}
+                                </p>
                             </div>
                         </div>
 
                         <!-- Participants Table -->
-                        <div class="p-6">
+                        <div class="px-2 py-4 sm:p-6">
                             <div class="overflow-x-auto">
-                                <table class="w-full">
+                                <table id="participants-table" aria-labelledby="participants-heading" class="w-full">
                                     <thead>
                                         <tr class="border-b border-white/20">
-                                            <th class="text-left py-3 px-4 font-medium text-white/70">Name</th>
-                                            <th class="text-left py-3 px-4 font-medium text-white/70">Status</th>
-                                            <th class="text-left py-3 px-4 font-medium text-white/70">Wunschzettel</th>
-                                            <th v-if="isAdmin && groupStatus !== 'started'" class="text-left py-3 px-4 font-medium text-white/70">Aktionen</th>
+                                            <th class="text-left py-3 px-2 sm:px-4 font-medium text-white/70">Name</th>
+                                            <th v-if="recipientsByGiver" scope="col" class="hidden py-3 px-4 text-left font-medium text-white/70 sm:table-cell">Beschenkt</th>
+                                            <th class="text-left py-3 px-2 sm:px-4 font-medium text-white/70">Status</th>
+                                            <th class="text-left py-3 px-2 sm:px-4 font-medium text-white/70">Wunschzettel</th>
+                                            <th v-if="isAdmin && groupStatus !== 'started'" class="text-left py-3 px-2 sm:px-4 font-medium text-white/70">Aktionen</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -87,8 +98,16 @@
                                             :class="{ 'bg-emerald-500/30': isNew(member) }"
                                             class="border-b border-white/10 transition-colors duration-1000 hover:bg-white/5"
                                         >
-                                            <td class="py-3 px-4 text-white">{{ member.name }}</td>
-                                            <td class="py-3 px-4">
+                                            <td class="py-3 px-2 sm:px-4 text-white">
+                                                {{ member.name }}
+                                                <span v-if="recipientsByGiver?.[member.id]" class="mt-1 block text-xs text-amber-200 sm:hidden">
+                                                    Beschenkt <strong>{{ recipientsByGiver[member.id] }}</strong>
+                                                </span>
+                                            </td>
+                                            <td v-if="recipientsByGiver" class="hidden py-3 px-4 font-medium sm:table-cell" :class="recipientsByGiver[member.id] ? 'text-amber-200' : 'text-white/60'">
+                                                {{ recipientsByGiver[member.id] ?? '—' }}
+                                            </td>
+                                            <td class="py-3 px-2 sm:px-4">
                                                 <span
                                                     class="inline-block px-3 py-1 text-sm rounded-full backdrop-blur-sm"
                                                     :class="statusColor(member)"
@@ -96,7 +115,7 @@
                                                     {{ status(member) }}
                                                 </span>
                                             </td>
-                                            <td class="py-3 px-4 flex items-center gap-2">
+                                            <td class="py-3 px-2 sm:px-4 flex items-center gap-2">
                                                 <span class="text-white">{{ wishlist(member) }}</span>
                                                 <button
                                                     v-show="member.id === userId && groupStatus !== 'started'"
@@ -106,7 +125,7 @@
                                                     Bearbeiten
                                                 </button>
                                             </td>
-                                            <td v-if="isAdmin && groupStatus !== 'started'" class="py-3 px-4">
+                                            <td v-if="isAdmin && groupStatus !== 'started'" class="py-3 px-2 sm:px-4">
                                                 <div class="flex items-center gap-2 flex-wrap">
                                                     <button
                                                         v-if="member.pivot && member.pivot.status === 'invited'"
@@ -279,6 +298,9 @@ export default {
     props: ['userId', 'group', 'isAdmin', 'buddy'],
     data() {
         return {
+            recipientsByGiver: null,
+            loadingAssignments: false,
+            assignmentError: '',
             members: [],
             newMember: {},
             groupStatus: '',
@@ -315,6 +337,29 @@ export default {
         },
     },
     methods: {
+        async toggleAssignments() {
+            if (this.recipientsByGiver) {
+                this.recipientsByGiver = null;
+                return;
+            }
+
+            this.assignmentError = '';
+            this.loadingAssignments = true;
+            try {
+                const response = await axios.get(`/api/v1/wichtelgroups/${this.group.id}/assignments`, {
+                    headers: { Authorization: `Bearer ${this.token}` }
+                });
+                this.recipientsByGiver = Object.fromEntries(
+                    response.data.map(({ giver_id, recipient }) => [giver_id, recipient])
+                );
+            } catch (error) {
+                this.assignmentError = error.response?.status === 409
+                    ? 'Die Zuordnungen sind noch nicht vollständig verfügbar. Bitte versuche es später erneut.'
+                    : 'Die Zuordnungen konnten nicht geladen werden. Bitte versuche es erneut.';
+            } finally {
+                this.loadingAssignments = false;
+            }
+        },
         addMember(member) {
             this.members.push(member);
             setTimeout(() => {

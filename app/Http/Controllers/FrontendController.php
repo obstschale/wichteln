@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Http\Controllers;
 
 use App\Group;
@@ -31,22 +33,17 @@ class FrontendController extends Controller
 
         $group->loadMissing('users');
 
-        $buddy_id = $user->groups[0]->pivot->buddy_id;
-        $buddy = User::where('id', $buddy_id)
-            ->with([
-                'groups' => function ($query) use ($group) {
-                    $query->where('group_id', $group->id);
-                },
-            ])
-            ->first();
+        $buddyId = $user->groups()->whereKey($group->id)->value('group_user.buddy_id');
+        $buddy = $group->users->find($buddyId);
 
         return view('web.wichtelgroup.view')->with([
             'userId' => Auth::user()->id,
             'group' => $group,
-            'isAdmin' => $group->admin()->id === Auth::user()->id,
-            'buddy' => $buddy ? json_encode([
+            'isAdmin' => $user->can('viewAssignments', $group),
+            'buddy' => $buddy
+                ? json_encode([
                     'name' => $buddy->name,
-                    'wishlist' => $buddy->groups[0]->pivot->wishlist,
+                    'wishlist' => $buddy->pivot->wishlist,
                 ], JSON_THROW_ON_ERROR) : '{}',
         ]);
     }
