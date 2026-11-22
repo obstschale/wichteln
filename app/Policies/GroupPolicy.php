@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Policies;
 
 use App\Group;
@@ -9,6 +11,11 @@ use Illuminate\Auth\Access\HandlesAuthorization;
 class GroupPolicy
 {
     use HandlesAuthorization;
+
+    public function viewAssignments(User $user, Group $group): bool
+    {
+        return (bool) $user->isAdminInGroup($group);
+    }
 
     /**
      * Determine whether the user can view the group.

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Http\Controllers;
 
 use App\Group;
@@ -7,6 +9,7 @@ use App\Jobs\WichtelJob;
 use App\Mail\WelcomeMail;
 use App\Statistic;
 use App\User;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -139,6 +142,32 @@ class WichtelGroupController extends Controller
         $this->authorize('delete', $wichtelgroup);
         $wichtelgroup->delete();
         return response('', 204);
+    }
+
+    public function assignments(Group $group): JsonResponse
+    {
+        $this->authorize('viewAssignments', $group);
+
+        $unavailable = 'Die Zuordnungen sind noch nicht vollständig verfügbar.';
+        abort_unless($group->started(), 409, $unavailable);
+
+        $participants = $group->approvedUsers()->orderBy('users.id')->get()->keyBy('id');
+        $recipientIds = $participants->pluck('pivot.buddy_id');
+        abort_if(
+            $participants->count() < 3 || $recipientIds->unique()->count() !== $participants->count(),
+            409,
+            $unavailable,
+        );
+
+        $assignments = [];
+        foreach ($participants as $giver) {
+            $recipient = $participants->get($giver->pivot->buddy_id);
+            abort_if(!$recipient || $recipient->is($giver), 409, $unavailable);
+
+            $assignments[] = ['giver_id' => $giver->id, 'giver' => $giver->name, 'recipient' => $recipient->name];
+        }
+
+        return response()->json($assignments)->header('Cache-Control', 'private, no-store');
     }
 
     public function generateJoinLink(Group $group)

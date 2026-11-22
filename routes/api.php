@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -22,6 +24,8 @@ Route::group(['prefix' => 'v1'], static function () {
     ]]);
 
     Route::post('/wichtelgroups/{group}/wichtelmembers/{member}/resend-invitation', 'WichtelMemberController@resendInvitation');
+
+    Route::get('/wichtelgroups/{group}/assignments', 'WichtelGroupController@assignments');
 
     Route::post('/wichtelgroups/{group}/join-link', 'WichtelGroupController@generateJoinLink');
     Route::delete('/wichtelgroups/{group}/join-link', 'WichtelGroupController@revokeJoinLink');

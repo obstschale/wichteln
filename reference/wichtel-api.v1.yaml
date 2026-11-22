@@ -251,6 +251,41 @@ paths:
           $ref: '#/components/responses/unauthorized'
       operationId: get-user
       description: Fetch information about one user.
+  '/wichtelgroups/{groupId}/assignments':
+    parameters:
+      - in: path
+        name: groupId
+        required: true
+        schema:
+          type: integer
+    get:
+      summary: Show completed assignments to the group administrator
+      operationId: get-assignments
+      security:
+        - API Token: []
+      responses:
+        '200':
+          description: Complete draw for approved participants
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  required: [giver_id, giver, recipient]
+                  properties:
+                    giver_id:
+                      type: integer
+                    giver:
+                      type: string
+                    recipient:
+                      type: string
+        '401':
+          $ref: '#/components/responses/unauthorized'
+        '403':
+          description: Group administrator access required
+        '409':
+          description: No complete draw available
   '/wichtelgroups/{groupId}/wichtelmembers':
     parameters:
       - schema:
@@ -282,7 +317,6 @@ paths:
                         group_id: 31
                         user_id: 96
                         status: approved
-                        buddy_id: null
                         wishlist: null
                     - id: 98
                       name: Uncle Ben
@@ -293,7 +327,6 @@ paths:
                         group_id: 31
                         user_id: 98
                         status: invited
-                        buddy_id: null
                         wishlist: ''
         '401':
           $ref: '#/components/responses/unauthorized'
@@ -488,7 +521,7 @@ components:
         - created_at
         - updated_at
     Wichtelmember:
-      description: 'Member object with pivot data, like buddy ID, whishlist and status.'
+      description: 'Member object with pivot data, like wishlist and status.'
       type: object
       x-examples:
         Member Peter:
@@ -501,7 +534,6 @@ components:
             group_id: 31
             user_id: 96
             status: approved
-            buddy_id: null
             wishlist: null
       properties:
         id:
@@ -536,10 +568,6 @@ components:
                 - approved
                 - invited
                 - declined
-            buddy_id:
-              type:
-                - integer
-                - 'null'
             wishlist:
               type:
                 - string

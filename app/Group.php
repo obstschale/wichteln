@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App;
 
 use App\Mail\InformAboutDeletion;
@@ -33,7 +35,7 @@ class Group extends Model
      */
     public function users()
     {
-        return $this->belongsToMany('App\User')->withPivot('status', 'buddy_id', 'wishlist', 'is_admin');
+        return $this->belongsToMany('App\User')->withPivot('status', 'wishlist', 'is_admin');
     }
 
     /**
